@@ -4,7 +4,8 @@
 class SchedulerService
   attr_accessor :data
 
-  def initialize
+  def initialize(max_iters = 20)
+    @max_iters = max_iters
     # @TODO: Change this method afterwards
     initialize_data
     # Fixed size of 7 days
@@ -27,19 +28,32 @@ class SchedulerService
   #   worked per employee while also covering all time windows
   #   (if there is at least one employee available)
   def optimize_shifts
-    # Step 1. Fill the array with the first available employee or the only available one
-    autofill_shifts
+    current_cost = @shift_swap_cost + @hour_difference_cost
 
-    # MAYBE A LOOP HERE ???
-    calculate_schedule_cost
+    @max_iters.times do |iter|
+      puts "Iter #{iter} of #{@max_iters}"
+      autofill_shifts
+      calculate_schedule_cost
+      new_cost = @shift_swap_cost + @hour_difference_cost
+
+      break if new_cost >= current_cost
+
+      current_cost = new_cost
+    end
+
+    # #TODO: remove this also
+    display_results
+  end
+
+  protected
+
+  def display_results
     puts "Current hour difference cost is = #{@hour_difference_cost}"
     puts "Current shift swap cost is = #{@shift_swap_cost}"
     puts @work_hours.to_json
     puts 'SCHEDULE IS'
     puts @schedule.to_json
   end
-
-  protected
 
   def initialize_data
     # @TODO: This is dummy hardcoded data to use on a proof of concept
