@@ -1,5 +1,9 @@
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-inherit_from: .rubocop_todo.yml
+Layout/EndOfLine:
+  Enabled: false
 
+AllCops:
+  Exclude:
+    - 'bin/bundle'
