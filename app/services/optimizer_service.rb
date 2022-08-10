@@ -28,6 +28,7 @@ class OptimizerService
     current_cost = @cost[:shift_swap] + @cost[:hours_difference]
 
     execute_optimization_loop(current_cost)
+    calculate_costs
 
     @schedule_service.schedule
   end
