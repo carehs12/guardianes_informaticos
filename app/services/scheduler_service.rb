@@ -11,10 +11,10 @@ class SchedulerService
     @work_hours = {}
     @cost = { shift_swap: 0, hours_difference: 2_147_483_647 }
     @availability_data = availability_data
-    @employees_data = {}
+    @employees_data = []
 
-    initialize_time_windows
-    initialize_employees_data
+    initialize_daily_shifts
+    initialize_employee_availabilities
   end
 
   # @return [Array<Array<Integer>>] An array of dimensions 7*n_i where
@@ -24,64 +24,117 @@ class SchedulerService
   #   worked per employee while also covering all time windows
   #   (if there is at least one employee available)
   def optimize_shifts
+    autofill_shifts
+    calcualate_costs
     current_cost = @cost[:shift_swap] + @cost[:hours_difference]
 
-    @max_iters.times do |iter|
-      puts "Iter #{iter} of #{@max_iters}"
-      autofill_shifts
-      puts "Schedule calculated!"
-      puts @schedule.to_json
-      calculate_schedule_cost
+    @max_iters.times do
+      break unless swap_shifts
+      calcualate_costs
       new_cost = @cost[:shift_swap] + @cost[:hours_difference]
-
-      break if new_cost >= current_cost
+      if new_cost >= current_cost
+        puts "RESTORING OLD SCHEDULE"
+        @schedule = @old_schedule
+        break
+      end
 
       current_cost = new_cost
     end
 
-    # #TODO: remove this also
-    display_results
+    @schedule
   end
 
   protected
 
-  def initialize_employees_data
-    @availability_data.map.with_index do |employee_data, employee_id|
-      @employees_data[employee_id] = Scheduler::EmployeeService.new(employee_data)
+  def swap_shifts(freer_employee_offset = 0)
+    return false if freer_employee_offset >= (@num_employees - 1)
+
+    work_values = @work_hours.values.sort
+    busiest_employee_id = @work_hours.key(work_values[-1])
+    freer_employee_id = @work_hours.key(work_values[freer_employee_offset])
+
+    if swap_employee_shifts(busiest_employee_id, freer_employee_id)
+      puts "SCHEDULED SWAPPED!"
+      puts @schedule.to_json
+      return true 
+    end
+
+    swap_shifts(freer_employee_offset + 1)
+  end
+
+  def swap_employee_shifts(busiest_employee_id, freer_employee_id)
+    swap_size_limit = calculate_swap_size_limit(busiest_employee_id)
+
+    be_groups = @employees_data[busiest_employee_id].find_available_groups
+    fe_groups = @employees_data[freer_employee_id].find_available_groups
+
+    matching_groups = nil
+    while matching_groups.nil?
+      matching_groups = Scheduler::EmployeeService.find_matching_group(@schedule, be_groups, fe_groups, swap_size_limit)
+      swap_size_limit -= 1 unless matching_groups
+      return false if swap_size_limit.zero?
+    end
+
+    new_group = matching_groups[:unscheduled_group]
+    @old_schedule = JSON.parse(@schedule.to_json)
+
+    @schedule[new_group[:day]][new_group[:start_hour], new_group[:size]] = Array.new(new_group[:size], new_group[:employee_id])
+
+    true
+  end
+
+  def calculate_swap_size_limit(busiest_employee_id)
+    swap_size_limit = @schedule.map do |day|
+      scheduled_hours = day.find_all { |employee_id| employee_id == busiest_employee_id }
+      scheduled_hours.size
+    end
+
+    halved_cost = @cost[:hours_difference] / 2
+    swap_size_limit.max >= halved_cost ? halved_cost : swap_size_limit.max
+  end
+
+  def initialize_employee_availabilities
+    @availability_data.each_with_index do |employee_data, employee_id|
+      @employees_data.push(Scheduler::EmployeeService.new(employee_id, employee_data))
     end
   end
 
-  def initialize_time_windows
+  def initialize_daily_shifts
     @time_windows = Array.new(7, 0)
 
     @availability_data[0].each_with_index do |employee_data, index|
       @time_windows[index] = employee_data.size
     end
-
-    puts "Time windows initialized: #{@time_windows.to_json}"
-  end
-
-  def display_results
-    puts "Current hour difference cost is = #{@cost[:hours_difference]}"
-    puts "Current shift swap cost is = #{@cost[:shift_swap]}"
-    puts @work_hours.to_json
-    puts 'SCHEDULE IS'
-    puts @schedule.to_json
   end
 
   def autofill_shifts
-    (0..6).each do |day_index|
-      (0..(@time_windows[day_index] - 1)).each do |hour_index|
-        hourly_availability = @availability_data.collect do |subarray|
-          subarray[day_index][hour_index]
-        end
-
-        @schedule[day_index][hour_index] = hourly_availability.detect { |employee| employee.is_a? Numeric }
-      end
+    day_index = 0
+    hour_index = 0
+    while day_index < 7
+      hour_index = fill_shift(day_index, hour_index) while hour_index < @time_windows[day_index]
+      hour_index = 0
+      day_index += 1
     end
   end
 
-  def calculate_schedule_cost
+  def fill_shift(day_index, hour_index)
+    available_shifts = @employees_data.map { |employee| employee.find_group_on_shift(day_index, hour_index) }
+    available_shifts.compact!
+    available_shifts.sort_by! { |e| e[:size] }
+    return (hour_index + 1) if available_shifts.size.zero?
+
+    longest_shift = available_shifts[-1]
+    add_employee_to_schedule(day_index, hour_index, longest_shift)
+    hour_index + longest_shift[:size]
+  end
+
+  def add_employee_to_schedule(day_index, hour_index, selected_shift)
+    shift_size = selected_shift[:size]
+    shift_employee = selected_shift[:employee_id]
+    @schedule[day_index][hour_index, shift_size] = Array.new(shift_size, shift_employee)
+  end
+
+  def calcualate_costs
     flat_schedule = @schedule.flatten
 
     calculate_hour_difference_cost(flat_schedule)

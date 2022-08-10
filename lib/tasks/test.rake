@@ -7,7 +7,7 @@ namespace :test do
         [0, 0, 0],
         [nil, nil, nil],
         [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
+        [0, nil, 0, 0, 0],
         [0, 0, 0, 0, 0, nil, nil],
         [nil, nil, 0, 0, 0, 0, 0]
       ],[
@@ -29,53 +29,52 @@ namespace :test do
       ]
     ]
     scheduler = SchedulerService.new(x)
-    scheduler.optimize_shifts
-=begin
-    employee_service1 = Scheduler::EmployeeService.new(
-      [
-        [nil, nil, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, nil, nil, 0, 0],
-        [nil, 0, 0, 0, nil, nil],
-        [0, 0, 0, 0, 0, nil],
-        [0, nil, 0, nil, 0, nil],
-        [nil, 0, 0, 0, 0, 0]
-      ]
-    )
+    schedule = scheduler.optimize_shifts
+    puts 'SCHEDULE IS'
+    puts schedule.to_json
+    # employee_service1 = Scheduler::EmployeeService.new(
+    #   [
+    #     [nil, nil, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0],
+    #     [0, 0, nil, nil, 0, 0],
+    #     [nil, 0, 0, 0, nil, nil],
+    #     [0, 0, 0, 0, 0, nil],
+    #     [0, nil, 0, nil, 0, nil],
+    #     [nil, 0, 0, 0, 0, 0]
+    #   ]
+    # )
 
-    @data = [
-      [nil, nil, 1], [nil, nil, 1], [nil, nil, 1], [nil, nil, 1], [nil, nil, 1], [0, 1, 1],
-      [0, 1, 1], [0, 1, 1], [0, 1, 1], [0, 1, 1], [nil, 1, 1], [nil, 1, 1], [nil, 1, 1],
-      [nil, 1, 1], [nil, 1, 1], [0, 1, 1], [0, 1, 1], [0, 1, 1], [0, 1, 1], [0, 1, 1], [0, 1, nil],
-      [0, 1, nil], [0, 1, nil], [0, 1, nil], [0, 1, nil], [0, nil, nil], [0, nil, nil], [0, nil, nil],
-      [0, nil, nil], [0, nil, nil], [nil, nil, nil], [nil, nil, nil], [nil, nil, nil], [nil, 1, 1],
-      [nil, 1, 1], [nil, 1, 1], [nil, nil, 1], [nil, nil, 1], [nil, nil, 1], [nil, 1, nil], [nil, 1, nil],
-      [nil, 1, nil], [nil, 1, nil], [nil, 1, nil], [nil, 1, nil], [nil, 1, nil], [nil, 1, nil],
-      [nil, 1, nil], [nil, 1, nil], [nil, 1, nil], [nil, 1, nil], [nil, 1, nil], [nil, 1, nil]
-    ]
+    # employee_service2 = Scheduler::EmployeeService.new(
+    #   [
+    #     [nil, 1, 1, 1, 1, 1],
+    #     [1, 1, 1, 1, 1, 1],
+    #     [nil, nil, 1, 1, 1, 1],
+    #     [1, 1, nil, nil, 1, 1],
+    #     [nil, 1, 1, 1, nil, nil],
+    #     [1, 1, 1, 1, 1, nil],
+    #     [1, nil, 1, nil, 1, nil],
+    #   ]
+    # )
 
-    employee_service1 = Scheduler::EmployeeService.new(
-      [
-        [nil, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [nil, nil, 0, 0, 0, 0],
-        [0, 0, nil, nil, 0, 0],
-        [nil, 0, 0, 0, nil, nil],
-        [0, 0, 0, 0, 0, nil],
-        [0, nil, 0, nil, 0, nil],
-      ]
-    )
+    # puts employee_service1.availability_groups.to_json
+    # puts employee_service1.find_available_groups_of_size(3).to_json
+    # puts '------------------------------'
+    # puts employee_service2.availability_groups.to_json
+    # puts employee_service2.find_available_groups_of_size(3).to_json
 
-    puts employee_service1.availability_groups.to_json
-    puts employee_service1.find_available_groups(1).to_json
-    puts '------------------------------'
-    puts employee_service1.availability_groups.to_json
-    puts employee_service1.find_available_groups(1).to_json
+    # # puts 'result!'
+    # groups1 = employee_service1.find_available_groups_of_size(3)
+    # groups2 = employee_service2.find_available_groups_of_size(3)
 
-    puts "result!"
-    groups1 = employee_service1.find_available_groups(1)
-    groups1 = employee_service1.find_available_groups(1)
-    puts Scheduler::EmployeeService.find_matching_group(groups1, groups1, 1)
-=end
+    # puts 'xx'
+    # puts employee_service1.find_group_on_shift(0, 2)
+    # puts 'xx'
+    # puts employee_service1.find_group_on_shift(1, 1)
+    # puts 'xx'
+    # puts employee_service1.find_group_on_shift(6, 4)
+    # puts 'xx'
+    # puts employee_service1.find_group_on_shift(0, 0)
+    # puts 'xx'
+    # puts Scheduler::EmployeeService.find_matching_group(groups1, groups2, 3)
   end
 end
