@@ -2,7 +2,7 @@
 # calculates the distribution if shifts between employees
 # to balance work time and minimize shift swaps
 class SchedulerService
-  attr_accessor :employees_data
+  attr_accessor :employees_data, :work_hours
 
   def initialize(availability_data, max_iters = 20)
     @max_iters = max_iters
@@ -30,17 +30,23 @@ class SchedulerService
 
     execute_optimization_loop(current_cost)
 
+    calcualate_costs
     @schedule
   end
 
   protected
 
   def execute_optimization_loop(current_cost)
-    @max_iters.times do
+    @max_iters.times do |iter|
       break unless shifts_swapped?
 
       calcualate_costs
       new_cost = @cost[:shift_swap] + @cost[:hours_difference]
+      puts "SCHEDULE AFTER ITER #{iter}: #{@schedule.to_json}"
+      puts "COST AFTER ITER #{iter} - #{@cost}"
+      puts "WORK HOURS: #{@work_hours.to_json}"
+      puts "----------------------------------------------------------"
+      puts "----------------------------------------------------------"
       if new_cost >= current_cost
         @schedule = @old_schedule
         break
@@ -64,6 +70,7 @@ class SchedulerService
 
   def swap_shifts(busiest_employee_id, freer_employee_id)
     swap_size_limit = calculate_swap_size_limit(busiest_employee_id)
+    puts "ATEMPTING SWAP SIZE LIMIT AT #{swap_size_limit}"
     be_groups = @employees_data[busiest_employee_id].find_available_groups
     fe_groups = @employees_data[freer_employee_id].find_available_groups
 
@@ -91,7 +98,7 @@ class SchedulerService
       scheduled_hours.size
     end
 
-    halved_cost = @cost[:hours_difference] / 2
+    halved_cost = @cost[:hours_difference] - 1
     swap_size_limit.max >= halved_cost ? halved_cost : swap_size_limit.max
   end
 

@@ -3,35 +3,36 @@ namespace :test do
   task analyze_user: :environment do
     x = [
       [
-        [0, 0, nil],
-        [0, 0, 0],
-        [nil, nil, nil],
+        [nil, nil, nil, nil, nil],
         [0, 0, 0, 0, 0],
-        [0, nil, 0, 0, 0],
-        [0, 0, 0, 0, 0, nil, nil],
-        [nil, nil, 0, 0, 0, 0, 0]
+        [nil, nil, nil, nil, nil],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, nil, nil, nil, nil, nil, nil, nil, nil, nil],
+        [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
       ],[
-        [1, 1, 1],
-        [nil, 1, 1],
-        [nil, nil, 1],
-        [1, 1, 1, nil, nil],
-        [1, nil, 1, nil, 1],
-        [1, 1, 1, 1, 1, 1, 1],
-        [nil, nil, 1, 1, 1, nil, 1]
+        [nil, nil, nil, nil, nil],
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+        [nil, nil, nil, nil, nil, nil, nil, nil, 1, 1, 1, nil, nil, nil],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
       ],[
-        [2, 2, nil],
-        [nil, 2, nil],
-        [2, 2, 2],
         [2, 2, 2, 2, 2],
-        [nil, 2, nil, nil, 2],
-        [2, nil, 2, 2, 2, 2, 2],
-        [nil, nil, 2, 2, 2, nil, 2]
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2],
+        [nil, nil, nil, nil, nil],
+        [nil, nil, nil, nil, nil, nil, nil, nil, 2, 2, 2, 2, 2, 2],
+        [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
       ]
     ]
     scheduler = SchedulerService.new(x)
     schedule = scheduler.optimize_shifts
     puts 'SCHEDULE IS'
     puts schedule.to_json
+    puts scheduler.work_hours.to_json
     # employee_service1 = Scheduler::EmployeeService.new(
     #   [
     #     [nil, nil, 0, 0, 0, 0],
