@@ -26,35 +26,103 @@ module Scheduler
       @availability_groups.select { |group| group[:size] >= desired_size }
     end
 
-    # finds one group for each employee, where their times match
-    # so they can swap schedules
-    def self.find_matching_group(employee_a_groups, employee_b_groups, size)
+    # @param employee_a_groups [Array<Hash>] The filtered groups of an "a" employee, as returned by
+    #   find_available_groups
+    # @param employee_b_groups [Array<Hash>] The filtered groups of a "b" employee, as returned by
+    # @param size [Integer] The minimum size the time window has to have to be able to swap schedules
+    #   find_available_groups. Please note that this will work if a == b, but the output won't be useful
+    # @param index_a [Integer] The index of the first array of groups
+    # @param index_b [Integer] The index of the second array of groups
+    # @return [Hash] An array containing the following format: {
+    #     group_a: Hash # The selected group of the first employee
+    #     group_b: Hash # The selected group of the second employee
+    #     matching_hours: Hash # The indexes of the continuous hours on each group (a and b) that can be swapped
+    #   }
+    # @description Searches both groups in order until 2 groups are found that are on the same day and
+    #   have the same time windows for both employees. This allows both employees to swap schedules without issues. If
+    #   no group is found, then nil is returned instead.
+    def self.find_matching_group(employee_a_groups, employee_b_groups, size, groups_a_index = 0, groups_b_index = 0)
       employee_a_groups = employee_a_groups.sort_by { |e| e[:day] }
       employee_b_groups = employee_b_groups.sort_by { |e| e[:day] }
+      index_a, index_b = align_group_indexes(employee_a_groups, employee_b_groups, groups_a_index, groups_b_index)
+      return nil if index_a.nil?
 
-      index_a = 0
-      index_b = 0
+      puts "calculating matching hours. Size is #{size}"
+      matching_hours = find_matching_hours(employee_a_groups, employee_b_groups, size, index_a, index_b)
+      puts "matching hours found: #{matching_hours.to_json}"
+      return matching_hours if matching_hours
+
+      find_matching_group(employee_a_groups, employee_b_groups, size, index_a + 1, index_b)
+    end
+
+    # @param employee_a_groups [Array<Hash>] The filtered groups of an "a" employee, as returned by
+    #   find_available_groups
+    # @param employee_b_groups [Array<Hash>] The filtered groups of a "b" employee, as returned by
+    #   find_available_groups. Please note that this will work if a == b, but the output won't be useful
+    # @param index_a [Integer] The index of the first array of groups
+    # @param index_b [Integer] The index of the second array of groups
+    # @param size [Integer] The minimum size the time window has to have to be able to swap schedules
+    # @return [Hash] An array containing the following format: {
+    #   group_a: Hash # The selected group of the first employee
+    #   group_b: Hash # The selected group of the second employee
+    #   matching_hours: Hash # The indexes of the continuous hours on each group (a and b) that can be swapped
+    # }
+    # @description takes the groups on each specified index and verifies if how many continous hours match between
+    #   the two groups. If the amount of matching hours is greater or equal to the specified size, the hash is returned
+    #   otherwise, nil is returned instead
+    def self.find_matching_hours(employee_a_groups, employee_b_groups, size, index_a, index_b)
+      matching_hours = (employee_a_groups[index_a][:hours_list] & employee_b_groups[index_b][:hours_list])
+      if matching_hours.length >= size
+        puts "matching hours ppased test. Length is #{matching_hours.length}. Size is #{size}"
+        return {
+          group_a: employee_a_groups[index_a],
+          group_b: employee_b_groups[index_b],
+          matching_hours: matching_hours.sort[0, size]
+        }
+      end
+
+      nil
+    end
+
+    # @param employee_a_groups [Array<Hash>] The filtered groups of an "a" employee, as returned by
+    #   find_available_groups
+    # @param employee_b_groups [Array<Hash>] The filtered groups of a "b" employee, as returned by
+    #   find_available_groups. Please note that this will work if a == b, but the output won't be useful
+    # @param index_a [Integer] The starting index of the first array of groups
+    # @param index_b [Integer] The starting index of the second array of groups
+    # @return [Array<Integer>] An array containing the 2 new indexes of each array of groups that represents
+    #   the first element in which they share a common day. If no matching groups can be found, nil is returned
+    #   instead
+    # @description Searches the groups arrays, finding the first element of each in which the days match.
+    #   It is on this day, that the employees can swap assigned schedules, if the hours also match.
+    def self.align_group_indexes(employee_a_groups, employee_b_groups, index_a, index_b)
+      day_a = employee_a_groups[index_a][:day]
+      day_b = employee_a_groups[index_b][:day]
 
       while index_b < employee_b_groups.size && index_a < employee_b_groups.size
-        day_a = employee_a_groups[index_a][:day]
-        day_b = employee_b_groups[index_b][:day]
+        return [index_a, index_b] if day_a == day_b
 
-        if day_a == day_b
-          matching_hours = (employee_a_groups[index_a][:hours_list] & employee_b_groups[index_b][:hours_list])
-          if matching_hours.length >= size
-            return {
-              group_a: employee_a_groups[index_a],
-              group_b: employee_b_groups[index_b],
-              matching_hours: matching_hours.sort[0, size]
-            }
-          end
-        end
-
-        index_b += 1 if day_a >= day_b
-        index_a += 1 if day_b > day_a
-
+        index_a, index_b = move_lesser_index_forward(day_a, day_b, index_a, index_b)
         return nil if index_b >= employee_b_groups.size || index_a >= employee_b_groups.size
       end
+    end
+
+    # @param day_a [Integer] The day of the group of the first employee that is being analyzed
+    # @param day_b [Integer] The day of the group of the second employee that is being analyzed
+    # @param index_a [Integer] The starting index of the first array of groups
+    # @param index_b [Integer] The starting index of the second array of groups
+    # @return [Array<Integer>] An array containing the 2 new indexes of each array of groups. One index
+    #   will remain the same, while the other index will be moved forward one space
+    # @descriptions. Checks the day of the first and second group, and moves forward the index of the day
+    #   that is behind, meaning, closer to monday.
+    def self.move_lesser_index_forward(day_a, day_b, index_a, index_b)
+      if day_a >= day_b
+        index_b += 1
+      else
+        index_a += 1
+      end
+
+      [index_a, index_b]
     end
 
     protected
@@ -79,7 +147,7 @@ module Scheduler
     # @param day_index [Integer] The index of the day to be analyzed. Monday is 0, Tuesday is 1, and so on.
     # @description Goes through all the availability array of the current day, and creates groups of continuous
     #   hours an employee can work. For example, if the availability array is [nil, 3, 3, 3, nil, 3, 3], 2 groups
-    #   can be created. 
+    #   can be created.
     def analyze_day_availability(day, day_index)
       availability_group = nil
       day.each_with_index do |is_available, hour_index|
@@ -104,17 +172,22 @@ module Scheduler
     # @param day_index [Integer] The index of the day that is being analized. The availability_group belongs
     #   to this day
     # @param hour_index [Integer] The index of the hour of the day that is being added to the group.
-    # @description Adds a sigle hour to a group. This group will continue to group unless the day ends or a nil 
+    # @description Adds a sigle hour to a group. This group will continue to group unless the day ends or a nil
     #   value is found, meaning the employee is not available on that hour. At that point, the group must be pushed
     #   into @availability_groups, and a new group must be created if the day is not over
     def add_to_group(availability_group, day_index, hour_index)
       if availability_group
         availability_group[:size] += 1
       else
-        availability_group = { day: day_index, start_hour: hour_index, size: 1}
+        availability_group = { day: day_index, start_hour: hour_index, size: 1 }
       end
 
       availability_group
     end
+
+    protected_methods :align_group_indexes
+    protected_methods :move_lesser_index_forward
+    protected_methods :find_matching_hours
+
   end
 end
