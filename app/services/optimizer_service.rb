@@ -1,9 +1,17 @@
 # OptimizerService
-# calculates the distribution if shifts between employees
+# calculates the distribution of shifts between employees
 # to balance work time and minimize shift swaps
 class OptimizerService
   attr_accessor :employee_services, :schedule_service
 
+  # @param availability_data [Array<Array<Array<Integer>>>] 3-dimensional matrix that contains in the
+  #   first index the info of each employee. On the second index, the 7 days of the week, and
+  #   on the third index, if the employee is available for work at that specific hour on that
+  #   specific day
+  # @param max_iters [Integer] Watchdog in case something goes wrong, prevents an infinite loop do
+  #   while looking for an optimal solution
+  # @description initializes the sevice and it's children services, one for each employee, and
+  #   one for the general schedule
   def initialize(availability_data, max_iters = 20)
     @max_iters = max_iters
     @num_employees = availability_data.size
@@ -12,7 +20,7 @@ class OptimizerService
     @schedule_service = Optimizer::ScheduleService.new(7, @availability_data, @employee_services)
     @cost = { shift_swap: 0, hours_difference: 2_147_483_647 }
 
-    initialize_daily_shifts
+    initialize_time_windows
     @schedule_service.initialize_employee_availabilities
   end
 
@@ -35,6 +43,9 @@ class OptimizerService
 
   protected
 
+  # @param current_cost [Integer] The cost of the current schedule.
+  # @description Executes an opimization loop, selecting the busiest and
+  #   freer employees, and swapping one time shift between them.
   def execute_optimization_loop(current_cost)
     @max_iters.times do
       break unless shifts_swapped?
@@ -50,6 +61,14 @@ class OptimizerService
     end
   end
 
+  # @param freer_employee_offset [Integer] The offset of the employee selected
+  #   to be the one to swap shifts with the busiest employee. Ideally, this is the
+  #   employee with least hours, but, if no time windows match between busiest/freer
+  #   employees, another one is selected
+  # @return [Boolean] wheter the shift swap was successful or not
+  # @description selects the busiest and freer employees that have one schedule in common
+  #   and attempts to perform a shift swap between them. If it not possible, another freer
+  #   employee is selected
   def shifts_swapped?(freer_employee_offset = 0)
     return false if freer_employee_offset >= (@num_employees - 1)
 
@@ -62,6 +81,14 @@ class OptimizerService
     shifts_swapped?(freer_employee_offset + 1)
   end
 
+  # @param busiest_employee_id [Integer] The id of the employee that currently has more weekly
+  #   hours assigned
+  # @param freer_employee_id [Integer] The id of the employee that currently has less weekly hors
+  #   assigned
+  # @return [Boolean] If the shift swap was successful or not
+  # @description Attempts to find an availability group in which both the busiest and freer employees
+  #   share availability, where also the busiest employee is currently assigned. If these groups match
+  #   then these employees swap shifts
   def swap_shifts(busiest_employee_id, freer_employee_id)
     swap_size_limit = calculate_swap_size_limit(busiest_employee_id)
     be_groups = @employee_services[busiest_employee_id].find_available_groups
@@ -77,22 +104,37 @@ class OptimizerService
     record_and_swap_shifts(matching_groups)
   end
 
+  # @param busiest_employee_id [Integer] The id of the employee that currently has more weekly
+  #   hours assigned
+  # @return [Integer] The maximum swap size to be searched for.
+  # @description Checks which is the longest shift the busiest employee works, and counts how
+  #   many continuos hours do they work. Then selects the smallest number: these amount of continous
+  #   hours, or the difference in hours between busiest and freest employee minus 1. The minus 1 is important
+  #   because if that weren't there, then when swapping, the freer employee would pass to be the busiest and
+  #   vice versa.
   def calculate_swap_size_limit(busiest_employee_id)
     swap_size_limit = @schedule_service.schedule.map do |day|
       scheduled_hours = day.find_all { |employee_id| employee_id == busiest_employee_id }
       scheduled_hours.size
     end
 
-    halved_cost = @cost[:hours_difference] / 2
-    swap_size_limit.max >= halved_cost ? halved_cost : swap_size_limit.max
+    hours_difference = @cost[:hours_difference] - 1
+    swap_size_limit.max >= hours_difference ? hours_difference : swap_size_limit.max
   end
 
+  # @param matching_groups [Hash] Hash containing the two selected groups, from each employee, that
+  #   fullfill all requirements, meaning. They belong to the same day, in the same time window, and
+  #   the current schedule assigns that time window to the busiest employee.
+  # @description stores the old schedule in case the new schedule is less efficient, and proceeds to
+  #   swap shifts between the two selected employees
   def record_and_swap_shifts(matching_groups)
     @old_schedule = JSON.parse(@schedule_service.schedule.to_json)
     @schedule_service.record_shift_swap(matching_groups)
   end
 
-  def initialize_daily_shifts
+  # @description Sets the @time_windows variable. This  variable contains how many hours are there in 
+  #   a day
+  def initialize_time_windows
     @time_windows = Array.new(7, 0)
 
     @availability_data[0].each_with_index do |employee_data, index|
@@ -100,6 +142,9 @@ class OptimizerService
     end
   end
 
+  # @description Calculates the cost of the current schedule. The cost is divided in two parts: the first part
+  #   is how many hours does the busiest employee work over the freest employee. The second part is how many
+  #   shift swaps are there on the schedule. A shift swap occurs when the employee in charge, changes
   def calculate_costs
     flat_schedule = @schedule_service.schedule.flatten
 
@@ -107,6 +152,9 @@ class OptimizerService
     calculate_shift_swap_cost(flat_schedule)
   end
 
+  # @param flat_schedule [Array<Integer>] A flattend version of the array. It is flattened because every day
+  #   has the same weight on the final cost, and simplifies calculations
+  # @description Calculates how many hours does the busiest employee work over the freest employee.
   def calculate_hour_difference_cost(flat_schedule)
     (0..(@num_employees - 1)).each do |employee_index|
       employee_hours = flat_schedule.select { |employee| employee == employee_index }
@@ -118,6 +166,9 @@ class OptimizerService
     @cost[:hours_difference] = sorted_hours[-1] - sorted_hours[0]
   end
 
+  # @param flat_schedule [Array<Integer>] A flattend version of the array. It is flattened because every day
+  #   has the same weight on the final cost, and simplifies calculations
+  # @description Calculates how many shift swaps are there on the current schedule
   def calculate_shift_swap_cost(flat_schedule)
     shift_swap_cost = 0
     flat_schedule.each_with_index do |current_employee, index|
