@@ -60,7 +60,7 @@ module Optimizer
     # @description Searches both groups in order until 2 groups are found that are on the same day and
     #   have the same time windows for both employees. This allows both employees to swap schedules without issues. If
     #   no group is found, then nil is returned instead.
-    def self.find_matching_group(scheduled_groups, unscheduled_groups, size, groups_a_index = 0, groups_b_index = 0)
+    def find_matching_group(scheduled_groups, unscheduled_groups, size, groups_a_index = 0, groups_b_index = 0)
       scheduled_groups = scheduled_groups.sort_by { |e| e[:day] }
       unscheduled_groups = unscheduled_groups.sort_by { |e| e[:day] }
       index_a, index_b = align_group_indexes(scheduled_groups, unscheduled_groups, groups_a_index, groups_b_index)
@@ -71,6 +71,21 @@ module Optimizer
 
       find_matching_group(scheduled_groups, unscheduled_groups, size, index_a + 1, index_b)
     end
+
+    def selected_group_scheduled?(scheduled_group, matching_hours)
+      subschedule = @schedule[scheduled_group[:day]][scheduled_group[:start_hour], matching_hours.size]
+      Array.new(matching_hours.size, scheduled_group[:employee_id]).eql? subschedule
+    end
+
+    def matching_hour_data(scheduled_groups, unscheduled_groups, index_a, index_b, matching_hours)
+      {
+        scheduled_group: scheduled_groups[index_a],
+        unscheduled_group: unscheduled_groups[index_b],
+        matching_hours: matching_hours
+      }
+    end
+
+    protected
 
     # @param scheduled_groups [Array<Hash>] The filtered groups of an "a" employee, as returned by
     #   find_available_groups. This employee has to be currently scheduled
@@ -87,21 +102,16 @@ module Optimizer
     # @description takes the groups on each specified index and verifies if how many continous hours match between
     #   the two groups. If the amount of matching hours is greater or equal to the specified size, the hash is returned
     #   otherwise, nil is returned instead
-    def self.find_matching_hours(scheduled_groups, unscheduled_groups, size, index_a, index_b)
+    def find_matching_hours(scheduled_groups, unscheduled_groups, size, index_a, index_b)
       matching_hours = (scheduled_groups[index_a][:hours_list] & unscheduled_groups[index_b][:hours_list])
       if matching_hours.length >= size
         matching_hours = matching_hours.sort[0, size]
-        if selected_group_scheduled?(@schedule, scheduled_groups[index_a], matching_hours)
+        if selected_group_scheduled?(scheduled_groups[index_a], matching_hours)
           return matching_hour_data(scheduled_groups, unscheduled_groups, index_a, index_b, matching_hours)
         end
       end
 
       nil
-    end
-
-    def self.selected_group_scheduled?(schedule, scheduled_group, matching_hours)
-      subschedule = schedule[scheduled_group[:day]][scheduled_group[:start_hour], matching_hours.size]
-      Array.new(matching_hours.size, scheduled_group[:employee_id]).eql? subschedule
     end
 
     # @param scheduled_groups [Array<Hash>] The filtered groups of an "a" employee, as returned by
@@ -115,7 +125,7 @@ module Optimizer
     #   instead
     # @description Searches the groups arrays, finding the first element of each in which the days match.
     #   It is on this day, that the employees can swap assigned schedules, if the hours also match.
-    def self.align_group_indexes(scheduled_groups, unscheduled_groups, index_a, index_b)
+    def align_group_indexes(scheduled_groups, unscheduled_groups, index_a, index_b)
       while index_b < unscheduled_groups.size && index_a < unscheduled_groups.size
         day_a = scheduled_groups[index_a][:day]
         day_b = unscheduled_groups[index_b][:day]
@@ -126,25 +136,28 @@ module Optimizer
       end
     end
 
-    def matching_hour_data(scheduled_groups, unscheduled_groups, index_a, index_b, matching_hours)
-      {
-        scheduled_group: scheduled_groups[index_a],
-        unscheduled_group: unscheduled_groups[index_b],
-        matching_hours: matching_hours
-      }
-    end
-
-    protected
-
     def add_employee_to_schedule(day_index, hour_index, selected_shift)
       shift_size = selected_shift[:size]
       shift_employee = selected_shift[:employee_id]
       @schedule[day_index][hour_index, shift_size] = Array.new(shift_size, shift_employee)
     end
 
-    protected_methods :find_matching_hours
-    protected_methods :selected_group_scheduled
-    protected_methods :align_group_indexes
-    protected_methods :move_lesser_index_forward
+    # @param day_a [Integer] The day of the group of the first employee that is being analyzed
+    # @param day_b [Integer] The day of the group of the second employee that is being analyzed
+    # @param index_a [Integer] The starting index of the first array of groups
+    # @param index_b [Integer] The starting index of the second array of groups
+    # @return [Array<Integer>] An array containing the 2 new indexes of each array of groups. One index
+    #   will remain the same, while the other index will be moved forward one space
+    # @descriptions. Checks the day of the first and second group, and moves forward the index of the day
+    #   that is behind, meaning, closer to monday.
+    def move_lesser_index_forward(day_a, day_b, index_a, index_b)
+      if day_a >= day_b
+        index_b += 1
+      else
+        index_a += 1
+      end
+
+      [index_a, index_b]
+    end
   end
 end

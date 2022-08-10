@@ -28,10 +28,11 @@ namespace :test do
         [nil, nil, 2, 2, 2, nil, 2]
       ]
     ]
-    scheduler = SchedulerService.new(x)
-    schedule = scheduler.optimize_shifts
+    optimizer = OptimizerService.new(x)
+    schedule = optimizer.optimize_shifts
     puts 'SCHEDULE IS'
     puts schedule.to_json
+    puts optimizer.schedule_service.work_hours.to_json
     # employee_service1 = Scheduler::EmployeeService.new(
     #   [
     #     [nil, nil, 0, 0, 0, 0],
