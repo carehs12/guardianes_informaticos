@@ -28,43 +28,42 @@ class SchedulerService
     calcualate_costs
     current_cost = @cost[:shift_swap] + @cost[:hours_difference]
 
-    @max_iters.times do
-      break unless swap_shifts
-      calcualate_costs
-      new_cost = @cost[:shift_swap] + @cost[:hours_difference]
-      if new_cost >= current_cost
-        puts "RESTORING OLD SCHEDULE"
-        @schedule = @old_schedule
-        break
-      end
-
-      current_cost = new_cost
-    end
+    execute_optimization_loop(current_cost)
 
     @schedule
   end
 
   protected
 
-  def swap_shifts(freer_employee_offset = 0)
+  def execute_optimization_loop(current_cost)
+    @max_iters.times do
+      break unless shifts_swapped?
+
+      calcualate_costs
+      new_cost = @cost[:shift_swap] + @cost[:hours_difference]
+      if new_cost >= current_cost
+        @schedule = @old_schedule
+        break
+      end
+
+      current_cost = new_cost
+    end
+  end
+
+  def shifts_swapped?(freer_employee_offset = 0)
     return false if freer_employee_offset >= (@num_employees - 1)
 
     work_values = @work_hours.values.sort
     busiest_employee_id = @work_hours.key(work_values[-1])
     freer_employee_id = @work_hours.key(work_values[freer_employee_offset])
 
-    if swap_employee_shifts(busiest_employee_id, freer_employee_id)
-      puts "SCHEDULED SWAPPED!"
-      puts @schedule.to_json
-      return true 
-    end
+    return true if swap_shifts(busiest_employee_id, freer_employee_id)
 
-    swap_shifts(freer_employee_offset + 1)
+    shifts_swapped?(freer_employee_offset + 1)
   end
 
-  def swap_employee_shifts(busiest_employee_id, freer_employee_id)
+  def swap_shifts(busiest_employee_id, freer_employee_id)
     swap_size_limit = calculate_swap_size_limit(busiest_employee_id)
-
     be_groups = @employees_data[busiest_employee_id].find_available_groups
     fe_groups = @employees_data[freer_employee_id].find_available_groups
 
@@ -75,12 +74,15 @@ class SchedulerService
       return false if swap_size_limit.zero?
     end
 
+    record_shift_swap(matching_groups)
+  end
+
+  def record_shift_swap(matching_groups)
     new_group = matching_groups[:unscheduled_group]
     @old_schedule = JSON.parse(@schedule.to_json)
 
-    @schedule[new_group[:day]][new_group[:start_hour], new_group[:size]] = Array.new(new_group[:size], new_group[:employee_id])
-
-    true
+    new_shift = Array.new(new_group[:size], new_group[:employee_id])
+    @schedule[new_group[:day]][new_group[:start_hour], new_group[:size]] = new_shift
   end
 
   def calculate_swap_size_limit(busiest_employee_id)
