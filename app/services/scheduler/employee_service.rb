@@ -47,9 +47,7 @@ module Scheduler
       index_a, index_b = align_group_indexes(employee_a_groups, employee_b_groups, groups_a_index, groups_b_index)
       return nil if index_a.nil?
 
-      puts "calculating matching hours. Size is #{size}"
       matching_hours = find_matching_hours(employee_a_groups, employee_b_groups, size, index_a, index_b)
-      puts "matching hours found: #{matching_hours.to_json}"
       return matching_hours if matching_hours
 
       find_matching_group(employee_a_groups, employee_b_groups, size, index_a + 1, index_b)
@@ -73,7 +71,6 @@ module Scheduler
     def self.find_matching_hours(employee_a_groups, employee_b_groups, size, index_a, index_b)
       matching_hours = (employee_a_groups[index_a][:hours_list] & employee_b_groups[index_b][:hours_list])
       if matching_hours.length >= size
-        puts "matching hours ppased test. Length is #{matching_hours.length}. Size is #{size}"
         return {
           group_a: employee_a_groups[index_a],
           group_b: employee_b_groups[index_b],
