@@ -23,11 +23,8 @@ class OptimizerService
   #   worked per employee while also covering all time windows
   #   (if there is at least one employee available)
   def optimize_shifts
-    puts "BEFORE AUTOFILL #{@schedule_service.schedule.to_json}|"
     @schedule_service.autofill_shifts(@time_windows)
-    puts "BEFORE COSTS CALCULATION #{@schedule_service.schedule.to_json}|"
     calculate_costs
-    puts "AFTER COSTS CALCULATION #{@schedule_service.schedule.to_json}|"
     current_cost = @cost[:shift_swap] + @cost[:hours_difference]
 
     execute_optimization_loop(current_cost)
@@ -38,18 +35,13 @@ class OptimizerService
   protected
 
   def execute_optimization_loop(current_cost)
-    puts "BEFORE OPTIMIZATION CALCULATION #{@schedule_service.schedule.to_json}|"
     @max_iters.times do
       break unless shifts_swapped?
 
-      puts "BEFORE CALCULATE COSTS #{@schedule_service.schedule.to_json}|"
       calculate_costs
-      puts "AFTER CALCULATE COSTS #{@schedule_service.schedule.to_json}|"
       new_cost = @cost[:shift_swap] + @cost[:hours_difference]
       if new_cost >= current_cost
-        puts "BEFORE SETTING IT #{@schedule_service.schedule.to_json}|"
         @schedule_service.schedule = @old_schedule
-        puts "AFTER SETTING IT #{@schedule_service.schedule.to_json}|"
         break
       end
 
@@ -70,16 +62,13 @@ class OptimizerService
   end
 
   def swap_shifts(busiest_employee_id, freer_employee_id)
-    puts "BEFORE SWAP SHIFTS COSTS #{@schedule_service.schedule.to_json}|"
     swap_size_limit = calculate_swap_size_limit(busiest_employee_id)
     be_groups = @employee_services[busiest_employee_id].find_available_groups
     fe_groups = @employee_services[freer_employee_id].find_available_groups
 
     matching_groups = nil
     while matching_groups.nil?
-      puts "BEFORE FINDING MATCHING HOURS #{@schedule_service.schedule.to_json}|"
       matching_groups = @schedule_service.find_matching_group(be_groups, fe_groups, swap_size_limit)
-      puts "AFTER FINDING MATCHING HOURS #{@schedule_service.schedule.to_json}|"
       swap_size_limit -= 1 unless matching_groups
       return false if swap_size_limit.zero?
     end
@@ -111,11 +100,7 @@ class OptimizerService
   end
 
   def calculate_costs
-    puts "BEFORE FLATTEN #{@schedule_service.schedule.to_json}"
-    puts "--"
     flat_schedule = @schedule_service.schedule.flatten
-    puts "AFTER FLATTEN #{@schedule_service.schedule.to_json}"
-    puts "--"
 
     calculate_hour_difference_cost(flat_schedule)
     calculate_shift_swap_cost(flat_schedule)
