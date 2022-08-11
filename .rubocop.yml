@@ -7,3 +7,8 @@ Layout/EndOfLine:
 AllCops:
   Exclude:
     - 'bin/bundle'
+    - 'lib/tasks/test.rake'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/environments/development.rb'
