@@ -10,7 +10,7 @@ export default {
     return {
       translations: {
         main: I18n.t("users.passwords.update"),
-        application: I18n.t("application")
+        application: I18n.t("application"),
       },
       user: {
         password: "",
@@ -54,7 +54,7 @@ export default {
     },
 
     putPasswordHandlerSuccess() {
-      this.notify(translations.main.password_changed, "success");
+      this.notify(this.translations.main.password_changed, "success");
 
       setTimeout(() => {
         window.location.href = "/application";
@@ -77,7 +77,7 @@ export default {
 
     verifyPasswordLength() {
       if (this.user.password && this.user.password.length < 6) {
-        this.notify(translations.main.password_length_too_short, "danger" );
+        this.notify(this.translations.main.password_length_too_short, "danger");
         this.password_too_short = true;
         return false;
       }
@@ -89,7 +89,10 @@ export default {
     verifyPasswordsMatch() {
       if (this.user.password && this.user.password_confirmation) {
         if (this.user.password != this.user.password_confirmation) {
-          this.notify(translations.main.password_and_confirmation_dont_match, "danger");
+          this.notify(
+            this.translations.main.password_and_confirmation_dont_match,
+            "danger"
+          );
           this.passwords_dont_match = true;
           return;
         }
@@ -104,10 +107,10 @@ export default {
   <b-form class="border p-3" @submit="putPasswordHandler">
     <v-title
       :title="translations.application.title"
-      subtitle="Cambiar Contraseña"
+      :subtitle="translations.main.action_change_password"
     ></v-title>
     <v-input
-      label="Nueva Contraseña"
+      :label="translations.main.text_new_password"
       required
       type="password"
       v-model="user.password"
@@ -115,7 +118,7 @@ export default {
       :className="{ 'is-invalid': passwords_dont_match || password_too_short }"
     ></v-input>
     <v-input
-      label="Confirmar Contraseña"
+      :label="translations.main.text_new_password_confirmation"
       required
       type="password"
       v-model="user.password_confirmation"
@@ -125,11 +128,13 @@ export default {
     <v-submit
       :disabled="password_too_short || passwords_dont_match"
       :submitting="submit.password"
-      title="Cambiar Contraseña"
+      :title="translations.main.action_change_password"
       icon="fas fa-lock"
     ></v-submit>
     <div>
-      <router-link to="/login"> Iniciar Sesión </router-link>
+      <router-link to="/login">
+        {{translations.main.action_go_to_login}}
+      </router-link>
     </div>
   </b-form>
 </template>
