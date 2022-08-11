@@ -9,7 +9,7 @@ module Optimizer
     #   first index the info of each employee. On the second index, the 7 days of the week, and
     #   on the third index, if the employee is available for work at that specific hour on that
     #   specific day
-    # @param employee_services [Array<Optimizer::EmployeeService>] Array of employee_services 
+    # @param employee_services [Array<Optimizer::EmployeeService>] Array of employee_services
     # @description initializes an instance of a schedule service, that manages the schedule for the week
     def initialize(num_days, availability_data, employee_services)
       @work_hours = {}
@@ -27,7 +27,7 @@ module Optimizer
     end
 
     # @param time_windows [Array<Integer>] The lengths of every shift on different days
-    # @description Looks in the availablity groups of the employees, and selects one that 
+    # @description Looks in the availablity groups of the employees, and selects one that
     #   can work for the most continuous hours. Then jumps to the next empty hour and does the same.
     #   Until there is an employee assigned for every hour of every shift (if possible).
     def autofill_shifts(time_windows)
@@ -138,8 +138,8 @@ module Optimizer
     # @return [Array<Integer>] An array of the indexes of the hours that match between one of the scheduled groups
     #   and one of the unscheduled groups
     # @description takes the groups on each specified index and verifies if how many continous hours match between
-    #   the two groups. If the amount of matching hours is greater or equal to the specified size, and array is generated
-    #   and returned
+    #   the two groups. If the amount of matching hours is greater or equal to the specified size, and array
+    #   is generated and returned
     def find_matching_hours(scheduled_groups, unscheduled_groups, size, index_a, index_b)
       matching_hours = (scheduled_groups[index_a][:hours_list] & unscheduled_groups[index_b][:hours_list])
       if matching_hours.length >= size
@@ -177,7 +177,7 @@ module Optimizer
     # @param day_index [Integer] The index of the day in which we are adding the employee to the schedule
     # @param hour_index [Integer] The hour of the day in which whe are adding the employee to the schedule
     # @param selected_group [Hash] An availability group. It has information about how many hours will this
-    #   employee be working 
+    #   employee be working
     # @description Adds an employee to the schedule. The selected employee is the one that wan work on the jth
     #   hour of the ith day for the longest continuous time
     def add_employee_to_schedule(day_index, hour_index, selected_group)
