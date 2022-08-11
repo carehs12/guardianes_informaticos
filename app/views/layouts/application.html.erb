@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>GuardianesInformaticos</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:site_name" content="Guardianes Informáticos">
+    <meta property="og:title" content="Guardianes Informáticos" />
+    <meta property="og:description" content="Prueba Técnica - Carlos Hermosilla" />
+    <meta property="og:type" content="website" />
+    <meta property="og:updated_time" content="2022-08-10T19:15:00-06:00" />
+    <title>Guardianes Informáticos</title>
+    <%= favicon_link_tag asset_path('favicon/icon.png')%>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+      rel="stylesheet"
+    >
+    <%= stylesheet_link_tag 'application' %>
   </head>
 
   <body>
+    <section id="app">
+      <component-layout-notification></component-layout-notification>
+      <router-view></router-view>
+    </section>
     <%= yield %>
+    <a href="https://www.flaticon.com/free-icons/data-science" title="data science icons">
+      Data science icons created by Dighital Design - Flaticon
+    </a>
   </body>
 </html>
