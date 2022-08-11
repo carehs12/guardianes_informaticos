@@ -3,17 +3,18 @@ module Users
   class PasswordsController < Devise::PasswordsController
     include Responder::Json
 
-    before_action :set_locales_source
     before_action :set_user, only: :create
 
     # POST /password
     def create
       return respond_http_bad_request(t('.invalid_username_or_emal')) unless @user
 
+      params[:user][:email] = @user.email
+
       super do |resource|
         return respond_http_ok({ email: obscured_user_email }) if successfully_sent?(resource)
 
-        return respond_http_bad_request(t('.invalid_username_or_emal'))
+        return respond_http_bad_request(resource.errors.full_messages.to_sentence)
       end
     end
 
@@ -31,10 +32,9 @@ module Users
 
     private
 
-    def set_locales_source
-      I18n.t 'controllers.passwords'
-    end
-
+    # @return [String] A string with the majority of the email address obscured
+    # @description Takes the email of @user and replaces most of the letter with
+    #   asterisks, so it is obscured
     def obscured_user_email
       email_parts = @user.email.split('@')
       receipt_email = email_parts[0].chars.map.with_index do |char, index|

@@ -9,9 +9,8 @@ export default {
       submit: {
         password: false,
       },
-      password: {
+      user: {
         username: "",
-        password: "",
       },
     };
   },
@@ -23,27 +22,24 @@ export default {
       }
 
       let url = "/password";
-      let data = { password: this.password };
+      let data = { user: this.user };
       this.submit.password = true;
 
       this.http
         .post(url, data)
         .then((response) => {
           if (response.success) {
-            this.postPasswordHandlerSuccess();
+            this.postPasswordHandlerSuccess(response);
           } else {
             this.postPasswordHandlerError(response.error.message);
           }
-        })
-        .catch((error) => {
-          this.postPasswordHandlerError(error);
         })
         .finally(() => {
           this.submit.password = false;
         });
     },
 
-    postPasswordHandlerSuccess() {
+    postPasswordHandlerSuccess(response) {
       this.notify(
         `El correo con instrucciones ha sido enviado a ${response.data.email}`,
         "success"
@@ -73,7 +69,7 @@ export default {
         ref="password-username"
         required
         placeholder="Nombre de usuario o correo asociado"
-        v-model="password.username"
+        v-model="user.username"
       >
       </b-form-input>
     </b-form-group>

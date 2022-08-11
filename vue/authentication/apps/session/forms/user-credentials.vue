@@ -35,9 +35,6 @@ export default {
             this.postSessionHandlerError(response.error.message);
           }
         })
-        .catch((error) => {
-          this.postSessionHandlerError(error);
-        })
         .finally(() => {
           this.submit.session = false;
         });
