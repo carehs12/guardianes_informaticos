@@ -1,9 +1,9 @@
-# Responder::Json. Contains all methods used to respond a JSON request
-module Responder  
+module Responder
+  # Responder::Json. Contains all methods used to respond a JSON request
   module Json
     # JSON successful response
     def respond_http_ok(data = nil)
-      response_body[:data] = data
+      response_body = { data: data }
       render status: 200, json: response_body.to_json
     end
 
