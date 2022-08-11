@@ -12,7 +12,7 @@ import componentLayoutFooter from "../components/layout/footer.vue";
 import componentLayoutNotification from "../components/layout/notification.vue";
 
 // Applications
-import appLogin from "./apps/login.vue";
+import appSessionNew from "./apps/session/new.vue";
 import appPasswordNew from "./apps/password/new.vue";
 import appPasswordEdit from "./apps/password/edit.vue";
 
@@ -29,7 +29,7 @@ var appRouter = new VueRouter({
     },
     {
       path: "/login",
-      component: appLogin,
+      component: appSessionNew,
     },
     {
       path: "/password/new",

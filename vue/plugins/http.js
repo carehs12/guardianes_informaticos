@@ -12,12 +12,14 @@ const responseHandler = (response) => {
     return {
       data: response.data.data,
       status: response.status,
+      success: true
     };
   }
 
   return {
     status: response.status,
     error: response.data.error,
+    success: false
   };
 };
 
@@ -33,6 +35,7 @@ const errorHandler = (error) => {
 
   return {
     status: error.response.status,
+    success: false,
     error: {
       error: error.response.statusText,
       message: message,
