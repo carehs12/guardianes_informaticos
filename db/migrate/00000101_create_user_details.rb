@@ -9,7 +9,6 @@ class CreateUserDetails < ActiveRecord::Migration[7.0]
       t.text :address
       t.text :personal_phone
       t.text :emergency_phone
-      t.string :theme
 
       t.references :user, null: false, foreign_key: true
 
