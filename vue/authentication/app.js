@@ -7,18 +7,16 @@ import VueRouter from "vue-router";
 import pluginHttp from "../plugins/http";
 
 // Layout components
-import componentLayoutFooter from "../components/layouts/footer.vue";
-import componentLayoutNotification from "../components/layouts/notification.vue";
+import componentLayoutFooter from "../components/layout/footer.vue";
+import componentLayoutNotification from "../components/layout/notification.vue";
 
 // Applications
 import appLogin from "./apps/login.vue";
 import appPasswordNew from "./apps/password/new.vue";
 import appPasswordEdit from "./apps/password/edit.vue";
 
-Vue.use(pluginBus);
 Vue.use(VueRouter);
 Vue.use(pluginHttp);
-Vue.use(pluginDate);
 Vue.use(BootstrapVue);
 
 var appRouter = new VueRouter({
