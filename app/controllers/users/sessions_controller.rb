@@ -22,7 +22,7 @@ module Users
 
     def sign_in_params
       params.fetch(
-        :user, {}
+        :session, {}
       ).permit(
         :username,
         :password

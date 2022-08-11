@@ -1,5 +1,5 @@
 <script>
-import formUserCredetials from "../forms/user-credentials.vue";
+import formUserCredetials from "./forms/user-credentials.vue";
 
 export default {
   components: { formUserCredetials }

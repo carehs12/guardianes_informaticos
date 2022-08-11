@@ -1,6 +1,6 @@
 <script>
-import vSubmit from "../../../components/form/v-submit.vue";
-import vTitle from "../../../components/form/v-title.vue";
+import vSubmit from "../../../../components/form/v-submit.vue";
+import vTitle from "../../../../components/form/v-title.vue";
 
 export default {
   components: { vSubmit, vTitle },
@@ -9,7 +9,7 @@ export default {
       submit: {
         session: false,
       },
-      user: {
+      session: {
         username: "",
         password: "",
       },
@@ -22,7 +22,7 @@ export default {
         event.preventDefault();
       }
 
-      const data = { user: this.user };
+      const data = { session: this.session };
       const url = "/login";
       this.submit.session = true;
 
@@ -58,22 +58,22 @@ export default {
 <template>
   <b-form class="border p-3" @submit="postSessionHandler">
     <v-title title="Guardianes Informáticos" subtitle="Iniciar Sesión"></v-title>
-    <b-form-group label="Usuario" label-for="login-username">
+    <b-form-group label="Usuario" label-for="session-username">
       <b-form-input
-        id="login-username"
+        id="session-username"
         required
-        v-model="user.username"
+        v-model="session.username"
         placeholder="Usuario"
       >
       </b-form-input>
     </b-form-group>
-    <b-form-group label="Contraseña" label-for="login-password">
+    <b-form-group label="Contraseña" label-for="session-password">
       <b-form-input
-        id="login-password"
+        id="session-password"
         required
         type="password"
         ref="input-password"
-        v-model="user.password"
+        v-model="session.password"
         placeholder="************"
       >
       </b-form-input>
