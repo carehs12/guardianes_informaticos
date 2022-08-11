@@ -13,5 +13,10 @@ Rails.application.routes.draw do
     }
   )
 
+  authenticated :user do
+    get :application, to: 'application#show'
+    root to: 'application#show', as: 'root_authenticated'
+  end
+
   root to: 'authentications#index'
 end

@@ -24,7 +24,7 @@ export default {
         .post(url, data)
         .then((response) => {
           if (response.status == 200) {
-            window.location.href = "/dashboard";
+            window.location.href = "/application";
           } else {
             this.notify(response.error.message, "danger");
             this.$refs["input-password"].focus();
