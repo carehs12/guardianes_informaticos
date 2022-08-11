@@ -12,4 +12,6 @@ Rails.application.routes.draw do
       password: 'password'
     }
   )
+
+  root to: 'authentications#index'
 end

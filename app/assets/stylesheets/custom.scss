@@ -1,0 +1,93 @@
+.clickable{
+   cursor: pointer;
+}
+
+.marker-todo {
+   background-color: #eaee16;
+}
+
+.marker-doing {
+   background-color: #3fa1e2fd;
+}
+
+.marker-done {
+   background-color: #0baf34;
+}
+
+.marker-important {
+   background-color: #db3113;
+}
+
+.marker-other {
+   background-color: #9d2ba1;
+}
+
+.file-uploader-box {
+   width: 98% !important;
+   height: 160px !important;
+   position: relative !important;
+   border: 4px dashed #000 !important;
+   background-image: image-url("upload-document.png") !important;
+   background-position: center !important;
+   background-repeat: no-repeat !important;
+   background-size: 64px 64px !important;
+   -webkit-box-sizing: border-box !important;
+   -moz-box-sizing: border-box !important;
+   box-sizing: border-box !important;
+   filter: alpha(opacity=50) !important;
+   -khtml-opacity: 0.5 !important;
+   -moz-opacity: 0.5 !important;
+   opacity: 0.5 !important;
+   text-align: center !important;
+}
+
+.file-uploader-box:hover,
+.file-uploader-box.dragging,
+.file-uploader-box.uploading {
+   filter: alpha(opacity=100) !important;
+   -khtml-opacity: 1 !important;
+   -moz-opacity: 1 !important;
+   opacity: 1 !important;
+}
+
+.file-uploader-box input {
+   width: 100% !important;
+   height: 100% !important;
+   border: none !important;
+   cursor: pointer !important;
+   margin: 0 !important;
+   opacity: 0 !important;
+}
+
+.file-uploader-box input:focus {
+   outline: none !important;
+}
+
+.image-container {
+   position: relative;
+}
+
+.image-container .btn {
+   position: absolute;
+   top: 15px;
+   right: 15px;
+}
+
+.form-container {
+   border: 1px solid black;
+   width: 80%;
+   margin-left: 10px;
+   height: 80px;
+}
+
+.preview-image {
+   width: auto;
+   height: auto;
+   max-width: 100%;
+   max-height: 100%;
+}
+
+.medical-image {
+   width: 100%;
+   cursor: pointer;
+}
