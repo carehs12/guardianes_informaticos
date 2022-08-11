@@ -1,0 +1,5 @@
+es:
+  devise:
+    mailer:
+      reset_password_instructions:
+        subject: "Reinicio de contraseña (Guardianes Informáticos)"

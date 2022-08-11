@@ -1,8 +1,8 @@
 <script>
-import formUserCredetials from "./forms/user-credentials.vue";
+import formRequestToken from "./forms/request-token.vue";
 
 export default {
-  components: { formUserCredetials }
+  components: { formRequestToken }
 };
 </script>
 <template>
@@ -12,7 +12,7 @@ export default {
         <div
           class="col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-12"
         >
-          <form-user-credetials></form-user-credetials>
+          <form-request-token></form-request-token>
         </div>
       </div>
     </div>
