@@ -1,0 +1,4 @@
+es:
+  controllers:
+      passwords:
+        invalid_username_or_emal: "El usuario o correo ingresado es inválido o no existe en el sistema"

@@ -1,0 +1,4 @@
+es:
+  controllers:
+      sessions:
+        incorrect_username_or_password: "Usuario o Contraseña Incorrectos"
