@@ -8,6 +8,7 @@ AllCops:
   Exclude:
     - 'bin/bundle'
     - 'lib/tasks/test.rake'
+    - 'db/schema.rb'
 
 Metrics/BlockLength:
   Exclude:
@@ -15,4 +16,4 @@ Metrics/BlockLength:
 
 Metrics/MethodLength:
   Exclude:
-    - 'db/*'
+    - 'db/migrate/*'
