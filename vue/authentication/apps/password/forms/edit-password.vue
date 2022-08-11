@@ -1,9 +1,10 @@
 <script>
 import vSubmit from "../../../../components/form/v-submit.vue";
 import vTitle from "../../../../components/form/v-title.vue";
+import vInput from "../../../../components/form/v-input.vue";
 
 export default {
-  components: { vSubmit, vTitle },
+  components: { vSubmit, vTitle, vInput },
 
   data() {
     return {
@@ -107,33 +108,22 @@ export default {
       title="Guardianes Informáticos"
       subtitle="Cambiar Contraseña"
     ></v-title>
-    <b-form-group label="Nueva Contraseña" label-for="reset-password-password">
-      <b-form-input
-        id="reset-password-password"
-        type="password"
-        ref="password"
-        required
-        v-model="user.password"
-        @change="verifyPassword"
-        :class="{ 'is-invalid': passwords_dont_match || password_too_short }"
-      >
-      </b-form-input>
-    </b-form-group>
-    <b-form-group
+    <v-input
+      label="Nueva Contraseña"
+      required
+      type="password"
+      v-model="user.password"
+      @change="verifyPassword"
+      :className="{ 'is-invalid': passwords_dont_match || password_too_short }"
+    ></v-input>
+    <v-input
       label="Confirmar Contraseña"
-      label-for="reset-password-password-confirmation"
-    >
-      <b-form-input
-        type="password"
-        id="reset-password-password-confirmation"
-        ref="password-confirmation"
-        required
+      required
+      type="password"
         v-model="user.password_confirmation"
         @change="verifyPassword"
-        :class="{ 'is-invalid': passwords_dont_match }"
-      >
-      </b-form-input>
-    </b-form-group>
+        :className="{ 'is-invalid': passwords_dont_match }"
+    ></v-input>
     <v-submit
       :disabled="password_too_short || passwords_dont_match"
       :submitting="submit.password"
@@ -145,13 +135,3 @@ export default {
     </div>
   </b-form>
 </template>
-
-<style>
-.form-group label {
-  font-weight: bold;
-  margin-bottom: 0px;
-}
-form {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-</style>

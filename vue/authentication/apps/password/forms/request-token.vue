@@ -1,9 +1,10 @@
 <script>
 import vSubmit from "../../../../components/form/v-submit.vue";
 import vTitle from "../../../../components/form/v-title.vue";
+import vInput from "../../../../components/form/v-input.vue";
 
 export default {
-  components: { vSubmit, vTitle },
+  components: { vSubmit, vTitle, vInput },
   data() {
     return {
       submit: {
@@ -60,19 +61,13 @@ export default {
       title="Guardianes Informáticos"
       subtitle="Reinicio de Contraseña"
     ></v-title>
-    <b-form-group
+    <v-input
       label="Usuario o Correo Electrónico"
-      label-for="password-username"
-    >
-      <b-form-input
-        id="password-username"
-        ref="password-username"
-        required
-        placeholder="Nombre de usuario o correo asociado"
-        v-model="user.username"
-      >
-      </b-form-input>
-    </b-form-group>
+      ref="password-username"
+      required
+      placeholder="Nombre de usuario o correo asociado"
+      v-model="user.username"
+    ></v-input>
 
     <v-submit
       :submitting="submit.password"
