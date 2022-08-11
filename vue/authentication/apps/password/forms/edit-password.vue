@@ -8,6 +8,10 @@ export default {
 
   data() {
     return {
+      translations: {
+        main: I18n.t("users.passwords.update"),
+        application: I18n.t("application")
+      },
       user: {
         password: "",
         password_confirmation: "",
@@ -50,10 +54,7 @@ export default {
     },
 
     putPasswordHandlerSuccess() {
-      this.notify(
-        "La contraseña ha sido cambiada exitosamente. En unos instantes ingresarás al sistema",
-        "success"
-      );
+      this.notify(translations.main.password_changed, "success");
 
       setTimeout(() => {
         window.location.href = "/application";
@@ -76,10 +77,7 @@ export default {
 
     verifyPasswordLength() {
       if (this.user.password && this.user.password.length < 6) {
-        this.notify(
-          "Por favor utiliza una contraseña de al menos 6 caracteres",
-          "danger"
-        );
+        this.notify(translations.main.password_length_too_short, "danger" );
         this.password_too_short = true;
         return false;
       }
@@ -91,7 +89,7 @@ export default {
     verifyPasswordsMatch() {
       if (this.user.password && this.user.password_confirmation) {
         if (this.user.password != this.user.password_confirmation) {
-          this.notify("Las contraseñas ingresadas no coinciden", "danger");
+          this.notify(translations.main.password_and_confirmation_dont_match, "danger");
           this.passwords_dont_match = true;
           return;
         }
@@ -105,7 +103,7 @@ export default {
 <template>
   <b-form class="border p-3" @submit="putPasswordHandler">
     <v-title
-      title="Guardianes Informáticos"
+      :title="translations.application.title"
       subtitle="Cambiar Contraseña"
     ></v-title>
     <v-input
@@ -120,9 +118,9 @@ export default {
       label="Confirmar Contraseña"
       required
       type="password"
-        v-model="user.password_confirmation"
-        @change="verifyPassword"
-        :className="{ 'is-invalid': passwords_dont_match }"
+      v-model="user.password_confirmation"
+      @change="verifyPassword"
+      :className="{ 'is-invalid': passwords_dont_match }"
     ></v-input>
     <v-submit
       :disabled="password_too_short || passwords_dont_match"

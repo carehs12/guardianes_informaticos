@@ -3,3 +3,7 @@ es:
       passwords:
         create:
           invalid_username_or_emal: "El usuario o correo ingresado es inválido o no existe en el sistema"
+        update:
+          password_changed: La contraseña ha sido cambiada exitosamente. En unos instantes ingresarás al sistema
+          password_length_too_short: Por favor utiliza una contraseña de al menos 6 caracteres
+          password_and_confirmation_dont_match: Las contraseñas ingresadas no coinciden

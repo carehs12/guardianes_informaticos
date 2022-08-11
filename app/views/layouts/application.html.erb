@@ -9,8 +9,13 @@
     <meta property="og:updated_time" content="2022-08-10T19:15:00-06:00" />
     <title>Guardianes Informáticos</title>
     <%= favicon_link_tag asset_path('favicon/icon.png')%>
+    <%= javascript_include_tag "i18n" %>
+    <%= javascript_include_tag "translations", skip_pipeline: true %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <script>
+      I18n.locale = '<%= I18n.default_locale %>'
+    </script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
       rel="stylesheet"
