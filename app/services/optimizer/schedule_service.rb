@@ -1,8 +1,16 @@
 module Optimizer
-  # My comment
+  # Optimizer::ScheduleService
+  # Manages the schedule of a certain week
   class ScheduleService
     attr_accessor :schedule, :work_hours
 
+    # @param num_days [Integer] How many days are there going to be on the week.
+    # @param availability_data [Array<Array<Array<Integer>>>] 3-dimensional matrix that contains in the
+    #   first index the info of each employee. On the second index, the 7 days of the week, and
+    #   on the third index, if the employee is available for work at that specific hour on that
+    #   specific day
+    # @param employee_services [Array<Optimizer::EmployeeService>] Array of employee_services 
+    # @description initializes an instance of a schedule service, that manages the schedule for the week
     def initialize(num_days, availability_data, employee_services)
       @work_hours = {}
       @availability_data = availability_data
@@ -11,12 +19,17 @@ module Optimizer
       @schedule = @schedule.map { [] }
     end
 
+    # @description fills every element of @employee_services, creating an instance of Optimizer::EmployeeService
     def initialize_employee_availabilities
       @availability_data.each_with_index do |employee_data, employee_id|
         @employee_services.push(EmployeeService.new(employee_id, employee_data))
       end
     end
 
+    # @param time_windows [Array<Integer>] The lengths of every shift on different days
+    # @description Looks in the availablity groups of the employees, and selects one that 
+    #   can work for the most continuous hours. Then jumps to the next empty hour and does the same.
+    #   Until there is an employee assigned for every hour of every shift (if possible).
     def autofill_shifts(time_windows)
       day_index = 0
       hour_index = 0
@@ -27,6 +40,9 @@ module Optimizer
       end
     end
 
+    # @param matching_groups [Hash] Hash containing the selected matching groups that will swap time shifts
+    # @description Once everythin is verified, the selected group of the employee that is free, replaces the
+    #   same group of the employee that is busy. Thus, balancing the load between them
     def record_shift_swap(matching_groups)
       new_group = matching_groups[:unscheduled_group]
 
@@ -34,6 +50,12 @@ module Optimizer
       @schedule[new_group[:day]][new_group[:start_hour], new_group[:size]] = new_shift
     end
 
+    # @param day_index [Integer] The index of the day that is currently being filled
+    # @param hour_index [Integer] The index of the hour that is currently empty and needs to be filled
+    # @return [Integer] The new index of the hour that needs to be filled
+    # @description Select an availability group from any employee, that has the most continous hours, and fills the
+    #   schedule with that employee's info. Once the employee is no longer available, it swaps to the other day.
+    #   If no employee is available, this hour is discarded and the process is executed again on the next hour
     def fill_shift(day_index, hour_index)
       available_shifts = @employee_services.map { |employee| employee.find_group_on_shift(day_index, hour_index) }
       available_shifts.compact!
@@ -72,11 +94,30 @@ module Optimizer
       find_matching_group(scheduled_groups, unscheduled_groups, size, index_a + 1, index_b)
     end
 
+    # @param scheduled_group A selected group that hopefully is currently scheduled and that will be swapped
+    #   for another availability group of another employee
+    # @param matching_hours [Array<Integer>] An array containing the indexes of the hours that match on the specfied
+    # #   groups
+    # @return [Boolean] true if the selected group is actually scheduled. False otherwise
+    # @description verifies if a selected group is scheduled
     def selected_group_scheduled?(scheduled_group, matching_hours)
       subschedule = @schedule[scheduled_group[:day]][scheduled_group[:start_hour], matching_hours.size]
       Array.new(matching_hours.size, scheduled_group[:employee_id]).eql? subschedule
     end
 
+    # @param scheduled_groups [Array<Hash>] The filtered groups of an "a" employee, as returned by
+    #   find_available_groups. This employee has to be currently scheduled
+    # @param unscheduled_groups [Array<Hash>] The filtered groups of a "b" employee, as returned by
+    # @param index_a [Integer] The index of the first array of groups. Must be zero when called from outside
+    # @param index_b [Integer] The index of the second array of groups. Must be zero when called from outside
+    # @param matching_hours [Array<Integer>] An array containing the indexes of the hours that match on the specfied
+    #   groups
+    # @ return An array containing the following format: {
+    #     group_a: Hash # The selected group of the first employee
+    #     group_b: Hash # The selected group of the second employee
+    #     matching_hours: Hash # The indexes of the continuous hours on each group (a and b) that can be swapped
+    #   }
+    # @description Creates an hash response with the information of the selected groups and the matching hours
     def matching_hour_data(scheduled_groups, unscheduled_groups, index_a, index_b, matching_hours)
       {
         scheduled_group: scheduled_groups[index_a],
@@ -94,14 +135,11 @@ module Optimizer
     # @param index_a [Integer] The index of the first array of groups
     # @param index_b [Integer] The index of the second array of groups
     # @param size [Integer] The minimum size the time window has to have to be able to swap schedules
-    # @return [Hash] An array containing the following format: {
-    #   group_a: Hash # The selected group of the first employee
-    #   group_b: Hash # The selected group of the second employee
-    #   matching_hours: Hash # The indexes of the continuous hours on each group (a and b) that can be swapped
-    # }
+    # @return [Array<Integer>] An array of the indexes of the hours that match between one of the scheduled groups
+    #   and one of the unscheduled groups
     # @description takes the groups on each specified index and verifies if how many continous hours match between
-    #   the two groups. If the amount of matching hours is greater or equal to the specified size, the hash is returned
-    #   otherwise, nil is returned instead
+    #   the two groups. If the amount of matching hours is greater or equal to the specified size, and array is generated
+    #   and returned
     def find_matching_hours(scheduled_groups, unscheduled_groups, size, index_a, index_b)
       matching_hours = (scheduled_groups[index_a][:hours_list] & unscheduled_groups[index_b][:hours_list])
       if matching_hours.length >= size
@@ -136,9 +174,15 @@ module Optimizer
       end
     end
 
-    def add_employee_to_schedule(day_index, hour_index, selected_shift)
-      shift_size = selected_shift[:size]
-      shift_employee = selected_shift[:employee_id]
+    # @param day_index [Integer] The index of the day in which we are adding the employee to the schedule
+    # @param hour_index [Integer] The hour of the day in which whe are adding the employee to the schedule
+    # @param selected_group [Hash] An availability group. It has information about how many hours will this
+    #   employee be working 
+    # @description Adds an employee to the schedule. The selected employee is the one that wan work on the jth
+    #   hour of the ith day for the longest continuous time
+    def add_employee_to_schedule(day_index, hour_index, selected_group)
+      shift_size = selected_group[:size]
+      shift_employee = selected_group[:employee_id]
       @schedule[day_index][hour_index, shift_size] = Array.new(shift_size, shift_employee)
     end
 

@@ -1,6 +1,6 @@
 module Optimizer
   # Optimizer::EmployeeServices
-  # Grous the availability of an employee, so it can always retrieve relevant data
+  # Groups the availability of an employee, so it can always retrieve relevant data
   # like on which day can the person can work the most
   class EmployeeService
     attr_reader :availability_groups, :id

@@ -132,7 +132,7 @@ class OptimizerService
     @schedule_service.record_shift_swap(matching_groups)
   end
 
-  # @description Sets the @time_windows variable. This  variable contains how many hours are there in 
+  # @description Sets the @time_windows variable. This  variable contains how many hours are there in
   #   a day
   def initialize_time_windows
     @time_windows = Array.new(7, 0)
