@@ -1,4 +1,5 @@
 es:
-  controllers:
+  users:
       sessions:
-        incorrect_username_or_password: "Usuario o Contraseña Incorrectos"
+        create:
+          incorrect_username_or_password: "Usuario o Contraseña Incorrectos"

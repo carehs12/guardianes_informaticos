@@ -1,4 +1,5 @@
 es:
-  controllers:
+  users:
       passwords:
-        invalid_username_or_emal: "El usuario o correo ingresado es inválido o no existe en el sistema"
+        create:
+          invalid_username_or_emal: "El usuario o correo ingresado es inválido o no existe en el sistema"

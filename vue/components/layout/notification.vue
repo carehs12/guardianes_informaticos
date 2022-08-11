@@ -14,11 +14,11 @@ export default {
   },
   methods: {
     setSubscriptions() {
-      // this.bus.subscribe("show:component/notification", (message, type) => {
-      //   this.message = message;
-      //   this.type = type;
-      //   this.dismissCountDown = this.dismissSecs;
-      // });
+      this.bus.subscribe("show:components/layout/notification", (message, type) => {
+        this.message = message;
+        this.type = type;
+        this.dismissCountDown = this.dismissSecs;
+      });
     },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;

@@ -15,6 +15,7 @@ export default {
       if (event) {
         event.preventDefault();
       }
+
       let url = "/login";
       let data = {
         user: this.user,
@@ -22,7 +23,7 @@ export default {
       this.http
         .post(url, data)
         .then((response) => {
-          if (response.successful) {
+          if (response.status == 200) {
             window.location.href = "/dashboard";
           } else {
             this.notify(response.error.message, "danger");

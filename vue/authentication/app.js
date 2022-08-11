@@ -3,8 +3,9 @@ import Vue from "vue";
 import { BootstrapVue } from "bootstrap-vue";
 import VueRouter from "vue-router";
 
-// Wrapper for HTTP requests
+// Plugins for Bus comunication and  HTTP requests
 import pluginHttp from "../plugins/http";
+import pluginBus from "../plugins/bus";
 
 // Layout components
 import componentLayoutFooter from "../components/layout/footer.vue";
@@ -17,6 +18,7 @@ import appPasswordEdit from "./apps/password/edit.vue";
 
 Vue.use(VueRouter);
 Vue.use(pluginHttp);
+Vue.use(pluginBus);
 Vue.use(BootstrapVue);
 
 var appRouter = new VueRouter({

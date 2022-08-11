@@ -18,22 +18,15 @@ export default {
 
     http.interceptors.response.use(
       (response) => {
-        if (window.debug) {
-          window.debug(
-            response.data,
-            "api method: " + response.request.responseURL
-          );
-        }
-
-        if (response.data.successful) {
+        if (response.status == 200) {
           return {
-            successful: response.data.successful,
             data: response.data.data,
+            status: response.status
           };
         }
 
         return {
-          successful: response.data.successful,
+          status: response.status,
           error: response.data.error,
         };
       },
@@ -42,11 +35,11 @@ export default {
         if (error.response.data.error && error.response.data.error.message) {
           message = error.response.data.error.message;
         } else {
-          message = `Ajax ${error.config.method} to url ${error.config.url} ${error.message}`;
+          message = `HTTP Request ${error.config.method} to url ${error.config.url} ${error.message}`;
         }
 
         return {
-          success: false,
+          status: error.response.status,
           error: {
             error: error.response.statusText,
             message: message,
