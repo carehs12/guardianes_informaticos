@@ -23,6 +23,10 @@ export default {
     className: {
       required: false
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
 
   data() {
@@ -60,6 +64,7 @@ export default {
     <b-form-input
       :required="required"
       :type="type"
+      :disabled="disabled"
       ref="input"
       :class="className"
       @change="onChange"

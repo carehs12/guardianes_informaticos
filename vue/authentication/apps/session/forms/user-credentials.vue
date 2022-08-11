@@ -1,9 +1,10 @@
 <script>
 import vSubmit from "../../../../components/form/v-submit.vue";
 import vTitle from "../../../../components/form/v-title.vue";
+import vInput from "../../../../components/form/v-input.vue";
 
 export default {
-  components: { vSubmit, vTitle },
+  components: { vSubmit, vTitle, vInput },
   data() {
     return {
       submit: {
@@ -54,36 +55,31 @@ export default {
 
 <template>
   <b-form class="border p-3" @submit="postSessionHandler">
-    <v-title title="Guardianes Informáticos" subtitle="Iniciar Sesión"></v-title>
-    <b-form-group label="Usuario" label-for="session-username">
-      <b-form-input
-        id="session-username"
-        required
-        v-model="session.username"
-        placeholder="Usuario"
-      >
-      </b-form-input>
-    </b-form-group>
-    <b-form-group label="Contraseña" label-for="session-password">
-      <b-form-input
-        id="session-password"
-        required
-        type="password"
-        ref="input-password"
-        v-model="session.password"
-        placeholder="************"
-      >
-      </b-form-input>
-    </b-form-group>
+    <v-title
+      title="Guardianes Informáticos"
+      subtitle="Iniciar Sesión"
+    ></v-title>
+    <v-input
+      label="Usuario"
+      required
+      placeholder="Usuario"
+      v-model="session.username"
+    ></v-input>
+    <v-input
+      label="Contraseña"
+      type="password"
+      ref="input-password"
+      required
+      v-model="session.password"
+      placeholder="************"
+    ></v-input>
     <v-submit
       :submitting="submit.session"
       title="Iniciar Sesión"
       icon="fas fa-sign-in-alt"
     ></v-submit>
     <div>
-      <router-link to="/password/new">
-        ¿Olvidaste tu contraseña?
-      </router-link>
+      <router-link to="/password/new"> ¿Olvidaste tu contraseña? </router-link>
     </div>
   </b-form>
 </template>
