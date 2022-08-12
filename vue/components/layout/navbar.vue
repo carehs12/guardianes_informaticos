@@ -35,11 +35,6 @@ export default {
       <!-- Right aligned elements -->
       <b-navbar-nav class="ml-auto">
         <navbar-item
-          url="/account"
-          icon="user-cog"
-          :title="translations.application.apps.profile"
-        ></navbar-item>
-        <navbar-item
           url="/logout"
           icon="sign-out-alt"
           :title="translations.application.apps.logout"
