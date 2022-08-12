@@ -3,7 +3,7 @@ class User < ApplicationRecord
   devise(:database_authenticatable, :validatable, :recoverable, authentication_keys: [:username])
 
   # Model Associations
-  has_one :detail, inverse_of: :user, class_name: 'User::Detail', autosave: true
+  has_one :detail, inverse_of: :user, class_name: 'User::Detail', autosave: true, dependent: :destroy
 
   # Active Storage Attachments
   has_one_attached :profile_picture
@@ -14,7 +14,7 @@ class User < ApplicationRecord
   # Validations
   validates :username, presence: true, uniqueness: true
 
-  def self.index(query, page = 0, per_page = 100)
+  def self.index(query = nil, page = 0, per_page = 25)
     data = joins(:detail)
 
     unless query.blank?
