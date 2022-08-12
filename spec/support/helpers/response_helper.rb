@@ -10,7 +10,7 @@ module ResponseHelper
     parsed_json_response
   end
 
-  def respond_http_bad_request
+  def expect_http_bad_request
     expect(response.status).to eq(400)
     expect(response.content_type).to eq('application/json; charset=utf-8')
     parsed_json_response

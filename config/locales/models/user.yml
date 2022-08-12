@@ -15,7 +15,8 @@ es:
             password_confirmation:
               confirmation: es diferente a la contraseña nueva
             reset_password_token:
-              blank: inválido 
+              blank: inválido
+              invalid: inválido
             email:
               blank: no puede estar vacío
               taken: ya existe en el sistema

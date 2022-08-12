@@ -1,9 +1,4 @@
 require 'rails_helper'
-require './spec/support/helpers/response_helper'
-
-RSpec.configure do |config|
-  config.include ResponseHelper
-end
 
 RSpec.describe 'Users::Sessions', type: :request do
   describe 'POST /login' do
@@ -24,7 +19,7 @@ RSpec.describe 'Users::Sessions', type: :request do
       user_credentials = { username: Faker::Internet.username, password: user_attributes[:password] }
       post('/login', params: { session: user_credentials })
 
-      response_object = respond_http_bad_request
+      response_object = expect_http_bad_request
       expect(response_object['error']['message']).to eq(I18n.t('users.sessions.create.incorrect_username_or_password'))
     end
 
@@ -35,7 +30,7 @@ RSpec.describe 'Users::Sessions', type: :request do
       user_credentials = { username: user_attributes[:username], password: Devise.friendly_token }
       post('/login', params: { session: user_credentials })
 
-      response_object = respond_http_bad_request
+      response_object = expect_http_bad_request
       expect(response_object['error']['message']).to eq(I18n.t('users.sessions.create.incorrect_username_or_password'))
     end
   end
