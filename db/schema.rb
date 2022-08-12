@@ -42,7 +42,6 @@ ActiveRecord::Schema[7.0].define(version: 101) do
     t.text "address"
     t.text "personal_phone"
     t.text "emergency_phone"
-    t.string "theme"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

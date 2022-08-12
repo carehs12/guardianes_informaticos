@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  devise(:database_authenticatable, :recoverable, authentication_keys: [:username])
+  devise(:database_authenticatable, :validatable, :recoverable, authentication_keys: [:username])
 
   # Model Associations
   has_one :detail, inverse_of: :user, class_name: 'User::Detail', autosave: true

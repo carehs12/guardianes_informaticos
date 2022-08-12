@@ -12,6 +12,8 @@ AllCops:
 
 Metrics/BlockLength:
   Exclude:
+    - 'spec/models/*'
+    - 'spec/requests/*/*'
     - 'config/environments/development.rb'
 
 Metrics/MethodLength:
