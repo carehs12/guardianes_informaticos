@@ -9,6 +9,7 @@ export default {
   data() {
     return {
       translations: {
+        shared: I18n.t("users.passwords.shared"),
         main: I18n.t("users.passwords.update"),
         application: I18n.t("application"),
       },
@@ -133,7 +134,7 @@ export default {
     ></v-submit>
     <div>
       <router-link to="/login">
-        {{translations.main.action_go_to_login}}
+        {{translations.shared.action_go_to_login}}
       </router-link>
     </div>
   </b-form>

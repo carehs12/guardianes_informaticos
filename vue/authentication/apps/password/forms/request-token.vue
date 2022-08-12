@@ -7,6 +7,11 @@ export default {
   components: { vSubmit, vTitle, vInput },
   data() {
     return {
+      translations: {
+        shared: I18n.t("users.passwords.shared"),
+        main: I18n.t("users.passwords.create"),
+        application: I18n.t("application"),
+      },
       submit: {
         password: false,
       },
@@ -41,10 +46,9 @@ export default {
     },
 
     postPasswordHandlerSuccess(response) {
-      this.notify(
-        `El correo con instrucciones ha sido enviado a ${response.data.email}`,
-        "success"
-      );
+      let message = this.translations.main.reset_token_sent;
+      message = message.replace("%{email}", response.data.email);
+      this.notify(message, "success");
     },
 
     postPasswordHandlerError(error_message) {
@@ -58,24 +62,26 @@ export default {
 <template>
   <b-form class="border p-3" @submit="postPasswordHandler">
     <v-title
-      title="Guardianes Informáticos"
-      subtitle="Reinicio de Contraseña"
+      :title="translations.application.title"
+      :subtitle="translations.main.text_reset_password"
     ></v-title>
     <v-input
-      label="Usuario o Correo Electrónico"
+      :label="translations.main.text_username_or_email"
       ref="password-username"
       required
-      placeholder="Nombre de usuario o correo asociado"
+      :placeholder="translations.main.text_description_username_or_email"
       v-model="user.username"
     ></v-input>
 
     <v-submit
       :submitting="submit.password"
-      title="Enviar Correo con Instrucciones"
+      :title="translations.main.action_send_email"
       icon="fas fa-envelope"
     ></v-submit>
     <div>
-      <router-link to="/login"> Iniciar Sesión </router-link>
+      <router-link to="/login">
+        {{ translations.shared.action_go_to_login }}
+      </router-link>
     </div>
   </b-form>
 </template>

@@ -1,13 +1,19 @@
 es:
   users:
     passwords:
+      shared: 
+        action_go_to_login: Ir al Inicio de Sesión
       create:
         invalid_username_or_emal: "El usuario o correo ingresado es inválido o no existe en el sistema"
+        text_reset_password: Reiniciar Contraseña
+        action_send_email: Enviar Correo con Instrucciones
+        text_description_username_or_email: Nombre de usuario o correo asociado
+        text_username_or_email: Usuario o Correo Electrónico
+        reset_token_sent: "El correo con instrucciones ha sido enviado a %{email}"
       update:
         password_changed: La contraseña ha sido cambiada exitosamente. En unos instantes ingresarás al sistema
         password_length_too_short: Por favor utiliza una contraseña de al menos 6 caracteres
         password_and_confirmation_dont_match: Las contraseñas ingresadas no coinciden
         action_change_password: Cambiar Contraseña
-        action_go_to_login: Ir al Inicio de Sesión
         text_new_password: Nueva Contraseña
         text_new_password_confirmation: Confirmar Contraseña
