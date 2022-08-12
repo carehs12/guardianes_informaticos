@@ -7,7 +7,15 @@ es:
         password: Contraseña
         password_confirmation: Confirmación de contraseña
         email: Correo
-        username: Nombre de Usuario
+        username: Usuario
+        full_name: Nombre
+        first_names: Nombre(s)
+        last_names: Apellido(s)
+        birth_date: Fecha de Nacimiento
+        address: Dirección
+        personal_phone: Teléfono Personal
+        emergency_phone: Teléfono de Emergencias
+        profile_picture: Foto
     errors:
       models:
         user:

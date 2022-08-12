@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   it 'will return a list of users and the total count' do
     FactoryBot.create_list(:user, 15)
-    user_list = User.index(nil, 0, 15)
+    user_list = User.index(1, 15, nil)
 
     expect(user_list).to have_key(:total_records)
     expect(user_list).to have_key(:records)
@@ -16,7 +16,7 @@ RSpec.describe User, type: :model do
     User.create!(user_attributes)
 
     FactoryBot.create_list(:user, 9)
-    user_list = User.index(user_attributes['email'], 0, 10)
+    user_list = User.index(1, 10, user_attributes['email'])
 
     expect(user_list).to have_key(:records)
     expect(user_list[:records].size).to be >= 1
@@ -27,7 +27,7 @@ RSpec.describe User, type: :model do
     User.create!(user_attributes)
 
     FactoryBot.create_list(:user, 9)
-    user_list = User.index(user_attributes['username'], 0, 10)
+    user_list = User.index(1, 10, user_attributes['username'])
 
     expect(user_list).to have_key(:records)
     expect(user_list[:records].size).to be >= 1
@@ -38,7 +38,7 @@ RSpec.describe User, type: :model do
     User.create!(user_attributes)
 
     FactoryBot.create_list(:user, 9)
-    user_list = User.index(user_attributes[:detail_attributes]['first_names'], 0, 10)
+    user_list = User.index(1, 10, user_attributes[:detail_attributes]['first_names'])
 
     expect(user_list).to have_key(:records)
     expect(user_list[:records].size).to be >= 1
@@ -49,7 +49,7 @@ RSpec.describe User, type: :model do
     User.create!(user_attributes)
 
     FactoryBot.create_list(:user, 9)
-    user_list = User.index(user_attributes[:detail_attributes]['last_names'], 0, 10)
+    user_list = User.index(1, 10, user_attributes[:detail_attributes]['last_names'])
 
     expect(user_list).to have_key(:records)
     expect(user_list[:records].size).to be >= 1

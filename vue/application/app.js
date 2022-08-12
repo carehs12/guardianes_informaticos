@@ -2,35 +2,31 @@
 import Vue from "vue";
 import { BootstrapVue } from "bootstrap-vue";
 import VueRouter from "vue-router";
+import TextHighlight from 'vue-text-highlight';
 
 // Plugins for Bus comunication and  HTTP requests
 import pluginHttp from "../plugins/http";
 import pluginBus from "../plugins/bus";
+import pluginDate from "../plugins/date";
 
 // Layout components
 import componentLayoutFooter from "../components/layout/footer.vue";
 import componentLayoutNotification from "../components/layout/notification.vue";
 import componentLayoutNavbar from "../components/layout/navbar.vue";
 
-// Applications
-import appUsers from "./apps/users.vue";
+// Application routes
+
+import usersRoutes from './apps/users/routes.js'
 
 Vue.use(VueRouter);
 Vue.use(pluginHttp);
 Vue.use(pluginBus);
+Vue.use(pluginDate);
 Vue.use(BootstrapVue);
+Vue.component('text-highlight', TextHighlight);
 
 var appRouter = new VueRouter({
-  routes: [
-    {
-      path: "/",
-      redirect: "/users",
-    },
-    {
-      path: "/users",
-      component: appUsers,
-    },
-  ],
+  routes: [].concat(usersRoutes)
 });
 
 // Mounting the vue app

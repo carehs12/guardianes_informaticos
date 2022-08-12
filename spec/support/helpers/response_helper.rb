@@ -15,4 +15,10 @@ module ResponseHelper
     expect(response.content_type).to eq('application/json; charset=utf-8')
     parsed_json_response
   end
+
+  def expect_http_not_found
+    expect(response.status).to eq(404)
+    expect(response.content_type).to eq('application/json; charset=utf-8')
+    parsed_json_response
+  end
 end

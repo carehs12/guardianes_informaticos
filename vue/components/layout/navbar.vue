@@ -3,13 +3,18 @@ import navbarItem from "./navbar/item.vue";
 
 export default {
   components: { navbarItem },
+  data() {
+    return {
+      translations: {
+        application: I18n.t("application"),
+      },
+    };
+  },
 };
 </script>
 <template>
   <b-navbar toggleable="lg" type="dark" variant="primary">
-    <b-navbar-brand href="/">{{
-      "(T) Guardianes Informáticos"
-    }}</b-navbar-brand>
+    <b-navbar-brand href="/">{{translations.application.title}}</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -18,26 +23,21 @@ export default {
         <navbar-item
           url="/users"
           icon="user"
-          title="(T) Usuarios"
+          :title="translations.application.apps.users"
         ></navbar-item>
         <navbar-item
           url="/horarios"
           icon="list"
-          title="(T) Horarios"
+          :title="translations.application.apps.schedules"
         ></navbar-item>
       </b-navbar-nav>
 
       <!-- Right aligned elements -->
       <b-navbar-nav class="ml-auto">
         <navbar-item
-          url="/account"
-          icon="user-cog"
-          title="(T) Mi cuenta"
-        ></navbar-item>
-        <navbar-item
           url="/logout"
           icon="sign-out-alt"
-          title="(T) Cerrar Sesión"
+          :title="translations.application.apps.logout"
         ></navbar-item>
       </b-navbar-nav>
     </b-collapse>
