@@ -9,8 +9,8 @@ export default {
   data() {
     return {
       translations: {
-        shared: I18n.t("shared"),
-        users: I18n.t("users"),
+        application: I18n.t("application"),
+        users: I18n.t("apps.users")
       },
       filter: "",
     };
@@ -25,13 +25,13 @@ export default {
 <template>
   <div class="row mb-3">
     <div class="col-12 px-4">
-      <h5>{{ translations.shared.general.search }}</h5>
+      <h5>{{ translations.application.shared.search }}</h5>
     </div>
     <div class="col-12 px-4">
       <b-input
         class="border border-info"
         size="lg"
-        :placeholder="translations.users.view.list.filters"
+        :placeholder="translations.users.text_search_placeholder"
         v-model="filter"
       />
     </div>

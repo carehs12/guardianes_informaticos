@@ -25,7 +25,8 @@ class User < ApplicationRecord
       data = data.where('email like ?', "%#{query}%").or(subquery1).or(subquery2).or(subquery3)
     end
     total_records = data.count
-    paginate_records(total_records, data.limit(per_page).offset((page - 1) * per_page))
+    data = select_and_paginate_fields(data, page, per_page)
+    paginate_records(total_records, data)
   end
 
   def show
@@ -38,7 +39,26 @@ class User < ApplicationRecord
     }
   end
 
-  protected
+  def self.add_profile_pictures(data)
+    data.map do |record|
+      record_attributes = record.attributes
+      record_attributes['profile_picture_src'] = record.profile_picture_src
+      record_attributes
+    end
+  end
+
+  def self.select_and_paginate_fields(data, page, per_page)
+    data = data.select(
+      'users.id',
+      :username,
+      :email,
+      :first_names,
+      :last_names,
+      :address,
+      :personal_phone
+    )
+    add_profile_pictures(paginate_data(data, page, per_page))
+  end
 
   def profile_picture_src
     return ActionController::Base.helpers.asset_path('no-profile-picture.png') unless profile_picture.attached?

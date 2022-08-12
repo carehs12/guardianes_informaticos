@@ -2,6 +2,7 @@
 import Vue from "vue";
 import { BootstrapVue } from "bootstrap-vue";
 import VueRouter from "vue-router";
+import TextHighlight from 'vue-text-highlight';
 
 // Plugins for Bus comunication and  HTTP requests
 import pluginHttp from "../plugins/http";
@@ -20,6 +21,7 @@ Vue.use(VueRouter);
 Vue.use(pluginHttp);
 Vue.use(pluginBus);
 Vue.use(BootstrapVue);
+Vue.component('text-highlight', TextHighlight);
 
 var appRouter = new VueRouter({
   routes: [].concat(usersRoutes)

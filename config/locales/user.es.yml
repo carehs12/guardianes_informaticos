@@ -1,0 +1,4 @@
+es:
+  apps:
+    users:
+      text_search_placeholder: Búscar por correo, usuario o nombre

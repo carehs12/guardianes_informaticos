@@ -1,9 +1,13 @@
 es:
   application:
     title: Guardianes Informáticos
-    navbar:
-      links:
-        users: Usuarios
-        schedules: Horarios
-        profile: Mi Perfil
-        logout: Cerrar Sesión
+    apps:
+      users: Usuarios
+      schedules: Horarios
+      profile: Mi Perfil
+      logout: Cerrar Sesión
+    actions:
+      users:
+        new: Nuevo Usuario
+    shared: 
+      seach: Búsqueda

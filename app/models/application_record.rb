@@ -8,4 +8,8 @@ class ApplicationRecord < ActiveRecord::Base
       records: records
     }
   end
+
+  def self.paginate_data(data, page, per_page)
+    data.limit(per_page).offset((page - 1) * per_page)
+  end
 end

@@ -23,12 +23,12 @@ export default {
         <navbar-item
           url="/users"
           icon="user"
-          :title="translations.application.navbar.links.users"
+          :title="translations.application.apps.users"
         ></navbar-item>
         <navbar-item
           url="/horarios"
           icon="list"
-          :title="translations.application.navbar.links.schedules"
+          :title="translations.application.apps.schedules"
         ></navbar-item>
       </b-navbar-nav>
 
@@ -37,12 +37,12 @@ export default {
         <navbar-item
           url="/account"
           icon="user-cog"
-          :title="translations.application.navbar.links.profile"
+          :title="translations.application.apps.profile"
         ></navbar-item>
         <navbar-item
           url="/logout"
           icon="sign-out-alt"
-          :title="translations.application.navbar.links.logout"
+          :title="translations.application.apps.logout"
         ></navbar-item>
       </b-navbar-nav>
     </b-collapse>
