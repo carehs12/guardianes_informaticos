@@ -1,10 +1,7 @@
 <script>
 export default {
-
 }
 </script>
 <template>
-  <div>
-    USERS APP GOES HERE
-  </div>
+  <span>EDIT VIEW FOR USERS</span>
 </template>
