@@ -7,6 +7,11 @@ export default {
   components: { vSubmit, vTitle, vInput },
   data() {
     return {
+      translations: {
+        main: I18n.t("users.sessions.create"),
+        application: I18n.t("application"),
+        user: I18n.t("activerecord.attributes.user")
+      },
       submit: {
         session: false,
       },
@@ -56,17 +61,17 @@ export default {
 <template>
   <b-form class="border p-3" @submit="postSessionHandler">
     <v-title
-      title="Guardianes Informáticos"
-      subtitle="Iniciar Sesión"
+      :title="translations.application.title"
+      :subtitle="translations.main.text_login"
     ></v-title>
     <v-input
-      label="Usuario"
+      :label="translations.user.username"
       required
-      placeholder="Usuario"
+      :placeholder="translations.user.username"
       v-model="session.username"
     ></v-input>
     <v-input
-      label="Contraseña"
+      :label="translations.user.password"
       type="password"
       ref="input-password"
       required
@@ -75,11 +80,13 @@ export default {
     ></v-input>
     <v-submit
       :submitting="submit.session"
-      title="Iniciar Sesión"
+      :title="translations.main.text_login"
       icon="fas fa-sign-in-alt"
     ></v-submit>
     <div>
-      <router-link to="/password/new"> ¿Olvidaste tu contraseña? </router-link>
+      <router-link to="/password/new">
+        {{ translations.main.action_go_to_password_reset }}
+      </router-link>
     </div>
   </b-form>
 </template>

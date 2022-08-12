@@ -1,13 +1,13 @@
 <script>
-import formUserCredetials from "./forms/user-credentials.vue";
+import formLogin from "./forms/login.vue";
 import layoutMain from "../../layout/main.vue";
 
 export default {
-  components: { formUserCredetials, layoutMain },
+  components: { formLogin, layoutMain },
 };
 </script>
 <template>
   <layout-main>
-    <form-user-credetials></form-user-credetials>
+    <form-login></form-login>
   </layout-main>
 </template>

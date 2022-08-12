@@ -2,4 +2,6 @@ es:
   users:
       sessions:
         create:
+          text_login: Iniciar Sesión
           incorrect_username_or_password: "Usuario o Contraseña Incorrectos"
+          action_go_to_password_reset: "¿Olvidaste tu contraseña?"
