@@ -1,0 +1,13 @@
+es:
+  activerecord:
+    attributes:
+      user:
+        reset_password_token: El código para restablecer contraseña es
+        username: Usuario
+        password: Contraseña
+    errors:
+      models:
+        user:
+          attributes:
+            reset_password_token:
+              blank: inválido 

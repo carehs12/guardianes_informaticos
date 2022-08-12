@@ -3,8 +3,6 @@ module Users
   class SessionsController < Devise::SessionsController
     include Responder::Json
 
-    before_action :set_locales_source
-
     # POST /login
     def create
       resource = User.find_for_database_authentication(username: sign_in_params[:username])
@@ -22,13 +20,9 @@ module Users
 
     private
 
-    def set_locales_source
-      I18n.t 'controllers.sessions'
-    end
-
     def sign_in_params
       params.fetch(
-        :user, {}
+        :session, {}
       ).permit(
         :username,
         :password

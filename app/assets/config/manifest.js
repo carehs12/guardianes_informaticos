@@ -2,3 +2,4 @@
 //= link_directory ../stylesheets .css
 //= link_tree ../../assets/javascript .js
 //= link_tree ../../../vendor/javascript .js
+//= link i18n.js
