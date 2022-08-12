@@ -14,9 +14,9 @@ Rails.application.routes.draw do
   )
 
   authenticated :user do
-    get :application, to: 'application#show'
-    root to: 'application#show', as: 'root_authenticated'
+    get :application, to: 'application_authenticated#show'
+    root to: 'application_authenticated#show', as: 'root_authenticated'
   end
 
-  root to: 'authentications#index'
+  root to: 'authentications#show'
 end
