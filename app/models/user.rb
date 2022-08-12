@@ -14,7 +14,7 @@ class User < ApplicationRecord
   # Validations
   validates :username, presence: true, uniqueness: true
 
-  def self.index(query = nil, page = 0, per_page = 25)
+  def self.index(page = 1, per_page = 25, query = nil)
     data = joins(:detail)
 
     unless query.blank?
@@ -25,11 +25,12 @@ class User < ApplicationRecord
       data = data.where('email like ?', "%#{query}%").or(subquery1).or(subquery2).or(subquery3)
     end
     total_records = data.count
-    paginate_records(total_records, data.limit(per_page).offset(page))
+    paginate_records(total_records, data.limit(per_page).offset((page - 1) * per_page))
   end
 
   def show
     {
+      id: id,
       email: email,
       username: username,
       profile_picture_src: profile_picture_src,

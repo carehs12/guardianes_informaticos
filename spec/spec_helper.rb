@@ -15,6 +15,7 @@
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require './spec/support/helpers/response_helper'
 require './spec/support/helpers/user_helper'
+require './spec/support/helpers/authentication_helper'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -98,4 +99,5 @@ RSpec.configure do |config|
   #   Kernel.srand config.seed
   config.include ResponseHelper
   config.include UserHelper
+  config.include AuthenticationHelper
 end

@@ -16,6 +16,10 @@ Rails.application.routes.draw do
   authenticated :user do
     get :application, to: 'application_authenticated#show'
     root to: 'application_authenticated#show', as: 'root_authenticated'
+
+    resource :profile, only: %i[show update]
+    resources :users, only: %i[index show create update destroy]
+    resources :schedules, only: %i[index show create update destroy]
   end
 
   root to: 'authentications#show'

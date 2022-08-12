@@ -4,15 +4,18 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
 
-  def set_query_params
-    @params = params.downcase
+  def show() end
 
+  protected
+
+  def set_query_params
     @page = 1
     @page = params[:page].to_i if params[:page]
 
     @per_page = 15
     @per_page = params[:per_page].to_i if params[:per_page]
-  end
 
-  def show() end
+    @query = nil
+    @query = params[:query] if params[:query]
+  end
 end
