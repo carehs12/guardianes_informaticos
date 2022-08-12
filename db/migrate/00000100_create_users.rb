@@ -11,7 +11,6 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :reset_password_token
       t.datetime :reset_password_sent_at
 
-      t.datetime :deleted_at
       t.timestamps
     end
 

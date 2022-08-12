@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 101) do
+ActiveRecord::Schema[7.0].define(version: 203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,93 @@ ActiveRecord::Schema[7.0].define(version: 101) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "schedule_availabilities", force: :cascade do |t|
+    t.integer "day", null: false
+    t.boolean "hour00", default: false
+    t.boolean "hour01", default: false
+    t.boolean "hour02", default: false
+    t.boolean "hour03", default: false
+    t.boolean "hour04", default: false
+    t.boolean "hour05", default: false
+    t.boolean "hour06", default: false
+    t.boolean "hour07", default: false
+    t.boolean "hour08", default: false
+    t.boolean "hour09", default: false
+    t.boolean "hour10", default: false
+    t.boolean "hour11", default: false
+    t.boolean "hour12", default: false
+    t.boolean "hour13", default: false
+    t.boolean "hour14", default: false
+    t.boolean "hour15", default: false
+    t.boolean "hour16", default: false
+    t.boolean "hour17", default: false
+    t.boolean "hour18", default: false
+    t.boolean "hour19", default: false
+    t.boolean "hour20", default: false
+    t.boolean "hour21", default: false
+    t.boolean "hour22", default: false
+    t.boolean "hour23", default: false
+    t.bigint "user_id", null: false
+    t.bigint "schedule_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["schedule_id"], name: "index_schedule_availabilities_on_schedule_id"
+    t.index ["user_id"], name: "index_schedule_availabilities_on_user_id"
+  end
+
+  create_table "schedule_results", force: :cascade do |t|
+    t.bigint "day", null: false
+    t.bigint "hour00"
+    t.bigint "hour01"
+    t.bigint "hour02"
+    t.bigint "hour03"
+    t.bigint "hour04"
+    t.bigint "hour05"
+    t.bigint "hour06"
+    t.bigint "hour07"
+    t.bigint "hour08"
+    t.bigint "hour09"
+    t.bigint "hour10"
+    t.bigint "hour11"
+    t.bigint "hour12"
+    t.bigint "hour13"
+    t.bigint "hour14"
+    t.bigint "hour15"
+    t.bigint "hour16"
+    t.bigint "hour17"
+    t.bigint "hour18"
+    t.bigint "hour19"
+    t.bigint "hour20"
+    t.bigint "hour21"
+    t.bigint "hour22"
+    t.bigint "hour23"
+    t.bigint "schedule_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["schedule_id"], name: "index_schedule_results_on_schedule_id"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.integer "year", null: false
+    t.integer "week", null: false
+    t.integer "mon_hour_start", null: false
+    t.integer "mon_hour_end", null: false
+    t.integer "tue_hour_start", null: false
+    t.integer "tue_hour_end", null: false
+    t.integer "wed_hour_start", null: false
+    t.integer "wed_hour_end", null: false
+    t.integer "thu_hour_start", null: false
+    t.integer "thu_hour_end", null: false
+    t.integer "fri_hour_start", null: false
+    t.integer "fri_hour_end", null: false
+    t.integer "sat_hour_start", null: false
+    t.integer "sat_hour_end", null: false
+    t.integer "sun_hour_start", null: false
+    t.integer "sun_hour_end", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "user_details", force: :cascade do |t|
     t.string "first_names"
     t.string "last_names"
@@ -71,5 +158,8 @@ ActiveRecord::Schema[7.0].define(version: 101) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "schedule_availabilities", "schedules"
+  add_foreign_key "schedule_availabilities", "users"
+  add_foreign_key "schedule_results", "schedules"
   add_foreign_key "user_details", "users"
 end
