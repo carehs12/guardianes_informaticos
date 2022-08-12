@@ -1,17 +1,20 @@
 <script>
+import vImage from "../../../../../components/form/v-image.vue";
+
 export default {
+  components: { vImage },
   props: {
     records: {
-      required: true
+      required: true,
     },
 
     pagination: {
-      required: true
+      required: true,
     },
     query: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
   },
 
   data() {
@@ -24,7 +27,6 @@ export default {
         {
           key: "full_name",
           label: I18n.t("activerecord.attributes.user.full_name"),
-          sortable: true,
         },
         {
           key: "username",
@@ -59,13 +61,11 @@ export default {
       thead-class="bg-primary"
     >
       <template v-slot:cell(profile_picture_src)="data">
-        <b-img
-          class="img-profile-picture"
+        <v-image
           :src="data.value"
-          :fluid="true"
-          :thumbnail="true"
+          size="sm"
         >
-        </b-img>
+        </v-image>
       </template>
 
       <template v-slot:cell(email)="data">
@@ -73,7 +73,7 @@ export default {
       </template>
 
       <template v-slot:cell(full_name)="data">
-        <router-link :to="`users/${data.item.id}`">
+        <router-link :to="`users/${data.item.id}/edit`">
           <text-highlight :queries="query">{{
             data.item.first_names
           }}</text-highlight>

@@ -7,6 +7,7 @@ import TextHighlight from 'vue-text-highlight';
 // Plugins for Bus comunication and  HTTP requests
 import pluginHttp from "../plugins/http";
 import pluginBus from "../plugins/bus";
+import pluginDate from "../plugins/date";
 
 // Layout components
 import componentLayoutFooter from "../components/layout/footer.vue";
@@ -20,6 +21,7 @@ import usersRoutes from './apps/users/routes.js'
 Vue.use(VueRouter);
 Vue.use(pluginHttp);
 Vue.use(pluginBus);
+Vue.use(pluginDate);
 Vue.use(BootstrapVue);
 Vue.component('text-highlight', TextHighlight);
 

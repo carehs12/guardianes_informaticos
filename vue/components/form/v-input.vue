@@ -21,11 +21,15 @@ export default {
       required: true,
     },
     className: {
-      required: false
+      required: false,
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
+    },
+    description: {
+      type: String,
+      default: null
     }
   },
 
@@ -33,6 +37,10 @@ export default {
     return {
       input_value: null,
     };
+  },
+
+  mounted(){
+    this.input_value = this.value;
   },
 
   methods: {
@@ -60,7 +68,11 @@ export default {
 </script>
 
 <template>
-  <b-form-group :label="label">
+  <b-form-group :description="description">
+    <template v-slot:label>
+      {{ label }}
+      <sup v-if="required" class="text-danger">*</sup>
+    </template>
     <b-form-input
       :required="required"
       :type="type"

@@ -9,5 +9,8 @@ es:
     actions:
       users:
         new: Nuevo Usuario
+        save: Guardar Usuario
     shared: 
-      seach: Búsqueda
+      search: Búsqueda
+      text_back_to_index: Regresar al Listado
+      text_field_required: Este campo es requerido

@@ -18,11 +18,11 @@ class User < ApplicationRecord
     data = joins(:detail)
 
     unless query.blank?
-      subquery1 = data.where('username like ?', "%#{query}%")
-      subquery2 = data.where('first_names like ?', "%#{query}%")
-      subquery3 = data.where('last_names like ?', "%#{query}%")
+      subquery1 = data.where('lower(username) like ?', "%#{query}%")
+      subquery2 = data.where('lower(first_names) like ?', "%#{query}%")
+      subquery3 = data.where('lower(last_names) like ?', "%#{query}%")
 
-      data = data.where('email like ?', "%#{query}%").or(subquery1).or(subquery2).or(subquery3)
+      data = data.where('lower(email) like ?', "%#{query}%").or(subquery1).or(subquery2).or(subquery3)
     end
     total_records = data.count
     data = select_and_paginate_fields(data, page, per_page)

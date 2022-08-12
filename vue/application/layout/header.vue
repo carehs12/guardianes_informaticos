@@ -6,6 +6,9 @@ export default {
     },
     actionNew: {
       required: true
+    },
+    url: {
+      required: true
     }
   }
 };
@@ -18,7 +21,7 @@ export default {
       </h2>
     </div>
     <div class="col-6 text-right">
-      <router-link to="/new" class="btn btn-primary mr-1">
+      <router-link :to="`/${url}/new`" class="btn btn-primary mr-1">
         <i class="fas fa-plus-square"></i> &nbsp;
         {{ actionNew }}
       </router-link>

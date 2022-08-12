@@ -2,3 +2,8 @@ es:
   apps:
     users:
       text_search_placeholder: Búscar por correo, usuario o nombre
+      text_new_user: Nuevo Usuario
+      notifications:
+        created: Usuario creado satisfactoriamente
+        updated: Usuario actualizado satisfactoriamente
+        destroyed: Usuario eliminado satisfactoriamente

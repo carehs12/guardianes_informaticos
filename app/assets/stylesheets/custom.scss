@@ -102,7 +102,17 @@
   }
 }
 
-.img-profile-picture {
+.img-profile.size-sm {
   width: 6rem;
   max-width: 6rem;
+}
+
+.img-profile.size-md {
+  width: 10rem;
+  max-width: 10rem;
+}
+
+.img-profile.size-lg {
+  width: 15rem;
+  max-width: 15rem;
 }

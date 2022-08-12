@@ -1,6 +1,6 @@
 # Allows a user to create and manage other users through HTTP
 class UsersController < ApplicationAuthenticatedController
-  before_action :generate_password, only: %i[create update]
+  before_action :generate_password, only: %i[create]
   before_action :set_user, only: %i[update destroy]
 
   def index
@@ -84,18 +84,14 @@ class UsersController < ApplicationAuthenticatedController
       theme
       first_names
       last_names
-      phone
+      personal_phone
       emergency_phone
-      role
       birth_date
       address
     ]
   end
 
   def set_user
-    @user = User.find_by(
-      id: params[:id],
-      deleted_at: nil
-    )
+    @user = User.find_by_id(params[:id])
   end
 end

@@ -16,6 +16,6 @@ class ApplicationController < ActionController::Base
     @per_page = params[:per_page].to_i if params[:per_page]
 
     @query = nil
-    @query = params[:query] if params[:query]
+    @query = params[:query].downcase if params[:query]
   end
 end

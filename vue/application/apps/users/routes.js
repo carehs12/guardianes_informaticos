@@ -1,7 +1,6 @@
 // · Import apps and components
 import usersIndex from "./views/index.vue";
 import usersEdit from "./views/edit.vue";
-import usersShow from "./views/show.vue";
 import usersNew from "./views/new.vue";
 
 const routes = [
@@ -16,10 +15,6 @@ const routes = [
   {
     path: "/users/new",
     component: usersNew,
-  },
-  {
-    path: "/users/:id",
-    component: usersShow,
   },
   {
     path: "/users/:id/edit",

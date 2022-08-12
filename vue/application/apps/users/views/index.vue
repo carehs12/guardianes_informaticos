@@ -76,6 +76,7 @@ export default {
     <layout-header
       :title="translations.application.apps.users"
       :action-new="translations.application.actions.users.new"
+      url="users"
     ></layout-header>
     <hr />
     <component-filters v-model="filters" />
