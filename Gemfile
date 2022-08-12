@@ -60,6 +60,11 @@ group :development, :test do
 
   gem 'rubocop'
   gem 'rubocop-rails'
+
+  # Testing gems
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'rspec-rails', '= 5.1.0'
 end
 
 group :development do

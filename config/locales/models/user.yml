@@ -5,9 +5,20 @@ es:
         reset_password_token: El código para restablecer contraseña es
         username: Usuario
         password: Contraseña
+        password_confirmation: Confirmación de contraseña
+        email: Correo
+        username: Nombre de Usuario
     errors:
       models:
         user:
           attributes:
+            password_confirmation:
+              confirmation: es diferente a la contraseña nueva
             reset_password_token:
               blank: inválido 
+            email:
+              blank: no puede estar vacío
+              taken: ya existe en el sistema
+            username:
+              blank: no puede estar vacío
+              taken: ya existe en el sistema
