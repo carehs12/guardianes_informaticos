@@ -4,16 +4,20 @@ import vSubmit from "../../../../../components/form/v-submit.vue";
 import vInput from "../../../../../components/form/v-input.vue";
 import vImage from "../../../../../components/form/v-image.vue";
 import componentLoadingData from "../../../../../components/layout/loading-data.vue";
+import imageUpload from "./image-upload.vue";
+import messageNewUser from "./message-new-user.vue";
 
 import formLayout from "../../../layouts/form.vue";
 export default {
   components: {
     componentLoadingData,
-    DatePicker,
     vSubmit,
     vInput,
     formLayout,
     vImage,
+    DatePicker,
+    imageUpload,
+    messageNewUser,
   },
 
   props: {
@@ -124,13 +128,29 @@ export default {
         this.$refs["input-username"].focus();
       });
     },
+
+    setProfilePicture(picture) {
+      this.user.profile_picture_src = picture;
+    },
   },
 };
 </script>
 <template>
   <b-form @submit="submitUserHandler" v-if="user">
     <form-layout>
-      <v-image :src="user.profile_picture_src" size="md"></v-image>
+      <v-image
+        v-if="user_id"
+        :src="user.profile_picture_src"
+        size="md"
+      ></v-image>
+      <message-new-user v-else></message-new-user>
+
+      <image-upload
+        v-if="user_id"
+        :user-id="user_id"
+        @on-image-modified="setProfilePicture"
+      ></image-upload>
+
       <v-input
         :description="translations.application.shared.text_field_required"
         :label="translations.users.username"

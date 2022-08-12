@@ -10,6 +10,7 @@ es:
       users:
         new: Nuevo Usuario
         save: Guardar Usuario
+        upload_profile_picture: Cambiar Foto de Perfil
     shared: 
       search: Búsqueda
       text_back_to_index: Regresar al Listado

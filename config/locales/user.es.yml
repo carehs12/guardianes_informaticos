@@ -7,3 +7,4 @@ es:
         created: Usuario creado satisfactoriamente
         updated: Usuario actualizado satisfactoriamente
         destroyed: Usuario eliminado satisfactoriamente
+        new_user_warning: Al crear un nuevo usuario, se le colocará una contraseña aleatoria. Por favor indica a la persona que debe solicitar una nueva contraseña en la ventana de inicio de sesión la primera vez que ingrese.

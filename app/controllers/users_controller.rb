@@ -74,7 +74,7 @@ class UsersController < ApplicationAuthenticatedController
       :username,
       :password,
       :password_confirmation,
-      :clinic_id,
+      :profile_picture,
       detail_attributes: detail_attributes_params
     )
   end
