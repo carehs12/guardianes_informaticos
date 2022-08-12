@@ -10,8 +10,10 @@ es:
       users:
         new: Nuevo Usuario
         save: Guardar Usuario
+        delete: Eliminar usuario
         upload_profile_picture: Cambiar Foto de Perfil
     shared: 
       search: Búsqueda
       text_back_to_index: Regresar al Listado
       text_field_required: Este campo es requerido
+      cancel: Cancelar

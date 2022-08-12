@@ -1,8 +1,9 @@
 <script>
 import vImage from "../../../../../components/form/v-image.vue";
+import deleteConfirmation from "./delete-confirmation.vue";
 
 export default {
-  components: { vImage },
+  components: { vImage, deleteConfirmation },
   props: {
     records: {
       required: true,
@@ -46,13 +47,28 @@ export default {
           key: "address",
           label: I18n.t("activerecord.attributes.user.address"),
         },
+        {
+          key: "delete",
+          label: "",
+        },
       ],
     };
+  },
+
+  methods: {
+    showDeleteConfirmation(user) {
+      this.$refs["delete-confirmation"].confirm(user);
+    },
+
+    onUserDeleted(user){
+      this.$emit('user-deleted', user)
+    }
   },
 };
 </script>
 <template>
   <div>
+    <delete-confirmation ref="delete-confirmation" @user-deleted="onUserDeleted"></delete-confirmation>
     <b-table
       small
       :fields="headers"
@@ -61,11 +77,7 @@ export default {
       thead-class="bg-primary"
     >
       <template v-slot:cell(profile_picture_src)="data">
-        <v-image
-          :src="data.value"
-          size="sm"
-        >
-        </v-image>
+        <v-image :src="data.value" size="sm" align-to="left"> </v-image>
       </template>
 
       <template v-slot:cell(email)="data">
@@ -86,6 +98,18 @@ export default {
 
       <template v-slot:cell(username)="data">
         <text-highlight :queries="query">{{ data.value }}</text-highlight>
+      </template>
+
+      <template v-slot:cell(delete)="data">
+        <div class="text-right">
+          <b-button
+            variant="danger"
+            size="sm"
+            @click="showDeleteConfirmation(data.item)"
+          >
+            <i class="fas fa-trash-alt fa-sm"></i>
+          </b-button>
+        </div>
       </template>
     </b-table>
     <b-pagination

@@ -8,12 +8,16 @@ export default {
     size: {
       type: String,
       default: "md"
+    },
+    alignTo: {
+      type: String,
+      default: "center"
     }
   },
 };
 </script>
 <template>
-  <div class="text-center">
+  <div :class="`text-${alignTo}`">
     <b-img
       :class="`img-profile size-${size}`"
       :src="src"

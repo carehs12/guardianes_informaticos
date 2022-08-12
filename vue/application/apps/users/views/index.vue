@@ -52,6 +52,10 @@ export default {
         }
       });
     },
+
+    removeUser(user) {
+      this.users = this.users.filter((e) => e.id != user.id);
+    },
   },
 
   watch: {
@@ -85,6 +89,7 @@ export default {
       :records="users"
       :pagination="pagination"
       :query="filters"
+      @user-deleted="removeUser"
     >
     </component-table>
     <component-loading-data v-else />

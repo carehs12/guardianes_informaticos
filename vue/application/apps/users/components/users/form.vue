@@ -101,7 +101,7 @@ export default {
         this.submit.user = false;
         if (response.success) {
           this.notify(this.translations.notifications.created, "success");
-          this.$router.push(`/users/${response.data.id}`);
+          this.$router.push(`/users/${response.data.id}/edit`);
         } else {
           this.notify(response.error.message, "danger");
         }
