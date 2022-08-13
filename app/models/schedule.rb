@@ -4,6 +4,7 @@ class Schedule < ApplicationRecord
   has_many :availabilities, inverse_of: :schedule, class_name: 'Schedule::Availability', autosave: true,
                             dependent: :destroy
   has_many :results, inverse_of: :schedule, class_name: 'Schedule::Result', autosave: true, dependent: :destroy
+  belongs_to :service, inverse_of: :schedules, class_name: 'Service'
 
   # Validations
   validates :year, :week, presence: true

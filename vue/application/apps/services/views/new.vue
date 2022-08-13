@@ -1,5 +1,5 @@
 <script>
-import componentForm from "../components/users/form.vue";
+import componentForm from "../components/services/form.vue";
 import layoutMain from "../../../layout/main.vue";
 import layoutHeader from "../../../layout/header.vue";
 
@@ -9,7 +9,7 @@ export default {
     return {
       translations: {
         application: I18n.t("application"),
-        users: I18n.t("apps.users"),
+        services: I18n.t("apps.services"),
       },
     };
   },
@@ -18,16 +18,15 @@ export default {
 <template>
   <layout-main>
     <layout-header
-      :title="translations.users.text_edit_user"
-      :action-new="translations.application.actions.users.new"
-      url="users"
+      :title="translations.services.text_new_service"
+      url="services"
     >
-      <router-link to="/users">
+      <router-link to="/services">
         <i class="fas fa-long-arrow-alt-left"></i>
         {{ translations.application.shared.text_back_to_index }}
       </router-link>
     </layout-header>
     <hr />
-    <component-form class="mb-5" mode="edition" />
+    <component-form class="mb-5" mode="creation" />
   </layout-main>
 </template>

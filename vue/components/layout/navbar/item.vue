@@ -3,7 +3,11 @@ export default {
   props: {
     url: {
       type: String,
-      required: true,
+      default: null,
+    },
+    to: {
+      type: String,
+      default: null,
     },
     icon: {
       type: String,
@@ -17,7 +21,7 @@ export default {
 };
 </script>
 <template>
-  <b-nav-item :href="url">
+  <b-nav-item :to="to" :href="url">
     <i v-if="icon" :class="`fas fa-${icon}`"></i>
     {{ title }}
   </b-nav-item>

@@ -4,14 +4,23 @@ es:
     apps:
       users: Usuarios
       schedules: Horarios
+      services: Servicios
       profile: Mi Perfil
       logout: Cerrar Sesión
     actions:
+      services:
+        new: Nuevo Servicio
+        save: Guardar Servicio
+        delete: Eliminar Servicio
       users:
         new: Nuevo Usuario
         save: Guardar Usuario
-        delete: Eliminar usuario
+        delete: Eliminar Usuario
         upload_profile_picture: Cambiar Foto de Perfil
+      schedules:
+        new: Nuevo Horario
+        create: Guardar Configuración
+        delete: Eliminar Horario
     shared: 
       search: Búsqueda
       text_back_to_index: Regresar al Listado

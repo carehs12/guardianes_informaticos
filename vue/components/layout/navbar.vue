@@ -21,14 +21,19 @@ export default {
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
         <navbar-item
-          url="/users"
+          to="/users"
           icon="user"
           :title="translations.application.apps.users"
         ></navbar-item>
         <navbar-item
-          url="/horarios"
+          to="/schedules"
           icon="list"
           :title="translations.application.apps.schedules"
+        ></navbar-item>
+        <navbar-item
+          to="/services"
+          icon="book"
+          :title="translations.application.apps.services"
         ></navbar-item>
       </b-navbar-nav>
 

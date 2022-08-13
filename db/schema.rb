@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 203) do
+ActiveRecord::Schema[7.0].define(version: 303) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -125,8 +125,17 @@ ActiveRecord::Schema[7.0].define(version: 203) do
     t.integer "sat_hour_end"
     t.integer "sun_hour_start"
     t.integer "sun_hour_end"
+    t.bigint "service_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_schedules_on_service_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_services_on_name", unique: true
   end
 
   create_table "user_details", force: :cascade do |t|
@@ -159,5 +168,6 @@ ActiveRecord::Schema[7.0].define(version: 203) do
   add_foreign_key "schedule_availabilities", "schedules"
   add_foreign_key "schedule_availabilities", "users"
   add_foreign_key "schedule_results", "schedules"
+  add_foreign_key "schedules", "services"
   add_foreign_key "user_details", "users"
 end

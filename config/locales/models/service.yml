@@ -1,0 +1,15 @@
+es:
+  activerecord:
+    attributes:
+      service:
+        name: Nombre
+    errors:
+      models:
+        service:
+          attributes:
+            base:
+              service_is_associated_with_schedule: No se puede eliminar el servicio porque esta asociado a uno o más horarios
+            name:
+              taken: ya existe en el sistema
+              blank: inválido
+              invalid: inválido
