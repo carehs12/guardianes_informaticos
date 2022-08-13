@@ -20,6 +20,8 @@ class CreateSchedules < ActiveRecord::Migration[7.0]
       t.integer :sun_hour_start
       t.integer :sun_hour_end
 
+      t.references :service, null: false, foreign_key: true
+
       t.timestamps
     end
   end

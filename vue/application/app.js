@@ -17,6 +17,7 @@ import componentLayoutNavbar from "../components/layout/navbar.vue";
 // Application routes
 import usersRoutes from "./apps/users/routes.js";
 import schedulesRoutes from "./apps/schedules/routes.js";
+import servicesRoutes from "./apps/services/routes.js";
 
 Vue.use(VueRouter);
 Vue.use(pluginHttp);
@@ -26,7 +27,7 @@ Vue.use(BootstrapVue);
 Vue.component("text-highlight", TextHighlight);
 
 var appRouter = new VueRouter({
-  routes: [].concat(usersRoutes).concat(schedulesRoutes),
+  routes: [].concat(usersRoutes).concat(schedulesRoutes).concat(servicesRoutes),
 });
 
 // Mounting the vue app

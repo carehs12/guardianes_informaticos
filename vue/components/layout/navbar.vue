@@ -30,6 +30,11 @@ export default {
           icon="list"
           :title="translations.application.apps.schedules"
         ></navbar-item>
+        <navbar-item
+          to="/services"
+          icon="book"
+          :title="translations.application.apps.services"
+        ></navbar-item>
       </b-navbar-nav>
 
       <!-- Right aligned elements -->

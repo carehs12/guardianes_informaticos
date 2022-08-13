@@ -8,3 +8,7 @@ User.create!(
     last_names: 'Hermosilla Samayoa'
   }
 )
+
+Service.create!(
+  name: 'Servicio de Ejemplo'
+)

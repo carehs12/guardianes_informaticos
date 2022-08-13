@@ -4,9 +4,14 @@ es:
     apps:
       users: Usuarios
       schedules: Horarios
+      services: Servicios
       profile: Mi Perfil
       logout: Cerrar Sesión
     actions:
+      services:
+        new: Nuevo Servicio
+        save: Guardar Servicio
+        delete: Eliminar Servicio
       users:
         new: Nuevo Usuario
         save: Guardar Usuario

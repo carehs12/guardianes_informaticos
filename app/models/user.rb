@@ -26,7 +26,7 @@ class User < ApplicationRecord
     end
     total_records = data.count
     data = select_and_paginate_fields(data, page, per_page)
-    paginate_records(total_records, data)
+    pagination_format(total_records, data)
   end
 
   def show

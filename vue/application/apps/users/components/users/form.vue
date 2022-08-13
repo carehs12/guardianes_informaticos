@@ -191,7 +191,6 @@ export default {
               class="form-control"
               v-on="inputEvents"
               :value="inputValue"
-              placeholder="(T) Seleccionar Fecha"
             />
           </template>
         </date-picker>

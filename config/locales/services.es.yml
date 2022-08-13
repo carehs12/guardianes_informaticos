@@ -1,0 +1,11 @@
+es:
+  apps:
+    services:
+      text_search_placeholder: Búscar por nombre
+      text_new_user: Nuevo Servicio
+      text_confirm_deletion: ¿Realmente deseas eliminar este servicio? Toma en cuenta que solo podrás eliminarlo si no se encuentra asociado a ningun horario
+      title_confirm_deletion: Eliminar Servicio
+      notifications:
+        created: Servicio creado satisfactoriamente
+        updated: Servicio actualizado satisfactoriamente
+        destroyed: Servicio eliminado satisfactoriamente

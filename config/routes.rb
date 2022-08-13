@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     root to: 'application_authenticated#show', as: 'root_authenticated'
 
     resources :users, only: %i[index show create update destroy]
+    resources :services, only: %i[index show create update destroy]
     resources :schedules, only: %i[index show create update destroy]
   end
 
