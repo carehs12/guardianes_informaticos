@@ -2,7 +2,8 @@ es:
   apps:
     services:
       text_search_placeholder: Búscar por nombre
-      text_new_user: Nuevo Servicio
+      text_new_service: Nuevo Servicio
+      text_edit_service: Editar Servicio
       text_confirm_deletion: ¿Realmente deseas eliminar este servicio? Toma en cuenta que solo podrás eliminarlo si no se encuentra asociado a ningun horario
       title_confirm_deletion: Eliminar Servicio
       notifications:

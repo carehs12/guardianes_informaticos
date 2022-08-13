@@ -3,6 +3,7 @@ es:
     users:
       text_search_placeholder: Búscar por correo, usuario o nombre
       text_new_user: Nuevo Usuario
+      text_edit_user: Editar Usuario
       text_confirm_deletion: ¿Realmente deseas eliminar este usuario? Toma en cuenta que solo podrás eliminarlo si no se encuentra asociado a ningun horario
       title_confirm_deletion: Eliminar Usuario
       notifications:

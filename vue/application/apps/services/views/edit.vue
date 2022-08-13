@@ -1,9 +1,10 @@
 <script>
 import componentForm from "../components/services/form.vue";
 import layoutMain from "../../../layout/main.vue";
+import layoutHeader from "../../../layout/header.vue";
 
 export default {
-  components: { componentForm, layoutMain },
+  components: { componentForm, layoutMain, layoutHeader },
   data() {
     return {
       translations: {
@@ -16,17 +17,16 @@ export default {
 </script>
 <template>
   <layout-main>
-    <div class="row">
-      <div class="col-12">
-        <h3>
-          <b>{{ translations.services.text_new_service }}</b>
-        </h3>
-        <router-link to="/services">
-          <i class="fas fa-long-arrow-alt-left"></i>
-          {{ translations.application.shared.text_back_to_index }}
-        </router-link>
-      </div>
-    </div>
+    <layout-header
+      :title="translations.services.text_edit_service"
+      :action-new="translations.application.actions.services.new"
+      url="services"
+    >
+      <router-link to="/services">
+        <i class="fas fa-long-arrow-alt-left"></i>
+        {{ translations.application.shared.text_back_to_index }}
+      </router-link>
+    </layout-header>
     <hr />
     <component-form class="mb-5" mode="edition" />
   </layout-main>
