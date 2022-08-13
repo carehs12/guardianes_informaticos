@@ -79,7 +79,13 @@ namespace :test do
     # puts Scheduler::EmployeeService.find_matching_group(groups1, groups2, 3)
   end
 
-  task test_model: :environtment do
-    
+  task test_model: :environment do
+    x  = [[[0,0,0,0,0,nil,0,nil,0,0,0,nil,0,0,0,0,nil,nil,0,nil,0,0,0,0],[0,nil,0,0,nil,0,nil,0,0,nil,0,nil,nil,nil,nil,nil,0,0,0,0,0,0,nil,nil],[0,0,nil,0,0,0,0,nil,0,0,nil,nil,0,nil,0,nil,0,nil,nil,0,0,0,0,nil],[0,nil,0,nil,nil,0,0,0,0,0,0,0,0,0,0,nil,0,0,0,0,0,0,nil,nil],[0,0,nil,0,nil,0,0,nil,0,0,0,0,0,0,0,0,nil,0,0,0,nil,nil,0,0],[0,nil,0,0,0,nil,0,0,nil,0,nil,0,nil,0,0,0,0,nil,0,0,nil,0,0,nil],[0,nil,0,0,0,0,nil,nil,0,0,0,0,nil,0,0,0,0,nil,nil,nil,0,nil,0,nil]],[[nil,1,1,1,1,1,1,1,1,1,1,nil,1,nil,1,nil,1,nil,nil,1,1,nil,1,nil],[1,1,1,1,1,1,nil,1,nil,1,nil,1,nil,1,nil,nil,nil,1,nil,1,nil,nil,1,1],[nil,nil,1,1,1,nil,1,1,nil,1,1,1,1,nil,1,1,nil,1,1,nil,1,1,nil,1],[1,nil,1,1,nil,nil,nil,1,1,nil,1,nil,1,nil,nil,1,nil,nil,1,nil,nil,1,1,nil],[nil,1,1,1,1,1,nil,1,nil,1,1,nil,nil,1,nil,1,nil,1,nil,1,1,nil,nil,1],[1,nil,nil,1,1,1,nil,nil,1,1,1,nil,1,1,1,1,1,1,1,nil,1,nil,nil,1],[nil,1,nil,nil,1,1,1,nil,1,nil,1,nil,1,1,1,1,nil,nil,1,1,1,1,1,nil]],[[2,2,nil,2,2,nil,nil,nil,2,nil,nil,2,2,2,2,nil,2,2,nil,2,nil,nil,nil,2],[nil,2,nil,nil,nil,2,2,nil,nil,2,nil,2,nil,2,nil,2,2,2,nil,nil,2,2,2,2],[2,nil,nil,2,2,2,2,2,2,nil,2,2,nil,2,nil,2,2,2,2,2,2,2,2,2],[nil,nil,nil,2,nil,2,2,2,2,nil,nil,nil,2,nil,2,nil,2,2,2,2,nil,nil,2,2],[nil,2,2,2,2,nil,nil,nil,nil,nil,nil,nil,2,2,2,2,2,nil,2,2,2,nil,2,2],[2,nil,2,2,2,2,2,nil,2,2,2,2,2,2,nil,2,2,2,2,2,2,2,2,2],[2,2,nil,2,2,2,2,2,nil,2,nil,2,2,2,nil,2,nil,2,nil,2,2,2,2,2]]]
+    optimizer = OptimizerService.new(x)
+    schedule = optimizer.optimize_shifts
+    puts 'SCHEDULE IS'
+    puts schedule.to_json
+    puts optimizer.schedule_service.work_hours.to_json
+  
   end
 end
