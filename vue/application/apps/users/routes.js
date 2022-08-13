@@ -5,10 +5,6 @@ import usersNew from "./views/new.vue";
 
 const routes = [
   {
-    path: "/",
-    redirect: "/users",
-  },
-  {
     path: "/users",
     component: usersIndex,
   },
