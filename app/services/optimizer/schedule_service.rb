@@ -83,8 +83,8 @@ module Optimizer
     #   have the same time windows for both employees. This allows both employees to swap schedules without issues. If
     #   no group is found, then nil is returned instead.
     def find_matching_group(scheduled_groups, unscheduled_groups, size, groups_a_index = 0, groups_b_index = 0)
-      scheduled_groups = scheduled_groups.sort_by { |e| e[:day] }
-      unscheduled_groups = unscheduled_groups.sort_by { |e| e[:day] }
+      scheduled_groups = scheduled_groups.sort_by { |e| group_value(e) }
+      unscheduled_groups = unscheduled_groups.sort_by { |e| group_value(e) }
       index_a, index_b = align_group_indexes(scheduled_groups, unscheduled_groups, groups_a_index, groups_b_index)
       return nil if index_a.nil?
 
@@ -92,6 +92,13 @@ module Optimizer
       return matching_hours if matching_hours
 
       find_matching_group(scheduled_groups, unscheduled_groups, size, index_a + 1, index_b)
+    end
+
+    # @param group [Hash] A hash containing one availability group
+    # @return [Integer] The numeric value of the group
+    # @description Assigns a numeric value to the group based on the day and hour
+    def group_value(group)
+      24 * group[:day] + group[:start_hour]
     end
 
     # @param scheduled_group A selected group that hopefully is currently scheduled and that will be swapped
@@ -164,7 +171,7 @@ module Optimizer
     # @description Searches the groups arrays, finding the first element of each in which the days match.
     #   It is on this day, that the employees can swap assigned schedules, if the hours also match.
     def align_group_indexes(scheduled_groups, unscheduled_groups, index_a, index_b)
-      while index_b < unscheduled_groups.size && index_a < unscheduled_groups.size
+      while index_b < unscheduled_groups.size && index_a < scheduled_groups.size
         day_a = scheduled_groups[index_a][:day]
         day_b = unscheduled_groups[index_b][:day]
         return [index_a, index_b] if day_a == day_b

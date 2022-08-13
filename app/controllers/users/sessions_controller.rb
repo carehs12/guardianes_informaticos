@@ -8,7 +8,6 @@ module Users
       resource = User.find_for_database_authentication(username: sign_in_params[:username])
 
       return respond_http_bad_request(t('.incorrect_username_or_password')) unless resource
-      return respond_http_bad_request(t('.incorrect_username_or_password')) if resource.deleted_at
 
       unless resource.valid_password?(sign_in_params[:password])
         return respond_http_bad_request(t('.incorrect_username_or_password'))

@@ -60,6 +60,15 @@ class User < ApplicationRecord
     add_profile_pictures(paginate_data(data, page, per_page))
   end
 
+  def destroy
+    if Schedule::Availability.where(user: self).count.positive?
+      errors.add(:base, :user_is_associated_with_schedule)
+      return
+    end
+
+    super
+  end
+
   def profile_picture_src
     return ActionController::Base.helpers.asset_path('no-profile-picture.png') unless profile_picture.attached?
 

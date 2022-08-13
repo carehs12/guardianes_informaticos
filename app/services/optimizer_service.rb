@@ -38,7 +38,7 @@ class OptimizerService
     execute_optimization_loop(current_cost)
     calculate_costs
 
-    @schedule_service.schedule
+    [@schedule_service.schedule, @cost, @schedule_service.work_hours]
   end
 
   protected
@@ -119,6 +119,7 @@ class OptimizerService
     end
 
     hours_difference = @cost[:hours_difference] - 1
+    hours_difference = 0 if hours_difference.negative?
     swap_size_limit.max >= hours_difference ? hours_difference : swap_size_limit.max
   end
 
