@@ -8,6 +8,16 @@ RSpec.describe Schedule, type: :model do
     expect(schedule.results.size).to eq(7)
   end
 
+  it 'creates 7 availabilities for a single user' do
+    schedule = FactoryBot.create(:schedule)
+    user = FactoryBot.create(:user)
+
+    expect(schedule.availabilities.size).to eq(0)
+    schedule.create_availabilities(user)
+    expect(schedule.availabilities.size).to eq(7)
+    expect(schedule.availabilities.first.user.id).to eq(user.id)
+  end
+
   it 'fails to create a schedule if the limits on a day are invalid' do
     schedule_attributes = FactoryBot.attributes_for(:schedule)
     schedule_attributes[:mon_hour_start] = nil

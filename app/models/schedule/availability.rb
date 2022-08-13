@@ -1,7 +1,7 @@
 class Schedule
   class Availability < ApplicationRecord
     # Model Associations
-    belongs_to :schedule, inverse_of: :availabities
+    belongs_to :schedule, inverse_of: :availabilities
     belongs_to :user
 
     # Validations
