@@ -38,7 +38,7 @@ class OptimizerService
     execute_optimization_loop(current_cost)
     calculate_costs
 
-    @schedule_service.schedule
+    [@schedule_service.schedule, @cost, @schedule_service.work_hours]
   end
 
   protected
