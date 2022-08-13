@@ -26,7 +26,7 @@ class Schedule < ApplicationRecord
     user_keys, algorithm_data = generate_algorithm_data
     hours_array = self.class.hours_array
     optimizer = OptimizerService.new(algorithm_data)
-    result, cost, work_hours = optimizer.optimize_shifts
+    result, _cost, _work_hours = optimizer.optimize_shifts
 
     result.each_with_index do |day_data, day_index|
       day_data.each_with_index do |user_index, hour_index|
