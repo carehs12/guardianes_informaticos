@@ -78,4 +78,8 @@ namespace :test do
     # puts 'xx'
     # puts Scheduler::EmployeeService.find_matching_group(groups1, groups2, 3)
   end
+
+  task test_model: :environtment do
+    
+  end
 end

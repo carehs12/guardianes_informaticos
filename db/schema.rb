@@ -111,20 +111,20 @@ ActiveRecord::Schema[7.0].define(version: 203) do
   create_table "schedules", force: :cascade do |t|
     t.integer "year", null: false
     t.integer "week", null: false
-    t.integer "mon_hour_start", null: false
-    t.integer "mon_hour_end", null: false
-    t.integer "tue_hour_start", null: false
-    t.integer "tue_hour_end", null: false
-    t.integer "wed_hour_start", null: false
-    t.integer "wed_hour_end", null: false
-    t.integer "thu_hour_start", null: false
-    t.integer "thu_hour_end", null: false
-    t.integer "fri_hour_start", null: false
-    t.integer "fri_hour_end", null: false
-    t.integer "sat_hour_start", null: false
-    t.integer "sat_hour_end", null: false
-    t.integer "sun_hour_start", null: false
-    t.integer "sun_hour_end", null: false
+    t.integer "mon_hour_start"
+    t.integer "mon_hour_end"
+    t.integer "tue_hour_start"
+    t.integer "tue_hour_end"
+    t.integer "wed_hour_start"
+    t.integer "wed_hour_end"
+    t.integer "thu_hour_start"
+    t.integer "thu_hour_end"
+    t.integer "fri_hour_start"
+    t.integer "fri_hour_end"
+    t.integer "sat_hour_start"
+    t.integer "sat_hour_end"
+    t.integer "sun_hour_start"
+    t.integer "sun_hour_end"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -136,7 +136,6 @@ ActiveRecord::Schema[7.0].define(version: 203) do
     t.text "address"
     t.text "personal_phone"
     t.text "emergency_phone"
-    t.string "theme"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -149,7 +148,6 @@ ActiveRecord::Schema[7.0].define(version: 203) do
     t.string "email"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

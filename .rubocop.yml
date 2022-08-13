@@ -9,19 +9,17 @@ AllCops:
     - 'bin/bundle'
     - 'lib/tasks/test.rake'
     - 'db/schema.rb'
+    - 'db/migrate/00000002_add_service_name_to_active_storage_blobs.active_storage.rb'
 
 Metrics/BlockLength:
   Exclude:
+    - 'db/migrate/*'
     - 'spec/models/*/*'
     - 'spec/requests/*'
     - 'spec/requests/*/*'
     - 'config/environments/development.rb'
 
 Metrics/MethodLength:
-  Exclude:
-    - 'db/migrate/*'
-
-Metrics/BlockLength:
   Exclude:
     - 'db/migrate/*'
 
