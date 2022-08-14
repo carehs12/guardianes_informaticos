@@ -1,0 +1,6 @@
+es:
+  activerecord:
+    attributes:
+      schedule:
+        hour: Hora
+        user: Encargado

@@ -15,6 +15,15 @@ export default {
     },
   },
 
+  data(){
+    return {
+      translations: {
+        application: I18n.t("application"),
+        schedules: I18n.t("apps.schedules")
+      },
+    }
+  },
+
   computed: {
     weekStart() {
       return this.date.format(this.date.weekStart(this.scheduleDate));
@@ -30,12 +39,12 @@ export default {
   <div>
     <h5 class="mb-0">
       <b>
-        (T) Semana del {{ weekStart }} al {{ weekEnd }} - {{ serviceName }}
+        {{translations.application.shared.text_week_range}} {{ weekStart }} - {{ weekEnd }} - {{ serviceName }}
       </b>
     </h5>
     <router-link v-if="scheduleId" :to="`/schedules/${scheduleId}/edit`">
       <i class="fas fa-edit"></i>
-      {{ "(T) Editar" }}
+      {{ translations.schedules.text_edit_schedule }}
     </router-link>
   </div>
 </template>

@@ -21,6 +21,7 @@ export default {
     return {
       translations: {
         application: I18n.t("application"),
+        schedules: I18n.t("apps.schedules")
       },
       filters: {
         year: null,
@@ -111,8 +112,7 @@ export default {
         </div>
         <div v-else class="text-center text-muted">
           <h4>
-            (T) No hay ningúna fecha seleccionada o no hay ningún horario
-            asociado a esta
+            {{translations.schedules.notifications.no_schedule_found}}
             <br />
             <i class="mt-3 fas fa-folder-open fa-2x"></i>
           </h4>

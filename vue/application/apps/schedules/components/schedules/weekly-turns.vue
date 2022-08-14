@@ -9,6 +9,14 @@ export default {
     },
   },
 
+  data(){
+    return {
+      translations: {
+        schedule: I18n.t("activerecord.attributes.schedule")
+      }
+    }
+  },
+
   methods: {
     weekdayDate(index) {
       let new_date = this.date.weekStart(this.scheduleDate);
@@ -32,8 +40,8 @@ export default {
         </thead>
         <tbody>
           <tr>
-            <td class="text-center"><b>(T) Hora</b></td>
-            <td class="text-center"><b>(T) Encargado</b></td>
+            <td class="text-center"><b>{{translations.schedule.hour}}</b></td>
+            <td class="text-center"><b>{{translations.schedule.user}}</b></td>
           </tr>
           <tr
             v-for="(hour, index) in day.schedules"

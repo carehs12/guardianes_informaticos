@@ -14,6 +14,10 @@ export default {
 
   data() {
     return {
+      translations: {
+        application: I18n.t("application"),
+        schedules: I18n.t("apps.schedules")
+      },
       submit: {
         search: false,
       },
@@ -72,13 +76,13 @@ export default {
   <div class="card">
     <div class="card-body">
       <div class="text-center">
-        <h5><b>(T) Buscar Horario</b></h5>
+        <h5><b>{{translations.schedules.text_search}}</b></h5>
       </div>
       <b-form @submit="getScheduleHandler">
-        <v-date v-model="filters.date" :label="'(T) Selecciona una Fecha'">
+        <v-date v-model="filters.date" :label="translations.application.shared.text_select_date">
         </v-date>
         <v-input
-          :label="'(T) Semana'"
+          :label="translations.application.shared.week"
           type="text"
           readonly
           :min="1"
@@ -87,7 +91,7 @@ export default {
         >
         </v-input>
         <v-input
-          :label="'(T) Año'"
+          :label="translations.application.shared.year"
           type="text"
           readonly
           :min="0"
@@ -95,7 +99,7 @@ export default {
         ></v-input>
         <v-submit
           :submitting="submit.search"
-          :title="'(T) Buscar Horario'"
+          :title="translations.schedules.text_search"
           icon="fa-search"
         ></v-submit
       ></b-form>
