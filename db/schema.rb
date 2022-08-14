@@ -111,6 +111,7 @@ ActiveRecord::Schema[7.0].define(version: 303) do
   create_table "schedules", force: :cascade do |t|
     t.integer "year", null: false
     t.integer "week", null: false
+    t.json "assigned_hours"
     t.bigint "service_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

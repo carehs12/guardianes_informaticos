@@ -36,7 +36,7 @@ export default {
 };
 </script>
 <template>
-  <div>
+  <div  class="mb-3">
     <h5 class="mb-0">
       <b>
         {{translations.application.shared.text_week_range}} {{ weekStart }} - {{ weekEnd }} - {{ serviceName }}

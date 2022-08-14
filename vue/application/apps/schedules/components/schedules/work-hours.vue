@@ -12,7 +12,7 @@ export default {
         schedules: I18n.t("apps.schedules")
       },
       fields: [
-        { key: "full_name", label: I18n.t("activerecord.attributes.schedule.user") },
+        { key: "user", label: I18n.t("activerecord.attributes.schedule.user") },
         { key: "work_hours", label: I18n.t("apps.schedules.text_assigned_hours") },
       ],
     };

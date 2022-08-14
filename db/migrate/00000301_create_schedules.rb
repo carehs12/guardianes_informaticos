@@ -4,6 +4,7 @@ class CreateSchedules < ActiveRecord::Migration[7.0]
     create_table :schedules do |t|
       t.integer :year, null: false
       t.integer :week, null: false
+      t.json :assigned_hours
 
       t.references :service, null: false, foreign_key: true
 

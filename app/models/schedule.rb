@@ -23,10 +23,15 @@ class Schedule < ApplicationRecord
   end
 
   def show
+    work_hours = assigned_hours.map do |assigned_hour|
+      { user: User.find(assigned_hour['user_id']).full_name, work_hours: assigned_hour['work_hours'] }
+    end
+
     {
       id: id,
       service_name: service.name,
-      results: Schedule::Result.format(self)
+      results: Schedule::Result.format(self),
+      work_hours: work_hours
     }
   end
 
@@ -39,8 +44,8 @@ class Schedule < ApplicationRecord
   def perform_optimization
     user_keys, algorithm_data = generate_algorithm_data
     hours_array = self.class.hours_array
-    optimizer = OptimizerService.new(algorithm_data)
-    result, _cost, _work_hours = optimizer.optimize_shifts
+    result, _cost, work_hours = create_and_execute_optimizer(algorithm_data)
+    update_assigned_hours(user_keys, work_hours)
 
     result.each_with_index do |day_data, day_index|
       day_data.each_with_index do |user_index, hour_index|
@@ -49,6 +54,22 @@ class Schedule < ApplicationRecord
         results.find_by(day: day_index).update(hours_array[hour_index] => user_keys[user_index])
       end
     end
+  end
+
+  def create_and_execute_optimizer(algorithm_data)
+    optimizer = OptimizerService.new(algorithm_data)
+    optimizer.optimize_shifts
+  end
+
+  def update_assigned_hours(user_keys, work_hours)
+    work_hours = work_hours.keys.map do |user_index|
+      {
+        user_id: user_keys[user_index],
+        work_hours: work_hours[user_index]
+      }
+    end
+
+    update!(assigned_hours: work_hours)
   end
 
   def generate_algorithm_data

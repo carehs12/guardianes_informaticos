@@ -1,10 +1,9 @@
 <script>
 import vInput from "../../../../../components/form/v-input.vue";
 import vDate from "../../../../../components/form/v-date.vue";
-import vSubmit from "../../../../../components/form/v-submit.vue";
 
 export default {
-  components: { vInput, vDate, vSubmit },
+  components: { vInput, vDate },
   props: {
     value: {
       type: Object,
@@ -16,7 +15,7 @@ export default {
     return {
       translations: {
         application: I18n.t("application"),
-        schedules: I18n.t("apps.schedules")
+        schedules: I18n.t("apps.schedules"),
       },
       submit: {
         search: false,
@@ -76,10 +75,15 @@ export default {
   <div class="card">
     <div class="card-body">
       <div class="text-center">
-        <h5><b>{{translations.schedules.text_search}}</b></h5>
+        <h5>
+          <b>{{ translations.schedules.text_search }}</b>
+        </h5>
       </div>
       <b-form @submit="getScheduleHandler">
-        <v-date v-model="filters.date" :label="translations.application.shared.text_select_date">
+        <v-date
+          v-model="filters.date"
+          :label="translations.application.shared.text_select_date"
+        >
         </v-date>
         <v-input
           :label="translations.application.shared.week"
@@ -96,12 +100,7 @@ export default {
           readonly
           :min="0"
           v-model="filters.year"
-        ></v-input>
-        <v-submit
-          :submitting="submit.search"
-          :title="translations.schedules.text_search"
-          icon="fa-search"
-        ></v-submit
+        ></v-input
       ></b-form>
     </div>
   </div>

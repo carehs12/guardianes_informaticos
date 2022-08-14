@@ -21,30 +21,17 @@ export default {
     return {
       translations: {
         application: I18n.t("application"),
-        schedules: I18n.t("apps.schedules")
+        schedules: I18n.t("apps.schedules"),
       },
       filters: {
         year: null,
         week: null,
         date: new Date(),
       },
-      work_hours: [
-        {
-          full_name: "Carlos Hermosilla",
-          work_hours: 15,
-        },
-        {
-          full_name: "Mafer Ovando",
-          work_hours: 19,
-        },
-        {
-          full_name: "Jose Pérez",
-          work_hours: 18,
-        },
-      ],
       schedule: {
         id: null,
-        results: []
+        results: [],
+        work_hours: [],
       },
     };
   },
@@ -68,7 +55,7 @@ export default {
         if (response.success) {
           this.schedule = response.data;
         } else if (response.status == 404) {
-          this.schedule = { id: null, results: [] };
+          this.schedule = { id: null, results: [], work_hours: [] };
         } else {
           this.notify(response.error.message, "danger");
         }
@@ -96,7 +83,9 @@ export default {
     <div class="row">
       <div class="col-3">
         <component-filters v-model="filters" />
-        <component-work-hours :work-hours="work_hours"></component-work-hours>
+        <component-work-hours
+          :work-hours="schedule.work_hours"
+        ></component-work-hours>
       </div>
       <div class="col-9">
         <div v-if="filters.date && schedule.id">
@@ -112,7 +101,7 @@ export default {
         </div>
         <div v-else class="text-center text-muted">
           <h4>
-            {{translations.schedules.notifications.no_schedule_found}}
+            {{ translations.schedules.notifications.no_schedule_found }}
             <br />
             <i class="mt-3 fas fa-folder-open fa-2x"></i>
           </h4>
