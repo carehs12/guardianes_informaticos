@@ -21,7 +21,11 @@ export default {
 </script>
 <template>
   <div class="row">
-    <div v-for="(day, day_index) in scheduleResults" class="col-4" :key="day.id">
+    <div
+      v-for="(day, day_index) in scheduleResults"
+      class="col-4"
+      :key="day.id"
+    >
       <table class="table b-table table-striped table-sm">
         <thead>
           <th colspan="2" class="text-center">{{ weekdayDate(day_index) }}</th>
@@ -36,7 +40,11 @@ export default {
             :key="`${day.id}-${index}`"
           >
             <td class="text-center">
-              {{ date.zeroPad(day.start_at + index) }}:00
+              <b>
+                <span :class="{ 'text-danger': !hour.user, 'text-success': hour.user}">
+                  {{ date.zeroPad(day.start_at + index) }}:00
+                </span>
+              </b>
             </td>
             <td class="text-center">
               <span v-if="hour.user">

@@ -1,8 +1,0 @@
-es:
-  activerecord:
-    errors:
-      models:
-        schedule:
-          attributes:
-            base:
-              schedule_configuration_is_invalid: La configuracion del horario es inválida. Esto se puede deber a configurar solo inicio o fin para un día, que la hora de inicio se mayor a la de fin, o que los valores esten arriba de 23 o abajo de 0 horas.

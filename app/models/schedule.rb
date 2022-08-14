@@ -10,7 +10,6 @@ class Schedule < ApplicationRecord
   validates :year, :week, presence: true
 
   # Hooks
-  before_create :validate_data
   after_create :create_results
 
   def create_availabilities(user)
@@ -68,14 +67,6 @@ class Schedule < ApplicationRecord
     availabilities.where(user_id: user_id).order(:day).map do |availability|
       self.class.hours_array.map { |key| availability[key] ? index : nil }
     end
-  end
-
-  def validate_data
-    validator = ValidatorService.new(self)
-    return true if validator.validate_schedule
-
-    errors.add(:base, :schedule_configuration_is_invalid)
-    raise ActiveRecord::Rollback
   end
 
   def create_results

@@ -111,6 +111,14 @@ ActiveRecord::Schema[7.0].define(version: 303) do
   create_table "schedules", force: :cascade do |t|
     t.integer "year", null: false
     t.integer "week", null: false
+    t.bigint "service_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_schedules_on_service_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "name", null: false
     t.integer "mon_hour_start"
     t.integer "mon_hour_end"
     t.integer "tue_hour_start"
@@ -125,14 +133,6 @@ ActiveRecord::Schema[7.0].define(version: 303) do
     t.integer "sat_hour_end"
     t.integer "sun_hour_start"
     t.integer "sun_hour_end"
-    t.bigint "service_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["service_id"], name: "index_schedules_on_service_id"
-  end
-
-  create_table "services", force: :cascade do |t|
-    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_services_on_name", unique: true
