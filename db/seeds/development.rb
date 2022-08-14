@@ -26,3 +26,18 @@ Service.create!(
   sun_hour_start: 10,
   sun_hour_end: 20
 )
+
+3.times { FactoryBot.create(:user) }
+3.times do
+  schedule = FactoryBot.create(:schedule)
+  users = User.order('random()').limit(3)
+  users.each { |user| schedule.create_availabilities(user) }
+
+  users.map do |user|
+    (0..6).each do |day|
+      availability_attributes = FactoryBot.attributes_for(:schedule_availability)
+      schedule.availabilities.where(user: user, day: day).update!(availability_attributes)
+    end
+  end
+  schedule.optimize
+end

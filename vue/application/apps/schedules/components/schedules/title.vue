@@ -29,10 +29,9 @@ export default {
 <template>
   <div>
     <h5 class="mb-0">
-      <b v-if="scheduleId"
-        >(T) Semana del {{ weekStart }} al {{ weekEnd }} - {{ serviceName }}</b
-      >
-      <b v-else>(T) No existe un horario para la semana seleccionada</b>
+      <b>
+        (T) Semana del {{ weekStart }} al {{ weekEnd }} - {{ serviceName }}
+      </b>
     </h5>
     <router-link v-if="scheduleId" :to="`/schedules/${scheduleId}/edit`">
       <i class="fas fa-edit"></i>

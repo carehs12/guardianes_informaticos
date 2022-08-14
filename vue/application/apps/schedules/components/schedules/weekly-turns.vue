@@ -41,13 +41,13 @@ export default {
           >
             <td class="text-center">
               <b>
-                <span :class="{ 'text-danger': !hour.user, 'text-success': hour.user}">
+                <span :class="{ 'text-danger': !hour, 'text-success': hour}">
                   {{ date.zeroPad(day.start_at + index) }}:00
                 </span>
               </b>
             </td>
             <td class="text-center">
-              <span v-if="hour.user">
+              <span v-if="hour">
                 {{ hour.user }}
               </span>
               <span v-else>

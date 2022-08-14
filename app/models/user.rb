@@ -39,6 +39,10 @@ class User < ApplicationRecord
     }
   end
 
+  def full_name
+    "#{detail.first_names} #{detail.last_names}"
+  end
+
   def self.add_profile_pictures(data)
     data.map do |record|
       record_attributes = record.attributes

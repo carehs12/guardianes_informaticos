@@ -62,14 +62,6 @@ export default {
       }
     },
 
-    "filters.week"() {
-      this.$emit("input", this.filters);
-    },
-
-    "filters.year"() {
-      this.$emit("input", this.filters);
-    },
-
     "filters.date"() {
       this.$emit("input", this.filters);
     },
@@ -87,7 +79,8 @@ export default {
         </v-date>
         <v-input
           :label="'(T) Semana'"
-          type="number"
+          type="text"
+          readonly
           :min="1"
           :max="53"
           v-model="filters.week"
@@ -95,7 +88,8 @@ export default {
         </v-input>
         <v-input
           :label="'(T) Año'"
-          type="number"
+          type="text"
+          readonly
           :min="0"
           v-model="filters.year"
         ></v-input>

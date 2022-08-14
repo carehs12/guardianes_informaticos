@@ -1,7 +1,7 @@
 # Allows a user to create and manage other users through HTTP
 class UsersController < ApplicationAuthenticatedController
   before_action :generate_password, only: %i[create]
-  before_action :set_user, only: %i[update destroy]
+  before_action :set_user, only: %i[update destroy show]
 
   def index
     respond_to do |format|
@@ -30,7 +30,6 @@ class UsersController < ApplicationAuthenticatedController
   def show
     respond_to do |format|
       format.json do
-        set_user
         return respond_http_not_found unless @user
 
         respond_http_ok(@user.show)

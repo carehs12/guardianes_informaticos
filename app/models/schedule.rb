@@ -22,7 +22,21 @@ class Schedule < ApplicationRecord
     availabilities.where(user: user).destroy_all
   end
 
+  def show
+    {
+      id: id,
+      service_name: service.name,
+      results: Schedule::Result.format(self)
+    }
+  end
+
   def optimize
+    return if availabilities.size.zero?
+
+    perform_optimization
+  end
+
+  def perform_optimization
     user_keys, algorithm_data = generate_algorithm_data
     hours_array = self.class.hours_array
     optimizer = OptimizerService.new(algorithm_data)
