@@ -86,8 +86,8 @@ class Schedule < ApplicationRecord
   end
 
   def exclude_limits(daily_array, day_index, replace: false)
-    start_hour = service["#{Schedule.days_array[day_index]}_hour_start"]
-    end_hour = service["#{Schedule.days_array[day_index]}_hour_end"]
+    start_hour = service["#{Schedule.days_array[day_index]}_hour_start"] || 24
+    end_hour = service["#{Schedule.days_array[day_index]}_hour_end"] || 0
     if replace
       daily_array[0, start_hour] = Array.new(start_hour, nil)
       daily_array[end_hour, 24] = Array.new(24 - end_hour, nil)

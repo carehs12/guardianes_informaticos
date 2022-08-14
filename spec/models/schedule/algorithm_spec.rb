@@ -26,6 +26,10 @@ RSpec.describe Schedule, type: :model do
       (0..6).each do |day|
         availability = schedule.availabilities.find_by(user: user, day: day)
         (0..23).each do |hour|
+          next if schedule.service["#{Schedule.days_array[day]}_hour_start"].nil?
+          next if schedule.service["#{Schedule.days_array[day]}_hour_start"] > hour
+          next if schedule.service["#{Schedule.days_array[day]}_hour_end"] <= hour
+
           if availability[hours_array[hour]]
             expect(algorithm_data[user_index][day][hour]).to eq(user_index)
           else
