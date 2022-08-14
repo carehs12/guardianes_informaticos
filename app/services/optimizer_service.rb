@@ -98,7 +98,7 @@ class OptimizerService
     while matching_groups.nil?
       matching_groups = @schedule_service.find_matching_group(be_groups, fe_groups, swap_size_limit)
       swap_size_limit -= 1 unless matching_groups
-      return false if swap_size_limit.zero?
+      return false if swap_size_limit <= 0
     end
 
     record_and_swap_shifts(matching_groups)
@@ -137,6 +137,7 @@ class OptimizerService
   #   a day
   def initialize_time_windows
     @time_windows = Array.new(7, 0)
+    return unless @availability_data.size.positive?
 
     @availability_data[0].each_with_index do |employee_data, index|
       @time_windows[index] = employee_data.size

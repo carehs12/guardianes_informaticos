@@ -4,6 +4,6 @@ export default {
 </script>
 <template>
   <div>
-    SHOW VIEW FOR SCHEDULES
+    NEW VIEW FOR SCHEDULES
   </div>
 </template>

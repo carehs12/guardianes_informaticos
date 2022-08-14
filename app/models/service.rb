@@ -2,8 +2,12 @@
 class Service < ApplicationRecord
   # Model Associations
   has_many :schedules, inverse_of: :service, class_name: 'Schedule'
+
   # Validations
   validates :name, presence: true, uniqueness: true
+
+  # Hooks
+  before_create :validate_data
 
   def self.index(page = 1, per_page = 25, query = nil)
     data = self
@@ -15,10 +19,7 @@ class Service < ApplicationRecord
   end
 
   def show
-    {
-      id: id,
-      name: name
-    }
+    attributes.except!('created_at', 'updated_at')
   end
 
   def self.select_and_paginate_fields(data, page, per_page)
@@ -36,5 +37,15 @@ class Service < ApplicationRecord
     end
 
     super
+  end
+
+  protected
+
+  def validate_data
+    validator = ValidatorService.new(self)
+    return true if validator.validate_service
+
+    errors.add(:base, :service_configuration_is_invalid)
+    raise ActiveRecord::Rollback
   end
 end

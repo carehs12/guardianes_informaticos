@@ -22,7 +22,11 @@ es:
         create: Guardar Configuración
         delete: Eliminar Horario
     shared: 
+      year: Año
+      week: Semana
       search: Búsqueda
       text_back_to_index: Regresar al Listado
       text_field_required: Este campo es requerido
+      text_select_date: Selecciona una Fecha
+      text_week_range: Semana de
       cancel: Cancelar

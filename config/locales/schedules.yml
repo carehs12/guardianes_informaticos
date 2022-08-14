@@ -1,0 +1,9 @@
+es:
+  apps:
+    schedules:
+      text_search: Buscar Horario
+      text_assigned_hours: Horas Asignadas
+      text_edit_schedule: Editar Horario
+      text_hours_count: Conteo de Horas
+      notifications:
+        no_schedule_found: No hay ningúna fecha seleccionada o no hay ningún horario asociado a esta

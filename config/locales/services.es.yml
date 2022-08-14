@@ -10,3 +10,4 @@ es:
         created: Servicio creado satisfactoriamente
         updated: Servicio actualizado satisfactoriamente
         destroyed: Servicio eliminado satisfactoriamente
+        new_service_warning: Utiliza un Formato de 24 Horas. La hora de fin es exclusiva. Toma en cuenta que una vez creado el servicio, no podrás cambiar las horas de inicio/fin

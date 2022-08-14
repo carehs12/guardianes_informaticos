@@ -1,6 +1,6 @@
 <script>
-import DatePicker from "v-calendar/lib/components/date-picker.umd";
 import vSubmit from "../../../../../components/form/v-submit.vue";
+import vDate from "../../../../../components/form/v-date.vue";
 import vInput from "../../../../../components/form/v-input.vue";
 import vImage from "../../../../../components/form/v-image.vue";
 import componentLoadingData from "../../../../../components/layout/loading-data.vue";
@@ -12,10 +12,10 @@ export default {
   components: {
     componentLoadingData,
     vSubmit,
+    vDate,
     vInput,
     formLayout,
     vImage,
-    DatePicker,
     imageUpload,
     messageNewUser,
   },
@@ -180,21 +180,10 @@ export default {
         v-model="user.detail_attributes.last_names"
       ></v-input>
 
-      <b-form-group :label="translations.users.birth_date">
-        <date-picker
-          v-model="user.detail_attributes.birth_date"
-          :locale="date.vcDatepickerConfig()"
-          :popover="{ visibility: 'focus' }"
-        >
-          <template v-slot="{ inputValue, inputEvents }">
-            <input
-              class="form-control"
-              v-on="inputEvents"
-              :value="inputValue"
-            />
-          </template>
-        </date-picker>
-      </b-form-group>
+      <v-date
+        :label="translations.users.birth_date"
+        v-model="user.detail_attributes.birth_date"
+      ></v-date>
 
       <v-input
         :label="translations.users.personal_phone"
