@@ -1,5 +1,8 @@
 <script>
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
+
 export default {
+  components: { DatePicker },
   props: {
     readonly: {
       type: Boolean,
@@ -85,19 +88,14 @@ export default {
       {{ label }}
       <sup v-if="required" class="text-danger">*</sup>
     </template>
-    <b-form-input
-      :readonly="readonly"
-      :min="min"
-      :max="max"
-      :required="required"
-      :type="type"
-      :disabled="disabled"
-      ref="input"
-      :class="className"
-      @change="onChange"
+    <date-picker
       v-model="input_value"
-      :placeholder="placeholder"
+      :locale="date.vcDatepickerConfig()"
+      :popover="{ visibility: 'focus' }"
     >
-    </b-form-input>
+      <template v-slot="{ inputValue, inputEvents }">
+        <input class="form-control" v-on="inputEvents" :value="inputValue" />
+      </template>
+    </date-picker>
   </b-form-group>
 </template>

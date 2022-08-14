@@ -26,7 +26,7 @@ export default {
           :title="translations.application.apps.users"
         ></navbar-item>
         <navbar-item
-          to="/schedules"
+          to="/schedules/dashboard"
           icon="list"
           :title="translations.application.apps.schedules"
         ></navbar-item>
