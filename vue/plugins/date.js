@@ -24,15 +24,20 @@ export default {
     };
 
     const format = function (date) {
-      return `${zeroPad(date.getDate())}/${zeroPad(date.getMonth() + 1)}/${date.getFullYear()}`;
+      return `${zeroPad(date.getDate())}/${zeroPad(
+        date.getMonth() + 1
+      )}/${date.getFullYear()}`;
     };
+
+    const weekdays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
     Vue.prototype.date = {
       vcDatepickerConfig,
+      weekdays,
       weekStart,
       weekEnd,
       format,
-      zeroPad
+      zeroPad,
     };
   },
 };

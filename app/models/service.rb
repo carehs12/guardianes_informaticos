@@ -19,10 +19,7 @@ class Service < ApplicationRecord
   end
 
   def show
-    {
-      id: id,
-      name: name
-    }
+    attributes.except!('created_at', 'updated_at')
   end
 
   def self.select_and_paginate_fields(data, page, per_page)

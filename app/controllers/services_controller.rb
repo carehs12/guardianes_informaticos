@@ -16,7 +16,7 @@ class ServicesController < ApplicationAuthenticatedController
   def create
     respond_to do |format|
       format.json do
-        service = Service.create(service_params)
+        service = Service.create(create_service_params)
         if service.persisted?
           respond_http_ok(service.show)
         else
@@ -40,7 +40,7 @@ class ServicesController < ApplicationAuthenticatedController
   def update
     return respond_http_not_found unless @service
 
-    if @service.update(service_params)
+    if @service.update(update_service_params)
       respond_http_ok(@service.show)
     else
       respond_http_bad_request(@service.errors.full_messages.to_sentence)
@@ -59,7 +59,20 @@ class ServicesController < ApplicationAuthenticatedController
 
   private
 
-  def service_params
+  def create_service_params
+    params.fetch(:service, {}).permit(
+      :name,
+      :mon_hour_start, :mon_hour_end,
+      :tue_hour_start, :tue_hour_end,
+      :wed_hour_start, :wed_hour_end,
+      :thu_hour_start, :thu_hour_end,
+      :fri_hour_start, :fri_hour_end,
+      :sat_hour_start, :sat_hour_end,
+      :sun_hour_start, :sun_hour_end
+    )
+  end
+
+  def update_service_params
     params.fetch(:service, {}).permit(
       :name
     )

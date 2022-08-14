@@ -2,6 +2,7 @@
 import vSubmit from "../../../../../components/form/v-submit.vue";
 import vInput from "../../../../../components/form/v-input.vue";
 import componentLoadingData from "../../../../../components/layout/loading-data.vue";
+import messageNewService from "./message-new-service.vue";
 
 import formLayout from "../../../layouts/form.vue";
 export default {
@@ -10,6 +11,7 @@ export default {
     vSubmit,
     vInput,
     formLayout,
+    messageNewService
   },
 
   props: {
@@ -29,6 +31,20 @@ export default {
       service: null,
       submit: {
         service: false,
+        mon_hour_start: null,
+        mon_hour_null: null,
+        tue_hour_start: null,
+        tue_hour_null: null,
+        wed_hour_start: null,
+        wed_hour_null: null,
+        thu_hour_start: null,
+        thu_hour_null: null,
+        fri_hour_start: null,
+        fri_hour_null: null,
+        sat_hour_start: null,
+        sat_hour_null: null,
+        sun_hour_start: null,
+        sun_hour_null: null,
       },
     };
   },
@@ -61,7 +77,7 @@ export default {
 
     initializeServiceStructure() {
       this.service = {
-        name: ''
+        name: "",
       };
     },
 
@@ -116,7 +132,7 @@ export default {
 <template>
   <b-form @submit="submitServiceHandler" v-if="service">
     <form-layout>
-
+      <message-new-service v-if="mode == 'creation'"></message-new-service>
       <v-input
         :description="translations.application.shared.text_field_required"
         :label="translations.services.name"
@@ -124,6 +140,29 @@ export default {
         ref="input-name"
         v-model="service.name"
       ></v-input>
+
+      <div class="form-row" v-for="(day, index) in date.weekdays" :key="index">
+        <div class="col-6">
+          <v-input
+            :readonly="mode == 'edition'"
+            :label="translations.services[`${day}_hour_start`]"
+            type="number"
+            :min="0"
+            :max="24"
+            v-model="service[`${day}_hour_start`]"
+          ></v-input>
+        </div>     
+        <div class="col-6">
+          <v-input
+            :readonly="mode == 'edition'"
+            :label="translations.services[`${day}_hour_end`]"
+            type="number"
+            :min="0"
+            :max="24"
+            v-model="service[`${day}_hour_end`]"
+          ></v-input>
+        </div>
+      </div>
 
       <b-form-group>
         <v-submit
