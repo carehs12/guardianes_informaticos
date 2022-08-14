@@ -1,6 +1,15 @@
 es:
   apps:
     schedules:
+      wdays:
+        mon: Lunes
+        tue: Martes
+        wed: Miércoles
+        thu: Jueves
+        fri: Viernes
+        sat: Sabado
+        sun: Domingo
+      schedule: Horario
       text_search: Buscar Horario
       text_assigned_hours: Horas Asignadas
       text_edit_schedule: Editar Horario

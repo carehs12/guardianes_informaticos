@@ -27,12 +27,7 @@ class Schedule < ApplicationRecord
       { user: User.find(assigned_hour['user_id']).full_name, work_hours: assigned_hour['work_hours'] }
     end
 
-    {
-      id: id,
-      service_name: service.name,
-      results: Schedule::Result.format(self),
-      work_hours: work_hours
-    }
+    attributes.merge({ results: Schedule::Result.format(self), work_hours: work_hours, service_name: service.name })
   end
 
   def optimize

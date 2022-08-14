@@ -13,15 +13,20 @@ export default {
     serviceName: {
       required: true,
     },
+
+    hideEdit: {
+      type: Boolean,
+      default: false,
+    },
   },
 
-  data(){
+  data() {
     return {
       translations: {
         application: I18n.t("application"),
-        schedules: I18n.t("apps.schedules")
+        schedules: I18n.t("apps.schedules"),
       },
-    }
+    };
   },
 
   computed: {
@@ -36,13 +41,17 @@ export default {
 };
 </script>
 <template>
-  <div  class="mb-3">
+  <div class="mb-3">
     <h5 class="mb-0">
       <b>
-        {{translations.application.shared.text_week_range}} {{ weekStart }} - {{ weekEnd }} - {{ serviceName }}
+        {{ translations.application.shared.text_week_range }} {{ weekStart }} -
+        {{ weekEnd }} - {{ serviceName }}
       </b>
     </h5>
-    <router-link v-if="scheduleId" :to="`/schedules/${scheduleId}/edit`">
+    <router-link
+      v-if="scheduleId && !hideEdit"
+      :to="`/schedules/${scheduleId}/edit`"
+    >
       <i class="fas fa-edit"></i>
       {{ translations.schedules.text_edit_schedule }}
     </router-link>
