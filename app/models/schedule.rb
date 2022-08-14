@@ -63,10 +63,7 @@ class Schedule < ApplicationRecord
 
   def update_assigned_hours(user_keys, work_hours)
     work_hours = work_hours.keys.map do |user_index|
-      {
-        user_id: user_keys[user_index],
-        work_hours: work_hours[user_index]
-      }
+      { user_id: user_keys[user_index], work_hours: work_hours[user_index] }
     end
 
     update!(assigned_hours: work_hours)
@@ -78,10 +75,26 @@ class Schedule < ApplicationRecord
 
     users_list_.each_with_index do |user_id, index|
       availabilities_array = calculate_availabilities_array(user_id, index)
+      availabilities_array = availabilities_array.map.with_index do |arr, day_index|
+        exclude_limits(arr, day_index, replace: true)
+      end
+
       algorithm_data.push(availabilities_array)
     end
 
     [users_list_, algorithm_data]
+  end
+
+  def exclude_limits(daily_array, day_index, replace: false)
+    start_hour = service["#{Schedule.days_array[day_index]}_hour_start"]
+    end_hour = service["#{Schedule.days_array[day_index]}_hour_end"]
+    if replace
+      daily_array[0, start_hour] = Array.new(start_hour, nil)
+      daily_array[end_hour, 24] = Array.new(24 - end_hour, nil)
+      daily_array
+    else
+      daily_array[start_hour, end_hour - start_hour]
+    end
   end
 
   def self.hours_array

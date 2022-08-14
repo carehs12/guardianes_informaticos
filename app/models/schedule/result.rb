@@ -26,9 +26,8 @@ class Schedule
     def self.exclude_limits(schedule, result, day_index)
       formatted_result = format_result(result)
       start_hour = schedule.service["#{Schedule.days_array[day_index]}_hour_start"]
-      end_hour = schedule.service["#{Schedule.days_array[day_index]}_hour_end"]
-
-      [formatted_result[start_hour, end_hour - start_hour], start_hour]
+      formatted_result = schedule.exclude_limits(formatted_result, day_index)
+      [formatted_result, start_hour]
     end
 
     def self.format(schedule)
