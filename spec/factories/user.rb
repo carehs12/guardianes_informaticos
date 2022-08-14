@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :user, class: 'User' do
-    email { Faker::Internet.email }
-    username { Faker::Internet.username }
+    email { "e#{DateTime.current.strftime('%M%S%L%N')}#{Faker::Internet.email}" }
+    username { "#{Faker::Internet.username}#{DateTime.current.strftime('%M%S%L%N')}" }
     password { Devise.friendly_token }
 
     detail_attributes do

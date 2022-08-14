@@ -1,15 +1,20 @@
 // · Import apps and components
 import schedulesEdit from "./views/edit.vue";
-import schedulesShow from "./views/show.vue";
+import schedulesNew from "./views/new.vue";
+import schedulesDashboard from "./views/dashboard.vue";
 
 const routes = [
   {
     path: "/",
-    redirect: "/schedules",
+    redirect: "/schedules/dashboard",
   },
   {
-    path: "/schedules/",
-    component: schedulesShow,
+    path: "/schedules/dashboard",
+    component: schedulesDashboard,
+  },
+  {
+    path: "/schedules/new",
+    component: schedulesNew,
   },
   {
     path: "/schedules/:id/edit",
