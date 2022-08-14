@@ -23,14 +23,22 @@ class Schedule
       end
     end
 
+    def self.exclude_limits(schedule, result, day_index)
+      formatted_result = format_result(result)
+      start_hour = schedule.service["#{Schedule.days_array[day_index]}_hour_start"]
+      end_hour = schedule.service["#{Schedule.days_array[day_index]}_hour_end"]
+
+      [formatted_result[start_hour, end_hour - start_hour], start_hour]
+    end
+
     def self.format(schedule)
       data = [{}, {}, {}, {}, {}, {}, {}]
-      schedule.results.order(day: :asc).map do |result|
-        formatted_result = format_result(result)
+      schedule.results.order(day: :asc).map.with_index do |result, day_index|
+        formatted_result, start_hour = exclude_limits(schedule, result, day_index)
 
         data[Schedule::Result.days[result.day]] = {
           id: result.id,
-          start_at: 0, # TODO: FIX THIS
+          start_at: start_hour,
           schedules: formatted_result
         }
       end

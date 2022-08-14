@@ -92,6 +92,10 @@ class Schedule < ApplicationRecord
     ]
   end
 
+  def self.days_array
+    %i[mon tue wed thu fri sat sun]
+  end
+
   protected
 
   def users_list
