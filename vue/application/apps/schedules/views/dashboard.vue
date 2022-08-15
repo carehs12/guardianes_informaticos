@@ -51,9 +51,18 @@ export default {
 
     getSchedule() {
       let url = `/schedules.json?week=${this.filters.week}&year=${this.filters.year}`;
+
+      if (this.$route.query.id) {
+        url = `/schedules/${this.$route.query.id}.json`;
+      }
+
       this.http.get(url).then((response) => {
         if (response.success) {
           this.schedule = response.data;
+          if (this.$route.query.id) {
+            this.$router.replace('/')
+            this.filters.date = new Date(this.schedule.date);
+          }
         } else if (response.status == 404) {
           this.schedule = { id: null, results: [], work_hours: [] };
         } else {

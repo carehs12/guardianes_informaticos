@@ -43,7 +43,7 @@ export default {
         query += `&query=${encodeURI(filters)}`;
       }
       let url = `/users.json${query}`;
-      this.http.get(url, { filters: filters }).then((response) => {
+      this.http.get(url).then((response) => {
         if (response.success) {
           this.pagination.total_records = response.data.total_records;
           this.users = response.data.records;

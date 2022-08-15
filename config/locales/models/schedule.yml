@@ -2,5 +2,17 @@ es:
   activerecord:
     attributes:
       schedule:
+        date: Fecha
+        year: Año
+        week: Semana
         hour: Hora
         user: Encargado
+        service: Servicio
+    errors:
+      models:
+        schedule:
+          attributes:
+            base:
+              schedule_time_taken: Ya existe un horario creado en esta semana
+            service:
+              required: es requerido

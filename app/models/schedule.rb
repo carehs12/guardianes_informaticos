@@ -6,6 +6,9 @@ class Schedule < ApplicationRecord
   has_many :results, inverse_of: :schedule, class_name: 'Schedule::Result', autosave: true, dependent: :destroy
   belongs_to :service, inverse_of: :schedules, class_name: 'Service'
 
+  # Nested attributes
+  accepts_nested_attributes_for :availabilities
+
   # Validations
   validates :year, :week, presence: true
 
@@ -13,26 +16,31 @@ class Schedule < ApplicationRecord
   after_create :create_results
 
   def create_availabilities(user)
-    0..7.times do |day|
-      availabilities.create!(day: day, user: user)
-    end
+    0..7.times { |day| availabilities.create!(day: day, user: user) }
   end
 
   def destroy_availabilities(user)
     availabilities.where(user: user).destroy_all
+    optimize
   end
 
   def show
-    work_hours = assigned_hours.map do |assigned_hour|
-      { user: User.find(assigned_hour['user_id']).full_name, work_hours: assigned_hour['work_hours'] }
+    if assigned_hours
+      work_hours = assigned_hours.map do |assigned_hour|
+        { user: User.find(assigned_hour['user_id']).full_name, work_hours: assigned_hour['work_hours'] }
+      end
     end
 
-    {
-      id: id,
-      service_name: service.name,
-      results: Schedule::Result.format(self),
-      work_hours: work_hours
-    }
+    merge_attributes(work_hours)
+  end
+
+  def merge_attributes(work_hours)
+    attributes.merge({
+                       date: Date.commercial(year, week, 4),
+                       results: Schedule::Result.format(self),
+                       work_hours: work_hours || [],
+                       service_name: service.name
+                     })
   end
 
   def optimize
@@ -43,15 +51,12 @@ class Schedule < ApplicationRecord
 
   def perform_optimization
     user_keys, algorithm_data = generate_algorithm_data
-    hours_array = self.class.hours_array
     result, _cost, work_hours = create_and_execute_optimizer(algorithm_data)
     update_assigned_hours(user_keys, work_hours)
 
     result.each_with_index do |day_data, day_index|
       day_data.each_with_index do |user_index, hour_index|
-        next unless user_index
-
-        results.find_by(day: day_index).update(hours_array[hour_index] => user_keys[user_index])
+        Schedule::Result.update_results(self, day_index, hour_index, user_index, user_keys)
       end
     end
   end
@@ -63,10 +68,7 @@ class Schedule < ApplicationRecord
 
   def update_assigned_hours(user_keys, work_hours)
     work_hours = work_hours.keys.map do |user_index|
-      {
-        user_id: user_keys[user_index],
-        work_hours: work_hours[user_index]
-      }
+      { user_id: user_keys[user_index], work_hours: work_hours[user_index] }
     end
 
     update!(assigned_hours: work_hours)
@@ -78,10 +80,26 @@ class Schedule < ApplicationRecord
 
     users_list_.each_with_index do |user_id, index|
       availabilities_array = calculate_availabilities_array(user_id, index)
+      availabilities_array = availabilities_array.map.with_index do |arr, day_index|
+        exclude_limits(arr, day_index, replace: true)
+      end
+
       algorithm_data.push(availabilities_array)
     end
 
     [users_list_, algorithm_data]
+  end
+
+  def exclude_limits(daily_array, day_index, replace: false)
+    start_hour = service["#{Schedule.days_array[day_index]}_hour_start"] || 24
+    end_hour = service["#{Schedule.days_array[day_index]}_hour_end"] || 0
+    if replace
+      daily_array[0, start_hour] = Array.new(start_hour, nil)
+      daily_array[end_hour, 24] = Array.new(24 - end_hour, nil)
+      daily_array
+    else
+      daily_array[start_hour, end_hour - start_hour]
+    end
   end
 
   def self.hours_array
@@ -90,6 +108,10 @@ class Schedule < ApplicationRecord
       hour08 hour09 hour10 hour11 hour12 hour13 hour14 hour15
       hour16 hour17 hour18 hour19 hour20 hour21 hour22 hour23
     ]
+  end
+
+  def self.days_array
+    %i[mon tue wed thu fri sat sun]
   end
 
   protected
@@ -105,8 +127,6 @@ class Schedule < ApplicationRecord
   end
 
   def create_results
-    0..7.times do |day|
-      results.create!(day: day)
-    end
+    0..7.times { |day| results.create!(day: day) }
   end
 end

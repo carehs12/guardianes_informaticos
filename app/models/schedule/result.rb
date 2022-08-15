@@ -23,16 +23,33 @@ class Schedule
       end
     end
 
+    def self.exclude_limits(schedule, result, day_index)
+      formatted_result = format_result(result)
+      start_hour = schedule.service["#{Schedule.days_array[day_index]}_hour_start"]
+      formatted_result = schedule.exclude_limits(formatted_result, day_index)
+      [formatted_result, start_hour]
+    end
+
     def self.format(schedule)
       data = [{}, {}, {}, {}, {}, {}, {}]
-      schedule.results.order(day: :asc).map do |result|
-        formatted_result = format_result(result)
+      schedule.results.order(day: :asc).map.with_index do |result, day_index|
+        formatted_result, start_hour = exclude_limits(schedule, result, day_index)
 
         data[Schedule::Result.days[result.day]] = {
           id: result.id,
-          start_at: 0, # TODO: FIX THIS
+          start_at: start_hour,
           schedules: formatted_result
         }
+      end
+    end
+
+    def self.update_results(schedule, day_index, hour_index, user_index, user_keys)
+      hours_array = Schedule.hours_array
+
+      if user_index
+        schedule.results.find_by(day: day_index).update(hours_array[hour_index] => user_keys[user_index])
+      else
+        schedule.results.find_by(day: day_index).update(hours_array[hour_index] => nil)
       end
     end
   end

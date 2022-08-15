@@ -9,6 +9,16 @@ export default {
       type: Object,
       default: null,
     },
+
+    hideDate: {
+      type: Boolean,
+      default: false
+    },
+
+    title: {
+      type: String,
+      default: null
+    }
   },
 
   data() {
@@ -76,11 +86,12 @@ export default {
     <div class="card-body">
       <div class="text-center">
         <h5>
-          <b>{{ translations.schedules.text_search }}</b>
+          <b>{{ title || translations.schedules.text_search }}</b>
         </h5>
       </div>
       <b-form @submit="getScheduleHandler">
         <v-date
+          v-if="! hideDate"
           v-model="filters.date"
           :label="translations.application.shared.text_select_date"
         >

@@ -1,0 +1,8 @@
+es:
+  apps:
+    availabilities:
+      title_confirm_deletion: Eliminar usuario de horario
+      text_confirm_deletion: ¿Realmente deseas eliminar este usuario del horario?
+      notifications:
+        destroyed: El usuario ha sido retirado del horario satisfactoriamente
+      
