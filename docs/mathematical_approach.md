@@ -4,7 +4,7 @@
 
 ### Problem
   The problem we will atempt to solve is the following:
-  We need to assign users to a 7-day week based on their availability. A user is either
+  We need to assign employees to a 7-day week based on their availability. A employee is either
   avaiable, or is not, at a given hour, on  given day. 
 
   | Hour | Jose Perez | Carlos Diaz |
@@ -33,3 +33,16 @@
   | 11:00 | Carlos Diaz  |
   | 12:00 | Carlos Diaz  |
   | 13:00 | Carlos Diaz  |
+
+  As you can see, every employee works exactly 3 hours, and they only swap shifts once.
+
+  We can see this as an optimization problem if we define a cost for each configuration and then try to minimize
+  cost. The method used to find the solutions will depend on how the problem was described. The description here
+  does not allow for linear programming to be used, but any other number of non-linear methods can be applied.
+
+## Solution
+
+  We start by defining some indexes we will use. Let it be 
+  $$i \in {0..n} $$ The number of employees that can be assigned to a day
+
+
