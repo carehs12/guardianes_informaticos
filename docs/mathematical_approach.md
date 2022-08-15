@@ -50,10 +50,12 @@
 
   The cost of having a 1-hour difference between the person that works the most and the one that works the least: $C_w$
 
-#### Index definitios
+#### Index definitions
 
-  The day of the week $i \in \lbrace 0..7 \rbrace $
-  The hour of the day $j \in \lbrace 0..23 \lbrace $
-  The index of the employee that can be assigned $i \in \lbrace 0..N \rbrace $ 
+  The day of the week $i \in \lbrace 0..6 \rbrace $
+
+  The hour of the day $j \in \lbrace 0..23 \rbrace $
+
+  The index of the employee that can be assigned to work on a given hour on a given day $i \in \lbrace 0..N \rbrace $ 
 
 
