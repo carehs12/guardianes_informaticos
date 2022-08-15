@@ -5,6 +5,7 @@ import layoutHeader from "../../../layout/header.vue";
 import componentFilters from "../components/schedules/filters.vue";
 import componentUsers from "../components/schedules/users.vue";
 import formWeeklyTurns from "../forms/schedule/weekly-turns.vue";
+import formDelete from "../forms/schedule/delete.vue";
 import componentWorkHours from "../components/schedules/work-hours.vue";
 import componentTitle from "../components/schedules/title.vue";
 import VSubmit from "../../../../components/form/v-submit.vue";
@@ -18,6 +19,7 @@ export default {
     componentWorkHours,
     componentTitle,
     VSubmit,
+    formDelete,
     componentUsers,
   },
 
@@ -55,6 +57,7 @@ export default {
           this.schedule = response.data;
           this.filters.year = this.schedule.year;
           this.filters.week = this.schedule.week;
+          this.filters.date = new Date(this.schedule.date);
         } else if (response.status == 404) {
           this.schedule = { id: null, results: [], work_hours: [] };
         } else {
@@ -112,6 +115,10 @@ export default {
 
     userDeletedHandler() {
       this.getAvailabilities();
+    },
+
+    goToDashboard(){
+      this.$router.push('/schedules/dashboard')
     },
 
     addUserHandler(user_id) {
@@ -199,6 +206,8 @@ export default {
               </b-form>
             </b-tab>
           </b-tabs>
+          <hr class="mt-4 mb-4">
+          <form-delete @schedule-deleted="goToDashboard" :schedule-id="schedule.id"></form-delete>
         </div>
         <div v-else class="text-center text-muted">
           <h4>

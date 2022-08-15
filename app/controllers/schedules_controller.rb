@@ -1,7 +1,7 @@
 # Allows the creation and management of schedules through HTTP
 class SchedulesController < ApplicationAuthenticatedController
   before_action :set_schedule_by_week, only: %i[index]
-  before_action :set_schedule, only: %i[show]
+  before_action :set_schedule, only: %i[show destroy]
 
   def index
     respond_to do |format|
@@ -33,6 +33,16 @@ class SchedulesController < ApplicationAuthenticatedController
           respond_http_bad_request(schedule.errors.full_messages.to_sentence)
         end
       end
+    end
+  end
+
+  def destroy
+    return respond_http_not_found unless @schedule
+
+    if @schedule.destroy
+      respond_http_ok
+    else
+      respond_http_bad_request(@schedule.errors.full_messages.to_sentence)
     end
   end
 

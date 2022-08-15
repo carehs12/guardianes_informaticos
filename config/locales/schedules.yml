@@ -14,12 +14,16 @@ es:
       text_search: Buscar Horario
       text_assigned_hours: Horas Asignadas
       text_edit_schedule: Editar Horario
+      text_delete_schedule: Eliminar Horario
       text_hours_count: Conteo de Horas
       text_view_schedule: Ver Horario Calculado
       text_assigned_users: Usuarios Asignados
+      text_confirmation_delete_schedule: ELIMINAR HORARIO
       notifications:
         created: El horario ha sido creado satisfactoriamente
+        destroyed: El horario ha sido eliminado satisfactoriamente
         new_schedule_warning: Una vez creado el horario, no podrás cambiar estos campos
+        delete_schedule_warning: Una vez eliminado este horario perderás toda la información relacionada a el. Si deseas continuar, escribe el texto 'ELIMINAR HORARIO' y presiona el boton.
         user_already_assigned: Este usuario ya ha sido asignado al horario
         no_schedule_found: No hay ningúna fecha seleccionada o no hay ningún horario asociado a esta
         updated: El horario ha sido actualizado satisfactoriamente
