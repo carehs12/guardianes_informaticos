@@ -75,7 +75,7 @@
 
   So we need to express these two statements using numeric values. For the first one we have:
 
-  $$cost(x) = max(\sum_{i} {e_{ijk}x_{ijk}}) - min(\sum_{i} {e_{ijk}x_{ijk}}) $$
+  $$cost(x) = \sum_{i}{max(\sum_{k} {e_{ijk}x_{ijk}}) - min(\sum_{k} {e_{ijk}x_{ijk}})} $$
 
   For the second part of the cost, we need to calculate how many times an employee is
   swapped on the same day. We can express
