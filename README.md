@@ -2,9 +2,13 @@
 
 Guardianes Informáticos - Technical Exam
 
-Things you may want to cover:
-
 * Ruby version
+
+  This project was created using ruby *2.7.2* and rails *7.0.2*.
+  You need to have the correct version of ruby installed in order to run it.
+  To read more about how you can install ruby, it is advisable to use a ruby
+  version management tool, like **RVM**. You can read more about RVM here:
+  https://rvm.io/
 
 * System dependencies
 
