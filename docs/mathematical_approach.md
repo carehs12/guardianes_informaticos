@@ -86,8 +86,6 @@
 
   $$
     s_k = \begin{dcases}
-    1   & \text{ if } 0 < \delta < T_c, \text{ without ICI},    \\
-    \frac{2T_u+3T_c}{3(T_u+T_c)} + \sum_{l=1}^{K-1}\frac{T_u}{(\pi l)^2(T_u+T_c)}
-        & condition
-    \end{dcases}
+    1   & \text{ if } {e_{ijk - 1}x_{ijk - 1}} != 0 \\
+    0   & \text{ if } {e_{ijk - 1}x_{ijk - 1}} == 0
   $$ 
