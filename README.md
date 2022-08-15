@@ -2,7 +2,7 @@
 
 Guardianes Informáticos - Technical Exam
 
-* Ruby version
+## Ruby version
 
   This project was created using ruby *2.7.2* and rails *7.0.2*.
   You need to have the correct version of ruby installed in order to run it.
@@ -25,7 +25,7 @@ Guardianes Informáticos - Technical Exam
     bundle update
   ```
 
-* Configuration
+## Credentials Configuration
 
   You must edit your credentials, located at config/credentials.yml by running the following command:
   ```console
@@ -79,7 +79,7 @@ Guardianes Informáticos - Technical Exam
   secret_key_base: A_VERY_LONG_STRING_USED_AS_BASE_FOR_MESSAGEVERIFIERS_IN_RAILS
   ```
 
-* Database creation
+## Database creation
 
   This application uses postgres as database engines. For it to work, you need
   to have a postgreSQL client installed into your computer, and have access
@@ -88,7 +88,7 @@ Guardianes Informáticos - Technical Exam
   the application like that. To install postgreSQL, you can check the following link:
   https://www.postgresql.org/download/
 
-* Database initialization
+## Database initialization
 
   Once your database is created and your credentials are set, you can set up your database using
   ```console
@@ -112,7 +112,7 @@ Guardianes Informáticos - Technical Exam
     rails db:setup
   ```
 
-* Rspec
+## Rspec
 
   The tests for this application were created using *FactoryBot* and *rspec*. 
   Both gems is installed by default when the environments are **development** and **production**.
@@ -128,8 +128,17 @@ Guardianes Informáticos - Technical Exam
 
 This will execute all tests and output the result
 
-* Deployment instructions
+## Deployment instructions
+
+  To deploy this application on production, we advise you to configure SES and S3 for storage and emails.
+  You can, however, use any service you want, or even use local storage. To learn how to generate your
+  credentials for S3 and SES, you can follow these links:
+  
+  - https://docs.aws.amazon.com/ses/latest/dg/setting-up.html
+  - https://aws.amazon.com/premiumsupport/knowledge-center/create-access-key/
+  - https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html
+
+  Once you have your credentials, you can follow the instructions in the 
+  [Credentials Configuration] (#credentials-configuration) and add them to your application. 
 
 * Algorithm Explanation
-
-* ...
