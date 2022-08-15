@@ -105,6 +105,6 @@
   - Only one employee assigned to each hour of each day: $\sum_{ij}{x_k} = 1$
 
   This problem, as it is described, does not have the standard form to be solved as a
-  linear programming problem (LPP). In this case a series of different methods can be
-  used, in the case of the final solution, a custom cyclic algorithm that slowly moves
-  towards a **local** optimal solution.
+  linear programming problem (LPP). To solve this problem, a series of different methods can be
+  used. In the case of this application, a custom cyclic algorithm that slowly moves
+  towards a **local** optimal solution is used.
