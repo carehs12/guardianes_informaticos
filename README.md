@@ -6,9 +6,9 @@ Guardianes Informáticos - Technical Exam
 
   This project was created using ruby *2.7.2* and rails *7.0.2*.
   You need to have the correct version of ruby installed in order to run it.
-  To read more about how you can install ruby, it is advisable to use a ruby
-  version management tool, like **RVM**. You can read more about RVM here:
-  https://rvm.io/
+  It is advisable to use a ruby version management tool, like **RVM**. 
+  To read more about how you can install ruby, and use RVM, you can follow this
+  link: https://rvm.io/
 
 * Installing Gems
 
@@ -19,7 +19,7 @@ Guardianes Informáticos - Technical Exam
   ```
 
   This will install all gems required for the application to work. If at some
-  point, you want to update your gems to the newer versions, you can run
+  point, you want to update your gems to newer versions, you can run
 
   ```console
     bundle update
@@ -27,7 +27,7 @@ Guardianes Informáticos - Technical Exam
 
 * Configuration
 
-  You must edit you config/credentials.yml by running the following command:
+  You must edit your credentials, located at config/credentials.yml by running the following command:
   ```console
     EDITOR="YOUR_FAVORITE_EDITOR" rails credentials:edit 
   ```
@@ -61,7 +61,7 @@ Guardianes Informáticos - Technical Exam
   smtp:
     # You can use letter_opener or a similar gem for development
     # and another service like SES for production
-    delivery_method: YOUR_DELIVERY_METHOD
+    delivery_method: letter_opener
   # Use this only if you are using SES as SMTP delivery method 
   # and/or S3 as storage service.
   # You can read how to configure S3 here
@@ -81,7 +81,7 @@ Guardianes Informáticos - Technical Exam
 
 * Database creation
 
-  The application uses postgres as database engines. For it to work, you need
+  This application uses postgres as database engines. For it to work, you need
   to have a postgreSQL client installed into your computer, and have access
   to a computer that has a postgreSQL server installed. Please note that you can
   install both the PostgreSQL server and client inside the same computer and run
@@ -97,7 +97,7 @@ Guardianes Informáticos - Technical Exam
     rails db:seeds
   ```
 
-  If you don't specify the environment, rails will default to **development**. However, 
+  If you don't set the environment, rails will default to **development**. However, 
   you can change this behavior by specifying the environment
   ```console
     rails db:create RAILS_ENV=test
@@ -112,18 +112,19 @@ Guardianes Informáticos - Technical Exam
     rails db:setup
   ```
 
-* How to run the test suite
+* Rspec
 
-The tests for this application were created using *FactoryBot* and *rspec*. 
-The gem is installed by default when the environments are **development** and production**.
+  The tests for this application were created using *FactoryBot* and *rspec*. 
+  Both gems is installed by default when the environments are **development** and **production**.
 
-In order to run the test suite. You neet to execute the following commands:
+  In order to run the test suite. You neet to execute the following commands (Note that the 
+  credentials for the test database MUST be configured):
 
-```console
-  # Note that the credentials for the test database MUST be configured.
-  rails db:setup RAILS_ENV=test
-  rspec
-```
+  ```console
+    # Note that the credentials for the test database MUST be configured.
+    rails db:setup RAILS_ENV=test
+    rspec
+  ```
 
 This will execute all tests and output the result
 
