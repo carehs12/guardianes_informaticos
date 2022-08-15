@@ -4,7 +4,7 @@
 
 ### Problem
   The problem we will atempt to solve is the following:
-  We need to assign employees to a 7-day week based on their availability. A employee is either
+  We need to assign employees to a 7-day week based on their availability. An employee is either
   avaiable, or is not, at a given hour, on  given day. 
 
   | Hour | Jose Perez | Carlos Diaz |
@@ -42,13 +42,6 @@
 
 ## Solution
 
-#### Constant Definition
-  
-  The numbers of employees that can be assigned to a day: $N$
-
-  The cost of swapping from one person to another on the same day: $C_s$
-
-  The cost of having a 1-hour difference between the person that works the most and the one that works the least: $C_w$
 
 #### Index definitions
 
@@ -56,6 +49,30 @@
 
   The hour of the day $j \in \lbrace 0..23 \rbrace $
 
-  The index of the employee that can be assigned to work on a given hour on a given day $i \in \lbrace 0..N \rbrace $ 
+  The index of the employee that can be assigned to work on a given hour on a given day $k \in \lbrace 0..N \rbrace $ 
 
 
+#### Parameter Definition
+
+  The cost of swapping from one employee to another on the same day: $C_s$
+
+  The cost of having a 1-hour difference between the employee that works the most and the one that works the least: $C_w$
+
+  If the employee $k$ is available for work on the hour ${j} of the day 
+  ${i} (this is an integer variable, either 0 or 1): $e_{ijk}$
+
+#### Variable Definitions
+
+  If the employee $k$ is actually assigned to work on the hour $j$ of the day $i$: $x_{ijk}$
+
+#### 
+
+  Once our parameters and variables are set, we need to define a function, that will use all these values and return
+  a number that represents the cost of a specific schedule configuration. For this problem, the cost of a 
+  schedule will be determined by two factors:
+  - The hour difference between the employee that works the most and the one that works the least
+  - The the number of times an employee swaps shifts with another one in the same day.
+
+  So we need to express these two statements using numeric values. For the first one we have:
+
+  $$f(x) = max(\sum_{i} {e_{ijk}x_{ijk}}) - min(\sum_{i} {e_{ijk}x_{ijk}}) $$
