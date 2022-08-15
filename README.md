@@ -1,20 +1,38 @@
-# README
+# Guardianes Informáticos
 
 Guardianes Informáticos - Technical Exam
 
-Things you may want to cover:
+## Ruby version
 
-* Ruby version
+  This project was created using ruby *2.7.2* and rails *7.0.2*.
+  You need to have the correct version of ruby installed in order to run it.
+  It is advisable to use a ruby version management tool, like **RVM**. 
+  To read more about how you can install ruby, and use RVM, you can follow this
+  link: https://rvm.io/
 
-* System dependencies
+* Installing Gems
 
-* Configuration
-  You must edit you config/credentials.yml by running the following command:
+  Once Ruby has been installed, you can clone this repo and run the command
+
+  ```console
+    bundle install
+  ```
+
+  This will install all gems required for the application to work. If at some
+  point, you want to update your gems to newer versions, you can run
+
+  ```console
+    bundle update
+  ```
+
+## Credentials Configuration
+
+  You must edit your credentials, located at config/credentials.yml by running the following command:
   ```console
     EDITOR="YOUR_FAVORITE_EDITOR" rails credentials:edit 
   ```
 
-  If you are using an editor like Visual Studio Code, or Sublime, you probable will need to add an extra command:
+  If you are using an editor like Visual Studio Code, or Sublime, you probably will need to add an extra command:
   ```console
     EDITOR="YOUR_FAVORITE_EDITOR" --wait rails credentials:edit
   ```
@@ -41,10 +59,13 @@ Things you may want to cover:
       username: YOUR_DB_USER_NAME
       password: YOUR_DB_USER_PASSWORD
   smtp:
-    # You can use letter_opener or a similar gem for development and another service like SES for production
-    delivery_method: YOUR_DELIVERY_METHOD
-  # Use this only if you are using SES as SMTP delivery method and/or S3 as storage service.
-  # You can read how to configure S3 here:  https://edgeguides.rubyonrails.org/active_storage_overview.html
+    # You can use letter_opener or a similar gem for development
+    # and another service like SES for production
+    delivery_method: letter_opener
+  # Use this only if you are using SES as SMTP delivery method 
+  # and/or S3 as storage service.
+  # You can read how to configure S3 here
+  # https://edgeguides.rubyonrails.org/active_storage_overview.html
   aws:
     s3: 
       access_key_id: YOUR_S3_ACCESS_KEY_ID
@@ -58,14 +79,72 @@ Things you may want to cover:
   secret_key_base: A_VERY_LONG_STRING_USED_AS_BASE_FOR_MESSAGEVERIFIERS_IN_RAILS
   ```
 
-* Database creation
+## Database creation
 
-* Database initialization
+  This application uses postgreSQL as database engines. For it to work, you need
+  to have a postgreSQL client installed into your computer, and have access
+  to a computer that has a postgreSQL server installed. Please note that you can
+  install both the PostgreSQL server and client inside the same computer and run
+  the application like that. To install postgreSQL, you can check the following link:
+  https://www.postgresql.org/download/
 
-* How to run the test suite
+## Database initialization
 
-* Services (job queues, cache servers, search engines, etc.)
+  Once your database is created and your credentials are set, you can set up your database using:
+  ```console
+    rails db:create
+    rails db:migrate
+    rails db:seeds
+  ```
 
-* Deployment instructions
+  If you don't set the environment, rails will default to **development**. However, 
+  you can change this behavior by specifying the environment:
+  ```console
+    rails db:create RAILS_ENV=test
+  ```
 
-* ...
+  In the repository, only one development user is created: **chermosilla** with
+  password **recorrido123**. You can add more users editing the *db/seeds/ENVIRONMENT.rb*
+  file
+
+  Alternatively, you can condense the whole database setup by running
+  ```console
+    rails db:setup
+  ```
+
+## Rspec
+
+  The tests for this application were created using *FactoryBot* and *rspec*. 
+  Both gems are installed by default when the environments are **development** and **test**.
+
+  In order to run the test suite. You neet to execute the following commands (Note that the 
+  credentials for the test database MUST be configured):
+
+  ```console
+    rails db:setup RAILS_ENV=test
+    rspec
+  ```
+
+This will execute all tests and output the result
+
+## Deployment instructions
+
+  To deploy this application on production, we advise you to configure SES and S3 for storage and emails.
+  You can, however, use any service you want, or even use local storage. To learn how to generate your
+  credentials for S3 and SES, you can follow these links:
+  
+  - https://docs.aws.amazon.com/ses/latest/dg/setting-up.html
+  - https://aws.amazon.com/premiumsupport/knowledge-center/create-access-key/
+  - https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html
+
+  Once you have your credentials, you can follow the instructions in the 
+  [Credentials Configuration](#credentials-configuration) and add them to your application. 
+
+## Algorithm Explanation
+  The answer this problem has a mathematical perfect solution. With enough time and using the correct
+  software, the optimal solution for any given configuratio can be found. However, in this case, a 
+  custom solution was implemented, that, if not perfect, is good enough to minimize the time difference
+  between all the assigned users, and also the number of times two people swap shifts.
+
+  You can check out the mathematical approach [here](docs/mathematical_approach.md),
+  and you can see the implemented solution [here](docs/implemented_solution.md).
