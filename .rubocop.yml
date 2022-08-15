@@ -16,7 +16,7 @@ Metrics/BlockLength:
     - 'spec/factories/*'
     - 'db/migrate/*'
     - 'spec/models/*/*'
-    - 'config/routes/.rb'
+    - 'config/routes.rb'
     - 'spec/requests/*'
     - 'spec/requests/*/*'
     - 'config/environments/development.rb'

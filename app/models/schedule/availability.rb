@@ -35,8 +35,8 @@ class Schedule
     def self.format_availabilities(schedule)
       [*0..6].map do |day_index|
         schedule.availabilities.where(day: day_index).order(user_id: :asc).map do |availability|
-
-          { id: availability.id, user_id: availability.user_id, user_name: availability.user.full_name,
+          {
+            id: availability.id, user_id: availability.user_id, user_name: availability.user.full_name,
             start_at: schedule.service["#{Schedule.days_array[day_index]}_hour_start"] || 24,
             availability: format_availability(schedule, availability, day_index)
           }
