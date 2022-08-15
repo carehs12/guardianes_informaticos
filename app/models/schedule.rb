@@ -42,16 +42,23 @@ class Schedule < ApplicationRecord
 
   def perform_optimization
     user_keys, algorithm_data = generate_algorithm_data
-    hours_array = self.class.hours_array
     result, _cost, work_hours = create_and_execute_optimizer(algorithm_data)
     update_assigned_hours(user_keys, work_hours)
 
     result.each_with_index do |day_data, day_index|
       day_data.each_with_index do |user_index, hour_index|
-        next unless user_index
-
-        results.find_by(day: day_index).update(hours_array[hour_index] => user_keys[user_index])
+        update_results(day_index, hour_index, user_index, user_keys)
       end
+    end
+  end
+
+  def update_results(day_index, hour_index, user_index, user_keys)
+    hours_array = self.class.hours_array
+
+    if user_index
+      results.find_by(day: day_index).update(hours_array[hour_index] => user_keys[user_index])
+    else
+      results.find_by(day: day_index).update(hours_array[hour_index] => nil)
     end
   end
 
@@ -121,8 +128,6 @@ class Schedule < ApplicationRecord
   end
 
   def create_results
-    0..7.times do |day|
-      results.create!(day: day)
-    end
+    0..7.times { |day|  results.create!(day: day) }
   end
 end
