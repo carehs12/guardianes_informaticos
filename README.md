@@ -81,7 +81,7 @@ Guardianes Informáticos - Technical Exam
 
 ## Database creation
 
-  This application uses postgres as database engines. For it to work, you need
+  This application uses postgreSQL as database engines. For it to work, you need
   to have a postgreSQL client installed into your computer, and have access
   to a computer that has a postgreSQL server installed. Please note that you can
   install both the PostgreSQL server and client inside the same computer and run
@@ -90,7 +90,7 @@ Guardianes Informáticos - Technical Exam
 
 ## Database initialization
 
-  Once your database is created and your credentials are set, you can set up your database using
+  Once your database is created and your credentials are set, you can set up your database using:
   ```console
     rails db:create
     rails db:migrate
@@ -98,16 +98,16 @@ Guardianes Informáticos - Technical Exam
   ```
 
   If you don't set the environment, rails will default to **development**. However, 
-  you can change this behavior by specifying the environment
+  you can change this behavior by specifying the environment:
   ```console
     rails db:create RAILS_ENV=test
   ```
 
   In the repository, only one development user is created: **chermosilla** with
-  password **recorrido123**. You can add more users editing the *db/seeds/ENVIRONMENT.rb"
+  password **recorrido123**. You can add more users editing the *db/seeds/ENVIRONMENT.rb*
   file
 
-  Alternatively, you can condense the whole setup of the database running
+  Alternatively, you can condense the whole database setup by running
   ```console
     rails db:setup
   ```
@@ -115,13 +115,12 @@ Guardianes Informáticos - Technical Exam
 ## Rspec
 
   The tests for this application were created using *FactoryBot* and *rspec*. 
-  Both gems is installed by default when the environments are **development** and **production**.
+  Both gems are installed by default when the environments are **development** and **test**.
 
   In order to run the test suite. You neet to execute the following commands (Note that the 
   credentials for the test database MUST be configured):
 
   ```console
-    # Note that the credentials for the test database MUST be configured.
     rails db:setup RAILS_ENV=test
     rspec
   ```
