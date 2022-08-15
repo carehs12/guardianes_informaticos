@@ -43,6 +43,11 @@
 ## Solution
 
   We start by defining some indexes we will use. Let it be 
-  $$i \in {0..n} $$ The number of employees that can be assigned to a day
+  
+  The numbers of employees that can be assigned to a day: $N$
+  The cost of swapping from one person to another on the same day: $C_s$
+  The cost of having a 1-hour difference between the person that works the most and the one that works the least: $C_w$
+
+   $i \in \lbrace 0..n \rbrace $ 
 
 
