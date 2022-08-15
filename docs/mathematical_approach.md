@@ -86,7 +86,7 @@
 
   $$
     s_k = \begin{dcases}
-    1   & \text{ if } {e_{ijk - 1}x_{ijk - 1}} != 0 \\
-    0   & \text{ if } {e_{ijk - 1}x_{ijk - 1}} == 0
+    1   & \text{ if } {e_{ijk - 1} - x_{ijk}} <> 0 \\
+    0   & \text{ if } {e_{ijk - 1} - x_{ijk}} == 0
     \end{dcases}
   $$ 
