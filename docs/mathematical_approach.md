@@ -76,3 +76,18 @@
   So we need to express these two statements using numeric values. For the first one we have:
 
   $$f(x) = max(\sum_{i} {e_{ijk}x_{ijk}}) - min(\sum_{i} {e_{ijk}x_{ijk}}) $$
+
+  For the second part of the cost, we need to calculate how many times an employee is
+  swapped on the same day. We can express
+
+  $$\sum_{k = 1 \to N}{s_k}$$
+
+  Where
+
+  $$
+    s_k = \begin{dcases}
+    1   & \text{ if } 0 < \delta < T_c, \text{ without ICI},    \\
+    \frac{2T_u+3T_c}{3(T_u+T_c)} + \sum_{l=1}^{K-1}\frac{T_u}{(\pi l)^2(T_u+T_c)}
+        & condition
+    \end{dcases}
+  $$ 
