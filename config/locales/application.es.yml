@@ -20,6 +20,7 @@ es:
       schedules:
         new: Nuevo Horario
         create: Guardar Configuración
+        update: Guardar Cambios
         delete: Eliminar Horario
     shared: 
       year: Año

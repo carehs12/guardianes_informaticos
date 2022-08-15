@@ -16,3 +16,4 @@ es:
       text_hours_count: Conteo de Horas
       notifications:
         no_schedule_found: No hay ningúna fecha seleccionada o no hay ningún horario asociado a esta
+        updated: El horario ha sido actualizado satisfactoriamente

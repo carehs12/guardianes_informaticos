@@ -6,6 +6,9 @@ class Schedule < ApplicationRecord
   has_many :results, inverse_of: :schedule, class_name: 'Schedule::Result', autosave: true, dependent: :destroy
   belongs_to :service, inverse_of: :schedules, class_name: 'Service'
 
+  # Nested attributes
+  accepts_nested_attributes_for :availabilities
+
   # Validations
   validates :year, :week, presence: true
 
