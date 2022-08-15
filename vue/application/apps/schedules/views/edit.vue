@@ -34,7 +34,7 @@ export default {
       },
       submit: {
         schedule: false,
-        availability: false
+        availability: false,
       },
       schedule: {
         id: null,
@@ -110,15 +110,19 @@ export default {
       });
     },
 
+    userDeletedHandler() {
+      this.getAvailabilities();
+    },
+
     addUserHandler(user_id) {
       this.submit.availability = true;
-      
+
       let url = `/schedules/${this.$route.params.id}/availabilities.json`;
       let data = {
         availability: {
-          user_id: user_id
-        }
-      }
+          user_id: user_id,
+        },
+      };
       this.http
         .post(url, data)
         .then((response) => {
@@ -156,9 +160,12 @@ export default {
         />
         <component-users
           :users="schedule.users"
+          :schedule-id="schedule.id"
           @add-user="addUserHandler"
+          @user-deleted="userDeletedHandler"
           :submitting="submit.availability"
-        > </component-users>
+        >
+        </component-users>
       </div>
       <div class="col-9">
         <div v-if="filters.date && schedule.id">

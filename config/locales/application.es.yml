@@ -23,6 +23,8 @@ es:
         create: Guardar Configuración
         update: Guardar Cambios
         delete: Eliminar Horario
+      availabilities:
+        delete: Eliminar Usuario
     shared: 
       year: Año
       week: Semana

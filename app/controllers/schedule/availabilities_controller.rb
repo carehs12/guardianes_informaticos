@@ -39,6 +39,19 @@ class Schedule
       end
     end
 
+    def destroy
+      respond_to do |format|
+        format.json do
+          @user = User.find_by_id(params[:id])
+          return respond_http_not_found unless @schedule
+          return respond_http_not_found unless @user
+          return respond_http_ok(@schedule.destroy_availabilities(@user)) unless @schedule.errors.any?
+
+          respond_http_bad_request(@schedule.errors.full_messages.to_sentence)
+        end
+      end
+    end
+
     protected
 
     def set_schedule

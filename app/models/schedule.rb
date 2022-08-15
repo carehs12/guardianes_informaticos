@@ -23,6 +23,7 @@ class Schedule < ApplicationRecord
 
   def destroy_availabilities(user)
     availabilities.where(user: user).destroy_all
+    optimize
   end
 
   def show
