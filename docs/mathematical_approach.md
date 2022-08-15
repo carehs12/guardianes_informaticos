@@ -101,8 +101,8 @@
 #### Restrictions
 
   Finally, we need to add the restrictions that will limit the scope of your problem:
-  - Non negativy restrictios: $x_{ijk} \in \brace 0, 1 \rbrace $
-  - Only one employee assigned to each hour of each day: $\sum_{ij}{x_k} \eq 1$
+  - Non negativy restrictios: $x_{ijk} \in {\brace 0, 1 \rbrace} $
+  - Only one employee assigned to each hour of each day: $\sum_{ij}{x_k} = 1$
 
   This problem, as it is described, does not have the standard form to be solved as a
   linear programming problem (LPP). In this case a series of different methods can be
