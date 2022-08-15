@@ -42,14 +42,18 @@
 
 ## Solution
 
-  We start by defining some indexes we will use. Let it be 
+#### Constant Definition
   
   The numbers of employees that can be assigned to a day: $N$
 
   The cost of swapping from one person to another on the same day: $C_s$
-  
+
   The cost of having a 1-hour difference between the person that works the most and the one that works the least: $C_w$
 
-   $i \in \lbrace 0..n \rbrace $ 
+#### Index definitios
+
+  The day of the week $i \in \lbrace 0..7 \rbrace $
+  The hour of the day $j \in \lbrace 0..23 \lbrace $
+  The index of the employee that can be assigned $i \in \lbrace 0..N \rbrace $ 
 
 
