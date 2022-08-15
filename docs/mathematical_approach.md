@@ -65,7 +65,7 @@
 
   If the employee $k$ is actually assigned to work on the hour $j$ of the day $i$: $x_{ijk}$
 
-#### 
+#### Objective Function
 
   Once our parameters and variables are set, we need to define a function, that will use all these values and return
   a number that represents the cost of a specific schedule configuration. For this problem, the cost of a 
@@ -75,7 +75,7 @@
 
   So we need to express these two statements using numeric values. For the first one we have:
 
-  $$f(x) = max(\sum_{i} {e_{ijk}x_{ijk}}) - min(\sum_{i} {e_{ijk}x_{ijk}}) $$
+  $$cost(x) = max(\sum_{i} {e_{ijk}x_{ijk}}) - min(\sum_{i} {e_{ijk}x_{ijk}}) $$
 
   For the second part of the cost, we need to calculate how many times an employee is
   swapped on the same day. We can express
@@ -86,7 +86,21 @@
 
   $$
     s_k = \begin{dcases}
-    1   & \text{ if } {e_{ijk - 1} - x_{ijk}} <> 0 \\
-    0   & \text{ if } {e_{ijk - 1} - x_{ijk}} == 0
+    1   & \text{ if } {e_{ijk} - x_{ijk - 1}} <> 0 \\
+    0   & \text{ if } {e_{ijk} - x_{ijk - 1}} = 0
     \end{dcases}
   $$ 
+
+  So we can finally express our cost function like this: 
+
+  $$
+    cost(x) = max(\sum_{i} {e_{ijk}x_{ijk}}) - min(\sum_{i} {e_{ijk}x_{ijk}}) + 
+    \sum_{k = 1 \to N}{s_k}
+  $$
+
+#### Restrictions
+
+  We finally need to add the restrictions that will limit the scope of your problem:
+  - Non negativy restrictios: $x_{ijk} >= 0$
+  - Only one employee assigned to each hour of each day: $\sum_{ij}{x_k} <= 1$
+
