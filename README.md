@@ -10,7 +10,20 @@ Guardianes Informáticos - Technical Exam
   version management tool, like **RVM**. You can read more about RVM here:
   https://rvm.io/
 
-* System dependencies
+* Installing Gems
+
+  Once Ruby has been installed, you can clone this repo and run the command
+
+  ```console
+    bundle install
+  ```
+
+  This will install all gems required for the application to work. If at some
+  point, you want to update your gems to the newer versions, you can run
+
+  ```console
+    bundle update
+  ```
 
 * Configuration
   You must edit you config/credentials.yml by running the following command:
@@ -67,6 +80,15 @@ Guardianes Informáticos - Technical Exam
 
 * Database creation
 
+  The application uses postgres as database engines. For it to work, you need
+  to have a postgreSQL client installed into your computer, and have access_key_id
+  to a computer that has a postreSQL server installed. Please note that you can
+  install both the PostgreSQL server and client inside the same computer and run
+  the application like that. To install postgreSQL, you can check the following link:
+  https://www.postgresql.org/download/
+
+* Database initialization
+
   Once your credentials are set, you can set up your database using
   ```console
     rails db:create
@@ -83,9 +105,6 @@ Guardianes Informáticos - Technical Exam
   In the repository, only one user is created: **chermosilla** with
   password **recorrido123**. You can add more users editing the *db/seeds/ENVIRONMENT.rb"
   file
-
-
-* Database initialization
 
   Alternatively, you can condense the whole setup of the database running
   ```console
