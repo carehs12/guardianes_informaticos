@@ -94,7 +94,7 @@
   And we can now express our cost function like this: 
 
   $$
-    cost(x) = C_w{max(\sum_{i} {e_{ijk}x_{ijk}}) - min(\sum_{i} {e_{ijk}x_{ijk}})} + 
+    cost(x) = C_w{\sum_{i}{max_k(\sum_{j} {e_{ijk}x_{ijk}}) - min_k(\sum_{j} {e_{ijk}x_{ijk}})} } + 
     C_s (\sum_{k = 1 \to N}{s_k})
   $$
 
