@@ -4,17 +4,17 @@
 
 ### Problem
   The problem we will atempt to solve is the following:
-    We need to assign users to a 7-day week based on their availability. A user is either
-    avaiable, or is not, at a given hour, on  given day. 
+  We need to assign employees to a 7-day week based on their availability. An employee is either
+  avaiable, or is not, at a given hour, on  given day. 
 
-    | Hour | Jose Perez | Carlos Diaz |
-    | ------------- | ------------- | ------------- |
-    | 08:00 | O  | O  |
-    | 09:00 | O  | O  |
-    | 10:00 | O  | X  |
-    | 11:00 | X  | O  |
-    | 12:00 | O  | O  |
-    | 13:00 | X  | O  |
+  | Hour | Jose Perez | Carlos Diaz |
+  | --- | --- | --- |
+  | 08:00 | O  | O  |
+  | 09:00 | O  | O  |
+  | 10:00 | O  | X  |
+  | 11:00 | X  | O  |
+  | 12:00 | O  | O  |
+  | 13:00 | X  | O  |
 
   In the table above, we can se that **Jose Perez** is available at 8, 9 10 and 12, 
   while **Carlos Diaz** is available at 8, 9, 11, 12 and 13.
@@ -26,10 +26,85 @@
   In this case, the optimal configuration is this one:
 
   | Hour | User |
-    | ------------- | ------------- |
-    | 08:00 | Jose Perez  |
-    | 09:00 | Jose Perez  |
-    | 10:00 | Jose Perez  |
-    | 11:00 | Carlos Diaz  |
-    | 12:00 | Carlos Diaz  |
-    | 13:00 | Carlos Diaz  |
+  | --- | --- |
+  | 08:00 | Jose Perez  |
+  | 09:00 | Jose Perez  |
+  | 10:00 | Jose Perez  |
+  | 11:00 | Carlos Diaz  |
+  | 12:00 | Carlos Diaz  |
+  | 13:00 | Carlos Diaz  |
+
+  As you can see, every employee works exactly 3 hours, and they only swap shifts once.
+
+  We can see this as an optimization problem if we define a cost for each configuration and then try to minimize
+  cost. The method used to find the solutions will depend on how the problem was described. The description here
+  does not allow for linear programming to be used, but any other number of non-linear methods can be applied.
+
+## Solution
+
+
+#### Index definitions
+
+  The day of the week $i \in \lbrace 0..6 \rbrace $
+
+  The hour of the day $j \in \lbrace 0..23 \rbrace $
+
+  The index of the employee that can be assigned to work on a given hour on a given day $k \in \lbrace 0..N \rbrace $ 
+
+
+#### Parameter Definition
+
+  The cost of swapping from one employee to another on the same day: $C_s$
+
+  The cost of having a 1-hour difference between the employee that works the most and the one that works the least: $C_w$
+
+  If the employee $k$ is available for work on the hour $j$ of the day 
+  ${i}$ (this is an integer variable, either 0 or 1): $e_{ijk}$
+
+#### Variable Definitions
+
+  If the employee $k$ is actually assigned to work on the hour $j$ of the day $i$: $x_{ijk}$
+
+#### Objective Function
+
+  Once our parameters and variables are set, we need to define a function, that will use all these values and return
+  a number that represents the cost of a specific schedule configuration. For this problem, the cost of a 
+  schedule will be determined by two factors:
+  - The hour difference between the employee that works the most and the one that works the least
+  - The the number of times an employee swaps shifts with another one in the same day.
+
+  So we need to express these two statements using numeric values. For the first one we have:
+
+  $$\sum_{i}{max_k(\sum_{j} {e_{ijk}x_{ijk}}) - min_k(\sum_{j} {e_{ijk}x_{ijk}})} $$
+
+  For the second part of the cost, we need to calculate how many times an employee is
+  swapped on the same day. We can express
+
+  $$\sum_{k = 1 \to N}{s_k}$$
+
+  Where
+
+  $$
+    s_k = \begin{dcases}
+    1   & \text{ if } {e_{ijk} - x_{ijk - 1}} \neq 0 \\
+    0   & \text{ if } {e_{ijk} - x_{ijk - 1}} = 0
+    \end{dcases}
+  $$ 
+
+  And we can now express our cost function like this: 
+
+  $$
+    cost(x) = C_w{\sum_{i}{max_k(\sum_{j} {e_{ijk}x_{ijk}}) - min_k(\sum_{j} {e_{ijk}x_{ijk}})} } + 
+    C_s (\sum_{k = 1 \to N}{s_k})
+  $$
+
+#### Restrictions
+
+  Finally, we need to add the restrictions that will limit the scope of your problem:
+  - Non negativy restrictios: $x_{ijk} \in [0, 1] $
+  - Only one employee assigned to each hour of each day: $\sum_{ij}{x_k} = 1$
+
+  This problem, as it is described, does not have the standard form to be solved as a
+  linear programming problem (LPP). To solve this problem, a series of different methods can be
+  used. In the case of this application, a custom cyclic algorithm that slowly moves
+  towards a **local** optimal solution is used.
