@@ -1,4 +1,5 @@
 class Schedule
+  # Availabilities for schedules
   class Availability < ApplicationRecord
     # Model Associations
     belongs_to :schedule, inverse_of: :availabilities
@@ -17,10 +18,18 @@ class Schedule
         year: schedule.year,
         week: schedule.week,
         # We center the date in the middle of the week and save time zone issues
-        date: Date.commercial(schedule.year, schedule.week, 4), 
+        date: Date.commercial(schedule.year, schedule.week, 4),
         service_name: schedule.service.name,
-        availabilities: format_availabilities(schedule)
+        availabilities: format_availabilities(schedule),
+        users: assigned_users(schedule)
       }
+    end
+
+    def self.assigned_users(schedule)
+      schedule.availabilities.joins(user: :detail).select(
+        'distinct(schedule_availabilities.user_id) as id',
+        "concat(first_names, ' ', last_names) as full_name"
+      )
     end
 
     def self.format_availabilities(schedule)

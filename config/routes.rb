@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     resources :services, only: %i[index show create update destroy]
     resources :schedules, only: %i[index show create update destroy] do
       scope module: :schedule do
-        resources :availabilities, only: %i[index] do
+        resources :availabilities, only: %i[index create] do
           collection do
             put '/', to: 'availabilities#update'
           end

@@ -1,7 +1,8 @@
 class Schedule
   # Manages availabilities for each schedule
   class AvailabilitiesController < ApplicationAuthenticatedController
-    before_action :set_schedule, only: %i[index update]
+    before_action :set_schedule, only: %i[index update create destroy]
+    before_action :set_user, only: %i[create]
 
     def index
       respond_to do |format|
@@ -16,19 +17,22 @@ class Schedule
     def update
       respond_to do |format|
         format.json do
-          puts "???????????????????????????????????????????"
-          puts "???????????????????????????????????????????"
           return respond_http_not_found unless @schedule
-          puts "???????????????????????????????????????????"
-          puts "???????????????????????????????????????????"
 
           availabilities_attributes = availabilities_params
-          puts "-----------------------"
-          puts "-----------------------"
-          puts availabilities_attributes.to_json
-          puts "-----------------------"
-          puts "-----------------------"
           return respond_http_ok(@schedule.optimize) if @schedule.update(availabilities_attributes)
+
+          respond_http_bad_request(@schedule.errors.full_messages.to_sentence)
+        end
+      end
+    end
+
+    def create
+      respond_to do |format|
+        format.json do
+          return respond_http_not_found unless @schedule
+          return respond_http_not_found unless @user
+          return respond_http_ok(@schedule.create_availabilities(@user)) unless @schedule.errors.any?
 
           respond_http_bad_request(@schedule.errors.full_messages.to_sentence)
         end
@@ -39,6 +43,10 @@ class Schedule
 
     def set_schedule
       @schedule = Schedule.find_by_id(params[:schedule_id])
+    end
+
+    def set_user
+      @user = User.find_by_id(params[:availability][:user_id])
     end
 
     def availabilities_params

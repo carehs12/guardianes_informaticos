@@ -3,6 +3,7 @@ import layoutMain from "../../../layout/main.vue";
 import layoutHeader from "../../../layout/header.vue";
 
 import componentFilters from "../components/schedules/filters.vue";
+import componentUsers from "../components/schedules/users.vue";
 import componentFormWeeklyTurns from "../components/schedules/form-weekly-turns.vue";
 import componentWorkHours from "../components/schedules/work-hours.vue";
 import componentTitle from "../components/schedules/title.vue";
@@ -17,6 +18,7 @@ export default {
     componentWorkHours,
     componentTitle,
     VSubmit,
+    componentUsers,
   },
 
   data() {
@@ -32,6 +34,7 @@ export default {
       },
       submit: {
         schedule: false,
+        availability: false
       },
       schedule: {
         id: null,
@@ -106,6 +109,33 @@ export default {
         });
       });
     },
+
+    addUserHandler(user_id) {
+      this.submit.availability = true;
+      
+      let url = `/schedules/${this.$route.params.id}/availabilities.json`;
+      let data = {
+        availability: {
+          user_id: user_id
+        }
+      }
+      this.http
+        .post(url, data)
+        .then((response) => {
+          if (response.success) {
+            this.notify(
+              this.translations.schedules.notifications.availability_created,
+              "success"
+            );
+            this.getAvailabilities();
+          } else {
+            this.notify(response.error.message, "danger");
+          }
+        })
+        .finally(() => {
+          this.submit.availability = false;
+        });
+    },
   },
 };
 </script>
@@ -124,6 +154,11 @@ export default {
           hide-date
           :title="translations.schedules.schedule"
         />
+        <component-users
+          :users="schedule.users"
+          @add-user="addUserHandler"
+          :submitting="submit.availability"
+        > </component-users>
       </div>
       <div class="col-9">
         <div v-if="filters.date && schedule.id">
