@@ -10,12 +10,16 @@ es:
         sat: Sabado
         sun: Domingo
       schedule: Horario
+      text_new_schedule: Nuevo Horario
       text_search: Buscar Horario
       text_assigned_hours: Horas Asignadas
       text_edit_schedule: Editar Horario
       text_hours_count: Conteo de Horas
+      text_view_schedule: Ver Horario Calculado
       text_assigned_users: Usuarios Asignados
       notifications:
+        created: El horario ha sido creado satisfactoriamente
+        new_schedule_warning: Una vez creado el horario, no podrás cambiar estos campos
         user_already_assigned: Este usuario ya ha sido asignado al horario
         no_schedule_found: No hay ningúna fecha seleccionada o no hay ningún horario asociado a esta
         updated: El horario ha sido actualizado satisfactoriamente

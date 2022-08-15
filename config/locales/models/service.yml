@@ -22,7 +22,7 @@ es:
         service:
           attributes:
             base:
-              schedule_configuration_is_invalid: La configuracion del horario es inválida. Esto se puede deber a configurar solo inicio o fin para un día, que la hora inicio se mayor a la fin, o que los valores esten arriba 23 o abajo 0 horas.
+              service_configuration_is_invalid: La configuracion del horario es inválida. Esto se puede deber a configurar solo inicio o fin para un día, que la hora inicio se mayor a la fin, o que los valores esten arriba 23 o abajo 0 horas.
               service_is_associated_with_schedule: No se puede eliminar el servicio porque esta asociado a uno o más horarios
             name:
               taken: ya existe en el sistema

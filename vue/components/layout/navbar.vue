@@ -26,14 +26,14 @@ export default {
           :title="translations.application.apps.users"
         ></navbar-item>
         <navbar-item
-          to="/schedules/dashboard"
-          icon="list"
-          :title="translations.application.apps.schedules"
-        ></navbar-item>
-        <navbar-item
           to="/services"
           icon="book"
           :title="translations.application.apps.services"
+        ></navbar-item>
+        <navbar-item
+          to="/schedules/dashboard"
+          icon="list"
+          :title="translations.application.apps.schedules"
         ></navbar-item>
       </b-navbar-nav>
 

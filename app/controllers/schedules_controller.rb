@@ -23,7 +23,30 @@ class SchedulesController < ApplicationAuthenticatedController
     end
   end
 
+  def create
+    respond_to do |format|
+      format.json do
+        if schedule_date_available?(schedule_params)
+          schedule = Schedule.create(schedule_params)
+          return respond_http_ok(schedule.show) if schedule.persisted?
+
+          respond_http_bad_request(schedule.errors.full_messages.to_sentence)
+        end
+      end
+    end
+  end
+
   protected
+
+  def schedule_date_available?(schedule_params)
+    error_message = I18n.t('activerecord.errors.models.schedule.attributes.base.schedule_time_taken')
+    if Schedule.find_by(week: schedule_params[:week], year: schedule_params[:year])
+      respond_http_bad_request(error_message)
+      false
+    else
+      true
+    end
+  end
 
   def set_schedule_by_week
     @schedule = Schedule.find_by(week: params[:week], year: params[:year])
@@ -31,5 +54,13 @@ class SchedulesController < ApplicationAuthenticatedController
 
   def set_schedule
     @schedule = Schedule.find_by_id(params[:id])
+  end
+
+  def schedule_params
+    params.require(:schedule).permit(
+      :service_id,
+      :week,
+      :year
+    )
   end
 end

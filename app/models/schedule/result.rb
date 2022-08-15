@@ -42,5 +42,15 @@ class Schedule
         }
       end
     end
+
+    def self.update_results(schedule, day_index, hour_index, user_index, user_keys)
+      hours_array = Schedule.hours_array
+
+      if user_index
+        schedule.results.find_by(day: day_index).update(hours_array[hour_index] => user_keys[user_index])
+      else
+        schedule.results.find_by(day: day_index).update(hours_array[hour_index] => nil)
+      end
+    end
   end
 end

@@ -19,6 +19,7 @@ es:
         upload_profile_picture: Cambiar Foto de Perfil
       schedules:
         new: Nuevo Horario
+        save: Guardar Horario
         create_availability: Agregar Usuario
         create: Guardar Configuración
         update: Guardar Cambios

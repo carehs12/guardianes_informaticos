@@ -18,6 +18,11 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    hideDashboard: {
+      type: Boolean,
+      default: true
+    }
   },
 
   data() {
@@ -48,6 +53,13 @@ export default {
         {{ weekEnd }} - {{ serviceName }}
       </b>
     </h5>
+    <router-link
+      v-if="scheduleId && !hideDashboard"
+      :to="`/schedules/dashboard?id=${scheduleId}`"
+    >
+      <i class="fas fa-eye"></i>
+      {{ translations.schedules.text_view_schedule }}
+    </router-link>
     <router-link
       v-if="scheduleId && !hideEdit"
       :to="`/schedules/${scheduleId}/edit`"

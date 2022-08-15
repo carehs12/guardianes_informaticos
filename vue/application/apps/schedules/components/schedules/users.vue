@@ -1,11 +1,11 @@
 <script>
-import formNewUserVue from "./form-new-user.vue";
+import formNewUser from "../../forms/schedule/new-user.vue";
 import deleteAvailability from "./delete-availability.vue";
 import DeleteAvailability from "./delete-availability.vue";
 
 export default {
   components: {
-    formNewUserVue,
+    formNewUser,
     deleteAvailability,
     DeleteAvailability,
   },
@@ -71,11 +71,11 @@ export default {
         :schedule-id="scheduleId"
       ></delete-availability>
       <div class="text-center">
-        <form-new-user-vue
+        <form-new-user
           :users="users"
           :submitting="submitting"
           @add-user="addUserHandler"
-        ></form-new-user-vue>
+        ></form-new-user>
         <b-table small striped :items="users" :fields="fields">
           <template #cell(actions)="data">
             <div class="text-right">

@@ -16,9 +16,7 @@ class Schedule < ApplicationRecord
   after_create :create_results
 
   def create_availabilities(user)
-    0..7.times do |day|
-      availabilities.create!(day: day, user: user)
-    end
+    0..7.times { |day| availabilities.create!(day: day, user: user) }
   end
 
   def destroy_availabilities(user)
@@ -27,11 +25,22 @@ class Schedule < ApplicationRecord
   end
 
   def show
-    work_hours = assigned_hours.map do |assigned_hour|
-      { user: User.find(assigned_hour['user_id']).full_name, work_hours: assigned_hour['work_hours'] }
+    if assigned_hours
+      work_hours = assigned_hours.map do |assigned_hour|
+        { user: User.find(assigned_hour['user_id']).full_name, work_hours: assigned_hour['work_hours'] }
+      end
     end
 
-    attributes.merge({ results: Schedule::Result.format(self), work_hours: work_hours, service_name: service.name })
+    merge_attributes(work_hours)
+  end
+
+  def merge_attributes(work_hours)
+    attributes.merge({
+                       date: Date.commercial(year, week, 4),
+                       results: Schedule::Result.format(self),
+                       work_hours: work_hours || [],
+                       service_name: service.name
+                     })
   end
 
   def optimize
@@ -47,18 +56,8 @@ class Schedule < ApplicationRecord
 
     result.each_with_index do |day_data, day_index|
       day_data.each_with_index do |user_index, hour_index|
-        update_results(day_index, hour_index, user_index, user_keys)
+        Schedule::Result.update_results(self, day_index, hour_index, user_index, user_keys)
       end
-    end
-  end
-
-  def update_results(day_index, hour_index, user_index, user_keys)
-    hours_array = self.class.hours_array
-
-    if user_index
-      results.find_by(day: day_index).update(hours_array[hour_index] => user_keys[user_index])
-    else
-      results.find_by(day: day_index).update(hours_array[hour_index] => nil)
     end
   end
 
@@ -128,6 +127,6 @@ class Schedule < ApplicationRecord
   end
 
   def create_results
-    0..7.times { |day|  results.create!(day: day) }
+    0..7.times { |day| results.create!(day: day) }
   end
 end

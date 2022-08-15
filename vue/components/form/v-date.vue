@@ -94,7 +94,7 @@ export default {
       :popover="{ visibility: 'focus' }"
     >
       <template v-slot="{ inputValue, inputEvents }">
-        <input class="form-control" v-on="inputEvents" :value="inputValue" />
+        <input class="form-control" ref="input" v-on="inputEvents" :value="inputValue" />
       </template>
     </date-picker>
   </b-form-group>

@@ -4,7 +4,7 @@ import layoutHeader from "../../../layout/header.vue";
 
 import componentFilters from "../components/schedules/filters.vue";
 import componentUsers from "../components/schedules/users.vue";
-import componentFormWeeklyTurns from "../components/schedules/form-weekly-turns.vue";
+import formWeeklyTurns from "../forms/schedule/weekly-turns.vue";
 import componentWorkHours from "../components/schedules/work-hours.vue";
 import componentTitle from "../components/schedules/title.vue";
 import VSubmit from "../../../../components/form/v-submit.vue";
@@ -14,7 +14,7 @@ export default {
     layoutMain,
     layoutHeader,
     componentFilters,
-    componentFormWeeklyTurns,
+    formWeeklyTurns,
     componentWorkHours,
     componentTitle,
     VSubmit,
@@ -97,7 +97,7 @@ export default {
       return this.schedule.availabilities.map((availabilities) => {
         return availabilities.map((availability) => {
           const availability_data = {};
-          availability.availability.forEach((hour_element, index) => {
+          (availability.availability || []).forEach((hour_element, index) => {
             return (availability_data[
               `hour${this.date.zeroPad(index + availability.start_at)}`
             ] = hour_element);
@@ -171,6 +171,7 @@ export default {
         <div v-if="filters.date && schedule.id">
           <component-title
             hide-edit
+            :hide-dashboard="false"
             :schedule-date="new Date(schedule.date)"
             :schedule-id="schedule.id"
             :service-name="schedule.service_name"
@@ -183,12 +184,12 @@ export default {
             >
               <b-form @submit="putAvailabilitiesHander">
                 <fieldset :disabled="submit.schedule">
-                  <component-form-weekly-turns
+                  <form-weekly-turns
                     :schedule-date="filters.date"
                     :day-availabilities="schedule.availabilities[day_index]"
                     :day-index="day_index"
                   >
-                  </component-form-weekly-turns>
+                  </form-weekly-turns>
                   <v-submit
                     :title="translations.application.actions.schedules.update"
                     :submitting="submit.schedule"

@@ -50,7 +50,7 @@ export default {
   >
     <thead>
       <th
-        :colspan="1 + dayAvailabilities[0].availability.length"
+        :colspan="1 + (dayAvailabilities[0].availability || []).length"
         class="text-center"
       >
         {{ weekdayDate(dayIndex) }}
@@ -63,7 +63,7 @@ export default {
         </td>
         <td
           class="text-center"
-          v-for="(_available, hour_index) in dayAvailabilities[0].availability"
+          v-for="(_available, hour_index) in (dayAvailabilities[0].availability || [])"
           :key="hour_index"
         >
           <span :class="isAnyoneAvailable(hour_index) ? 'text-success' : 'text-danger'" >
