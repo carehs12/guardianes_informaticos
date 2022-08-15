@@ -139,6 +139,6 @@ This will execute all tests and output the result
   - https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html
 
   Once you have your credentials, you can follow the instructions in the 
-  [Credentials Configuration] (#credentials-configuration) and add them to your application. 
+  [Credentials Configuration](#credentials-configuration) and add them to your application. 
 
 * Algorithm Explanation
