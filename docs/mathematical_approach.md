@@ -58,8 +58,8 @@
 
   The cost of having a 1-hour difference between the employee that works the most and the one that works the least: $C_w$
 
-  If the employee $k$ is available for work on the hour ${j} of the day 
-  ${i} (this is an integer variable, either 0 or 1): $e_{ijk}$
+  If the employee $k$ is available for work on the hour $j$ of the day 
+  ${i}$ (this is an integer variable, either 0 or 1): $e_{ijk}$
 
 #### Variable Definitions
 
@@ -91,16 +91,20 @@
     \end{dcases}
   $$ 
 
-  So we can finally express our cost function like this: 
+  And we can now express our cost function like this: 
 
   $$
-    cost(x) = max(\sum_{i} {e_{ijk}x_{ijk}}) - min(\sum_{i} {e_{ijk}x_{ijk}}) + 
-    \sum_{k = 1 \to N}{s_k}
+    cost(x) = C_w{max(\sum_{i} {e_{ijk}x_{ijk}}) - min(\sum_{i} {e_{ijk}x_{ijk}})} + 
+    C_s (\sum_{k = 1 \to N}{s_k})
   $$
 
 #### Restrictions
 
-  We finally need to add the restrictions that will limit the scope of your problem:
-  - Non negativy restrictios: $x_{ijk} >= 0$
+  Finally, we need to add the restrictions that will limit the scope of your problem:
+  - Non negativy restrictios: $x_{ijk} \in {0, 1}$
   - Only one employee assigned to each hour of each day: $\sum_{ij}{x_k} <= 1$
 
+  This problem, as it is described, does not have the standard form to be solved as a
+  linear programming problem (LPP). In this case a series of different methods can be
+  used, in the case of the final solution, a custom cyclic algorithm that slowly moves
+  towards a **local** optimal solution.
