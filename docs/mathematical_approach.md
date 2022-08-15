@@ -75,7 +75,7 @@
 
   So we need to express these two statements using numeric values. For the first one we have:
 
-  $$cost(x) = \sum_{i}{max_k(\sum_{j} {e_{ijk}x_{ijk}}) - min_k(\sum_{j} {e_{ijk}x_{ijk}})} $$
+  $$\sum_{i}{max_k(\sum_{j} {e_{ijk}x_{ijk}}) - min_k(\sum_{j} {e_{ijk}x_{ijk}})} $$
 
   For the second part of the cost, we need to calculate how many times an employee is
   swapped on the same day. We can express
@@ -86,7 +86,7 @@
 
   $$
     s_k = \begin{dcases}
-    1   & \text{ if } {e_{ijk} - x_{ijk - 1}} <> 0 \\
+    1   & \text{ if } {e_{ijk} - x_{ijk - 1}} \neq 0 \\
     0   & \text{ if } {e_{ijk} - x_{ijk - 1}} = 0
     \end{dcases}
   $$ 
@@ -101,8 +101,8 @@
 #### Restrictions
 
   Finally, we need to add the restrictions that will limit the scope of your problem:
-  - Non negativy restrictios: $x_{ijk} \in {0, 1}$
-  - Only one employee assigned to each hour of each day: $\sum_{ij}{x_k} <= 1$
+  - Non negativy restrictios: $x_{ijk} \in \brace 0, 1 \rbrace $
+  - Only one employee assigned to each hour of each day: $\sum_{ij}{x_k} \eq 1$
 
   This problem, as it is described, does not have the standard form to be solved as a
   linear programming problem (LPP). In this case a series of different methods can be
