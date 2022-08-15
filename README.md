@@ -141,4 +141,11 @@ This will execute all tests and output the result
   Once you have your credentials, you can follow the instructions in the 
   [Credentials Configuration](#credentials-configuration) and add them to your application. 
 
-* Algorithm Explanation
+## Algorithm Explanation
+  The answer this problem has a mathematical perfect solution. With enough time and using the correct
+  software, the optimal solution for any given configuratio can be found. However, in this case, a 
+  custom solution was implemented, that, if not perfect, is good enough to minimize the time difference
+  between all the assigned users, and also the number of times two people swap shifts.
+
+  You can check out the mathematical approach [here](docs/mathematical_approach.md),
+  and you can see the implemented solution [here](docs/implemented_solution.md).
