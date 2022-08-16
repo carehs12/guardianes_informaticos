@@ -180,9 +180,9 @@
     
   - The first employee has to work during this availability group
   - The second employee must be able to work during this time window
-  - The size of the window must be at least 2, and at most $D - 1$. 2 because if it's only 1 hour, then we will reduce two hours in
+  - The size of the window must be at least 2, and at most $ D - 1 $. 2 because if it's only 1 hour, then we will reduce two hours in
     difference, but will increase 2 shift swaps (except on start and end of day). So the ending cost will be the same. We need the 
-    time window to be at most $ D - 1$ (3 in this case), because if it's D, and the employees swap, now the employee with least hours will
+    time window to be at most $ D - 1 $ (3 in this case), because if it's D, and the employees swap, now the employee with least hours will
     become the one with most hours, and the one with most hours will become the one with least hours.
 
   If attempting to find an availability group of $ D -1 $ doesn't work, then we go down 1, and a find a group of $D - 2$, and so in until we reach
