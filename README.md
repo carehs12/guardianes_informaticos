@@ -44,6 +44,9 @@ Guardianes Informáticos - Technical Exam
   is the schedule optimizer: this optimizer is a standalone group of services that receive data, optimize
   it and return a result that will then be saved to the database
 
+  All the application has I18n implemented in both backend and fronted. For the frontend translations, the
+  i18n_js gem is used
+
   The ruby files are analyzed using rubocop to follow the general standards
 
   And finally, rspec is used for testing the most important components of the application
