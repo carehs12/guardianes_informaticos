@@ -17,13 +17,13 @@
     work on 24 hours days. This is why a preprocessing step is added, to prepare the
     data for the algorithm
   
-  2. There has to bee improvement on every cycle, if there is no improvement, we have
+  2. There has to be an improvement on every cycle. If there is no improvement, we have
     reached a **local** minimum, and the algorithm stops 
 
 ### Preprocessing
 
   In order to illustrate the algorithm, we will add an example. For this example, we will
-  consider 2 employees, working on 2-days weeks of 2, and 6 hours each day. Take in mind that this
+  consider 2 employees, working on 2-day weeks of 2, and 6 hours each day. Take in mind that this
   is for demostration purposes, and the results here can be expanded to 7 days, 24 hours and any
   number of employees.
 
@@ -160,31 +160,32 @@
   Before each iteration, and once we have a valid solution, we need to calcualte a cost for the current solution. The cost is very
   simple:
 
-  We take the difference in hours between the user that works the most and the one that works the least. And we add that with the
+  We take the difference in hours between the employee that works the most and the one that works the least. And we add that with the
   number of times and employee is swapped each day. For the example, the cost of the function will be:
 
   $$ c = (7 - 3) + 1 $$
+
   $$ c = 5 $$
 
-  Now that we have a numeric value, we can iterate to make reduce it as much as we can.
+  Now that we have a numeric value, we can iterate to reduce it as much as we can.
 
 ### Iterations
   The iteration process has the following steps:
 
   1. We need to select the employee that works the most (Jose Perez)
   2. We need to select the employee that works the least (Carlos Diaz)
-  3. We calculate how many hours the first works over the second. We will call this: $D$(4 hours)
+  3. We calculate how many hours the first works over the second. We will call this: $D$ (4 hours)
   
   4. Here we start a loop: We need to find 2 availability groups, one for each employee. The conditions that need to be met are:
     
-    - The first employee has to work during this availability group
-    - The second employee must be able to work during this time window
-    - The The size of the window must be at least 2, and at most $D - 1$. 2 because if it's only 1 hour, then we will reduce two hours in
-      difference, but will increase 2 shift swaps (except on start and end of day). So the ending cost will be the same. We need the 
-      time window to be at most $D - 1$ (3 in this case), because if it's D, and the employees swap, now the employee with least hours will
-      become the one with most hours, and the one with most hours will become the one with least hours.
+  - The first employee has to work during this availability group
+  - The second employee must be able to work during this time window
+  - The size of the window must be at least 2, and at most $D - 1$. 2 because if it's only 1 hour, then we will reduce two hours in
+    difference, but will increase 2 shift swaps (except on start and end of day). So the ending cost will be the same. We need the 
+    time window to be at most $ D - 1$ (3 in this case), because if it's D, and the employees swap, now the employee with least hours will
+    become the one with most hours, and the one with most hours will become the one with least hours.
 
-  If attempting to find an availability group of $D -1 $ doesn't work, then we go down 1, and a find a group of $D - 2$, and so in until we reach
+  If attempting to find an availability group of $ D -1 $ doesn't work, then we go down 1, and a find a group of $D - 2$, and so in until we reach
   groups of 1. When we reach this point, we give up, and we conclude that the employee that works the most can't swap with the one that works the least,
   so we move the lower limit up, and we attempt to swap between the employee that works the most, and the employee that works the second least, and we
   repeat the process.
@@ -221,6 +222,7 @@
   | Carlos Diaz | 5 | 
 
   $$ c = (5 - 5) + 2 $$
+
   $$ c = 2 $$
 
 ### Ending the Loop
