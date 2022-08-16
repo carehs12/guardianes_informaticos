@@ -2,6 +2,52 @@
 
 Guardianes Informáticos - Technical Exam
 
+## Technologies (Vue)
+  The application consists of 2 main components: A frontend created using Vue 2, and
+  a backend created using Ruby on Rails. To install work on the frontend you need to
+  have node installed. You chan check how to install node in the following link: 
+  https://nodejs.org/es/download/
+
+  Once node, is installed, you can run this command to install all the modules
+  specified on the package.js
+
+  ```console
+    npm install
+  ```
+
+  In order to run and compile your vue code, you can use a webpack script included on
+  the repository. To execute, you can run:
+
+  ```console
+    npm run webpack:development
+    npm run webpack:production
+  ```
+
+  This will compile and put the js files into the */assets/* directory of the rails application
+  so you can see on real time your changes to your vue components
+
+## Gems and Components
+
+  The application has a small authentication module implemented using devise, and complementing with
+  letter opener for email previews on development. 
+
+  After the authentication module, there are 3 modules implemented inside the system: 
+  
+  - A user administration, where you can craete, edit and delete users. The users will later be used 
+  in the schedules as employees
+
+  - A service administration, where you can create different services, and specify the time windows
+  for each day of the week when creating schedules
+
+  - A schedule management, which has 2 submodules: The first one is the schedule management, that has 
+  availabilities, and a results table, were you can see the result of the algorithm. The second submodules
+  is the schedule optimizer: this optimizer is a standalone group of services that receive data, optimize
+  it and return a result that will then be saved to the database
+
+  The ruby files are analyzed using rubocop to follow the general standards
+
+  And finally, rspec is used for testing the most important components of the application
+
 ## Ruby version
 
   This project was created using ruby *2.7.2* and rails *7.0.2*.
