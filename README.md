@@ -28,19 +28,19 @@ Guardianes Informáticos - Technical Exam
 
 ## Gems and Components
 
-  The application has a small authentication module implemented using devise, and complementing with
+  The application has a small authentication module implemented using devise, and complemented with
   letter opener for email previews on development. 
 
   After the authentication module, there are 3 modules implemented inside the system: 
   
-  - A user administration, where you can craete, edit and delete users. The users will later be used 
+  - A user administration, where you can create, edit and delete users. The users will later be used 
   in the schedules as employees
 
   - A service administration, where you can create different services, and specify the time windows
   for each day of the week when creating schedules
 
   - A schedule management, which has 2 submodules: The first one is the schedule management, that has 
-  availabilities, and a results table, were you can see the result of the algorithm. The second submodules
+  availabilities, and a results table, were you can see the result of the algorithm. The second submodule
   is the schedule optimizer: this optimizer is a standalone group of services that receive data, optimize
   it and return a result that will then be saved to the database
 
