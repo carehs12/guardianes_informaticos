@@ -1,0 +1,156 @@
+# Guardianes Informáticos
+
+## Implemented Solution
+
+### Asumptions
+
+  Once the problem has been described, we proceed to solve it in a systemic way.
+  The algorithm consists of two parts, an initial valid solution, and a series 
+  of iterations that will optimize that solution to both reduce the difference in
+  hours between the employees, and try to reduce the number of times a person is
+  swapped on the same day.
+
+  For the algorithm to work under any circunstance, we have to establish two asumptions:
+    
+    1. The week has 7 days always, and the shifts are 24 hours always. The algorithm
+      doesn't care if on one day the shift is only from 8:00 to 18:00, it will always
+      work on 24 hours days. This is why a preprocessing step is added, to prepare the
+      data for the algorithm
+    
+    2. There has to bee improvement on every cycle, if there is no improvement, we have
+      reached a **local** minimum, and the algorithm stops 
+
+### Preprocessing
+
+  In order to illustrate the algorithm, we will add an example, for this example, we will
+  consider 2 employees, working on weeks of 2 days, of 6 hours each. Take in mind that this
+  is for demostration purposes, and the results here can be expanded to 7 days, 24 hours and any
+  number of employees.
+
+  Imagine you have the following availabilities, where *O* means available and *X* means not available:
+
+  Day 1
+  | Hour | Jose Perez | Carlos Diaz |
+  | --- | --- | --- |
+  | 08:00 | O  | O  |
+  | 09:00 | O  | O  |
+  | 10:00 | O  | X  |
+  | 11:00 | X  | O  |
+  | 12:00 | O  | O  |
+  | 13:00 | X  | O  |
+
+  Day 2
+  | Hour | Jose Perez | Carlos Diaz |
+  | --- | --- | --- |
+  | 09:00 | O  | O  |
+  | 10:00 | O  | X  |
+  | 11:00 | O  | O  |
+  | 12:00 | O  | O  |
+  
+  To prepare the data for the algorithm, we need to preprocess it. The preprocessing steps
+  are the following:
+
+  1. Add the missings hours to each day.
+
+  For example, on day 2, which is a 2 days shift, we add 1 hour before and 1 hour after, where
+  no one is available
+
+  Day 1
+  | Hour | Jose Perez | Carlos Diaz |
+  | --- | --- | --- |
+  | 08:00 | O  | O  |
+  | 09:00 | O  | O  |
+  | 10:00 | O  | X  |
+  | 11:00 | X  | O  |
+  | 12:00 | O  | O  |
+  | 13:00 | X  | O  |
+
+  Day 2
+  | Hour | Jose Perez | Carlos Diaz |
+  | --- | --- | --- |
+  | 08:00 | X  | X  |
+  | 09:00 | O  | O  |
+  | 10:00 | O  | X  |
+  | 11:00 | O  | O  |
+  | 12:00 | O  | O  |
+  | 13:00 | X  | X  |
+
+  2. We calculate what is called **availability groups**: An availability group will be a group of 
+    continuous hours in the same day during wich an employee can work. For this example, our groups
+    will be
+
+    - Group 1-1-1: Jose Perez starting at 8 can work 3 hours
+    - Group 1-1-2: Jose Perez starting at 12 can work 1 hour
+    - Group 1-2-1: Carlos Diaz starting at 8 can work 2 hours
+    - Group 1-2-2: Carlos Diaz starting at 11 can work 3 hours
+    - Group 2-1-1: Jose Perez starting at 9 can work 4 hours
+    - Group 2-2-1: Carlos Diaz starting at 9 can work 1 hour
+    - Group 2-2-2: Carlos Diaz starting at 11 can work 2 hours
+
+### Base Solution
+
+  The base solution is really simple and directly addresses the problem of minimizing shift swaps. We 
+  iterate over each hour of each day, and select the longest availability group that covers that hour.
+  Continuing with the example:
+  
+  We need on day 1, the longest shift that can conver 8:00. This is Group 1-1-1. So, Jose Perez is selected
+  as the first employee.
+
+    | Day | Hour | Employee |
+  | --- | --- | --- |
+  | 1 | 08:00 | Jose Perez  |
+  | 1 | 09:00 | Jose Perez  |
+  | 1 | 10:00 | Jose Perez  |
+  | 1 | 11:00 | X  |
+  | 1 | 12:00 | X  |
+  | 1 | 13:00 | X  |
+  | 2 | 08:00 | X  |
+  | 2 | 09:00 | X  |
+  | 2 | 10:00 | X  |
+  | 2 | 11:00 | X  |
+  | 2 | 12:00 | X  |
+  | 2 | 13:00 | X  |
+
+  Then we move to the next empty hour, which is day 1, at 11, and look for the largest group that covers that hour.
+  This is group 1-2-2. So Carlos Diaz is selected.
+
+    | Day | Hour | Employee |
+  | --- | --- | --- |
+  | 1 | 08:00 | Jose Perez  |
+  | 1 | 09:00 | Jose Perez  |
+  | 1 | 10:00 | Jose Perez  |
+  | 1 | 11:00 | Carlos Diaz  |
+  | 1 | 12:00 | Carlos Diaz  |
+  | 1 | 13:00 | Carlos Diaz  |
+  | 2 | 08:00 | X  |
+  | 2 | 09:00 | X  |
+  | 2 | 10:00 | X  |
+  | 2 | 11:00 | X  |
+  | 2 | 12:00 | X  |
+  | 2 | 13:00 | X  |
+
+  We continue to fill the table until we are done
+
+    | Day | Hour | Employee |
+  | --- | --- | --- |
+  | 1 | 08:00 | Jose Perez  |
+  | 1 | 09:00 | Jose Perez  |
+  | 1 | 10:00 | Jose Perez  |
+  | 1 | 11:00 | Carlos Diaz  |
+  | 1 | 12:00 | Carlos Diaz  |
+  | 1 | 13:00 | Carlos Diaz  |
+  | 2 | 08:00 | X  |
+  | 2 | 09:00 | Jose Perez  |
+  | 2 | 10:00 | Jose Perez  |
+  | 2 | 11:00 | Jose Perez  |
+  | 2 | 12:00 | Jose Perez  |
+  | 2 | 13:00 | X  |
+
+  On this step, we have a valid solution, not the optimal, but it performs few shift swaps and covers every hour of every day
+  when it is possible. This step, does not verify the hour count of every employee, however. So in this case, we can see that Jose Perez
+  works way more than Carlos Diaz
+
+  | Employee | Hours Worked |
+  | --- | --- |
+  | Jose Perez | 7 |
+  | Carlos Diaz | 3 | 
