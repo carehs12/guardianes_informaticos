@@ -66,7 +66,7 @@ class Schedule
       params.require(:schedule).permit(
         availabilities_attributes: %i[
           id hour00 hour01 hour02 hour03 hour04 hour05
-          hour07 hour08 hour09 hour10 hour04 hour11
+          hour06 hour07 hour08 hour09 hour10 hour11
           hour12 hour13 hour14 hour15 hour16 hour17
           hour18 hour19 hour20 hour21 hour22 hour23
         ]
